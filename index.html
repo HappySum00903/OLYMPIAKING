@@ -220,10 +220,10 @@
 
         .modal-content {
             background: #ffffff;
-            width: 96vw;
-            max-width: none;
-            border-radius: 20px;
-            padding: 22px;
+            width: 99vw;
+            max-width: 1800px;
+            border-radius: 18px;
+            padding: 16px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             max-height: 92vh;
             overflow-y: auto;
@@ -265,17 +265,17 @@
         }
 
         .detail-table th:nth-child(1),
-        .detail-table td:nth-child(1) { width: 13%; }
+        .detail-table td:nth-child(1) { width: 12%; }
         .detail-table th:nth-child(2),
-        .detail-table td:nth-child(2) { width: 27%; }
+        .detail-table td:nth-child(2) { width: 30%; }
         .detail-table th:nth-child(3),
-        .detail-table td:nth-child(3) { width: 27%; }
+        .detail-table td:nth-child(3) { width: 30%; }
         .detail-table th:nth-child(4),
-        .detail-table td:nth-child(4) { width: 10%; }
+        .detail-table td:nth-child(4) { width: 9%; }
         .detail-table th:nth-child(5),
-        .detail-table td:nth-child(5) { width: 10%; }
+        .detail-table td:nth-child(5) { width: 9%; }
         .detail-table th:nth-child(6),
-        .detail-table td:nth-child(6) { width: 13%; }
+        .detail-table td:nth-child(6) { width: 10%; }
 
         .detail-table th {
             white-space: normal;
@@ -289,8 +289,9 @@
         /* ================= NHẬP NHIỀU ĐIỂM ================= */
 
         .score-input {
-            width: 50px;
-            padding: 7px 5px;
+            width: 38px;
+            min-width: 38px;
+            padding: 6px 2px;
             border: 1px solid #dfe5f2;
             border-radius: 8px;
             text-align: center;
@@ -313,12 +314,13 @@
 
         .score-group {
             display: flex;
-            gap: 4px;
+            gap: 2px;
             align-items: center;
             justify-content: center;
             flex-wrap: nowrap;
             min-width: 0;
             width: 100%;
+            overflow: visible;
         }
 
         .score-label {
@@ -326,8 +328,9 @@
             flex-direction: column;
             align-items: center;
             gap: 3px;
-            font-size: .65rem;
+            font-size: .58rem;
             color: #8d98b8;
+            min-width: 38px;
             font-weight: 700;
         }
 
@@ -389,6 +392,64 @@
             color: #fff;
         }
 
+        .admin-bar {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            margin-bottom:18px;
+            padding:10px 14px;
+            background:#fff;
+            border:1px solid #e9edf7;
+            border-radius:12px;
+            box-shadow:0 8px 20px rgba(112,144,176,.06);
+        }
+
+        .admin-status {
+            font-size:.82rem;
+            font-weight:700;
+            color:#64708f;
+        }
+
+        .admin-status.admin-on { color:#00a878; }
+
+        .admin-btn {
+            border:1px solid #dfe5f2;
+            background:#f7f8ff;
+            color:#2b3674;
+            padding:8px 13px;
+            border-radius:9px;
+            font-weight:700;
+            cursor:pointer;
+        }
+
+        .admin-btn:hover { background:#eef0ff; }
+
+        .viewer-lock-note {
+            display:none;
+            margin-top:8px;
+            padding:9px 12px;
+            border-radius:9px;
+            background:#fff8e8;
+            border:1px solid #f5df9c;
+            color:#806500;
+            font-size:.8rem;
+            font-weight:600;
+        }
+
+        .score-input:disabled {
+            opacity:1;
+        }
+
+        .viewer-mode .score-input {
+            background:#f5f7fb;
+            color:#7d87a3;
+            cursor:not-allowed;
+            pointer-events:none;
+        }
+
+        .viewer-mode .viewer-lock-note { display:block; }
+
         @media (max-width: 900px) {
             .modal-content {
                 width: 98vw;
@@ -396,8 +457,14 @@
             }
 
             .score-input {
-                width: 43px;
-                padding: 6px 3px;
+                width: 32px;
+                min-width: 32px;
+                padding: 5px 1px;
+            }
+
+            .score-label {
+                min-width: 32px;
+                font-size: .52rem;
             }
 
             .score-group {
@@ -444,6 +511,15 @@
         <p>
             Trường THPT Phan Bội Châu • Sổ điểm điện tử • Nhập nhiều lần điểm và tự tính ĐTB
         </p>
+    </div>
+
+    <!-- ================= QUYỀN TRUY CẬP ================= -->
+    <div class="admin-bar">
+        <div>
+            <div id="admin-status" class="admin-status">👀 Chế độ xem: chỉ xem điểm</div>
+            <div id="viewer-lock-note" class="viewer-lock-note">🔒 Bạn đang ở chế độ xem. Chỉ tài khoản quản trị mới được nhập, sửa hoặc xóa điểm.</div>
+        </div>
+        <button id="admin-toggle" class="admin-btn" type="button" onclick="toggleAdmin()">🔐 Đăng nhập quản trị</button>
     </div>
 
 
@@ -495,8 +571,7 @@
         </select>
 
         <div class="score-note" style="margin:0; flex:1; min-width:280px;">
-            💡 Bấm <strong>Xem Điểm</strong> để nhập M1–M5, 15-1–15-5, giữa kỳ và cuối kỳ.
-            Điểm sẽ tự tính và tự lưu.
+            💡 Bấm <strong>Xem Điểm</strong> để xem chi tiết. Chỉ quản trị viên mới được nhập/sửa/xóa M1–M5, 15-1–15-5, giữa kỳ và cuối kỳ.
         </div>
 
     </div>
@@ -572,6 +647,7 @@
                     <span class="summary-pill">Số môn đã có điểm: <strong id="modal-subject-count">0/9</strong></span>
                     <span class="summary-pill save-status" id="save-status">✓ Tự động lưu</span>
                 </div>
+                <div class="viewer-lock-note">🔒 Chỉ xem — đăng nhập quản trị để nhập, sửa hoặc xóa điểm.</div>
 
             </div>
 
@@ -718,6 +794,68 @@
     }
 
     const STORAGE_KEY = "DIEM10A4_MULTI_SCORE_V2";
+
+    /* =====================================================
+       PHÂN QUYỀN
+       - Mặc định: chỉ xem
+       - Quản trị: được nhập/sửa/xóa điểm
+       LƯU Ý: Đây là lớp bảo vệ giao diện cho GitHub Pages.
+       Muốn bảo mật thật sự cần Firebase/Supabase + đăng nhập máy chủ.
+    ===================================================== */
+    const ADMIN_PASSWORD = "Nhandat1*";
+    let isAdmin = sessionStorage.getItem("DIEM10A4_ADMIN") === "1";
+
+    function updateAccessUI() {
+        const body = document.body;
+        const status = document.getElementById("admin-status");
+        const button = document.getElementById("admin-toggle");
+        const lockNote = document.getElementById("viewer-lock-note");
+
+        if (isAdmin) {
+            body.classList.remove("viewer-mode");
+            status.classList.add("admin-on");
+            status.textContent = "👨‍🏫 Chế độ quản trị: được nhập, sửa và xóa điểm";
+            button.textContent = "🔓 Đăng xuất quản trị";
+            lockNote.style.display = "none";
+        } else {
+            body.classList.add("viewer-mode");
+            status.classList.remove("admin-on");
+            status.textContent = "👀 Chế độ xem: chỉ xem điểm";
+            button.textContent = "🔐 Đăng nhập quản trị";
+            lockNote.style.display = "block";
+        }
+    }
+
+    function toggleAdmin() {
+        if (isAdmin) {
+            isAdmin = false;
+            sessionStorage.removeItem("DIEM10A4_ADMIN");
+            updateAccessUI();
+            const modal = document.getElementById("detail-modal");
+            if (modal && modal.style.display === "flex") {
+                const name = document.getElementById("modal-student-name").textContent;
+                const student = students.find(s => s.name === name);
+                if (student) openModal(student.id);
+            }
+            return;
+        }
+
+        const password = prompt("Nhập mật khẩu quản trị:");
+        if (password === ADMIN_PASSWORD) {
+            isAdmin = true;
+            sessionStorage.setItem("DIEM10A4_ADMIN", "1");
+            updateAccessUI();
+            const modal = document.getElementById("detail-modal");
+            if (modal && modal.style.display === "flex") {
+                const name = document.getElementById("modal-student-name").textContent;
+                const student = students.find(s => s.name === name);
+                if (student) openModal(student.id);
+            }
+            alert("Đăng nhập quản trị thành công. Bạn có thể nhập, sửa và xóa điểm.");
+        } else if (password !== null) {
+            alert("Mật khẩu không đúng.");
+        }
+    }
 
     function loadSavedScores() {
         try {
@@ -1148,6 +1286,7 @@
                     placeholder="—"
                     value="${value ?? ""}"
                     aria-label="${label}"
+                    ${isAdmin ? "" : "disabled"}
                     oninput="updateScore(${studentId}, '${subjectKey}', '${type}', ${index}, this.value)"
                 >
             </label>
@@ -1166,12 +1305,14 @@
                 placeholder="—"
                 value="${value ?? ""}"
                 aria-label="${type === "gk" ? "Giữa kỳ" : "Cuối kỳ"}"
+                ${isAdmin ? "" : "disabled"}
                 oninput="updateScore(${studentId}, '${subjectKey}', '${type}', null, this.value)"
             >
         `;
     }
 
     function updateScore(studentId, subjectKey, type, index, value) {
+        if (!isAdmin) return;
         const student = students.find(s => s.id === studentId);
         if (!student) return;
 
@@ -1214,6 +1355,10 @@
     }
 
     function resetStudentScores(studentId) {
+        if (!isAdmin) {
+            alert("Bạn đang ở chế độ xem. Chỉ quản trị viên mới được xóa điểm.");
+            return;
+        }
         const student = students.find(s => s.id === studentId);
         if (!student) return;
 
@@ -1299,14 +1444,17 @@
         const headerActions = document.querySelector("#detail-modal .modal-header");
         let resetButton = headerActions.querySelector(".btn-reset");
 
-        if (!resetButton) {
-            resetButton = document.createElement("button");
-            resetButton.className = "btn-reset";
-            resetButton.textContent = "Xóa điểm học sinh";
+        if (isAdmin) {
+            if (!resetButton) {
+                resetButton = document.createElement("button");
+                resetButton.className = "btn-reset";
+                resetButton.textContent = "Xóa điểm học sinh";
+                headerActions.appendChild(resetButton);
+            }
             resetButton.onclick = () => resetStudentScores(studentId);
-            headerActions.appendChild(resetButton);
-        } else {
-            resetButton.onclick = () => resetStudentScores(studentId);
+            resetButton.style.display = "inline-block";
+        } else if (resetButton) {
+            resetButton.style.display = "none";
         }
 
         document.getElementById("detail-modal").style.display = "flex";
@@ -1351,6 +1499,7 @@
        CHẠY BẢNG
     ===================================================== */
 
+    updateAccessUI();
     renderTable();
 
 </script>
