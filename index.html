@@ -260,6 +260,122 @@
             font-weight: 700;
         }
 
+        /* ================= NHẬP NHIỀU ĐIỂM ================= */
+
+        .score-input {
+            width: 58px;
+            padding: 7px 5px;
+            border: 1px solid #dfe5f2;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            color: #2b3674;
+            background: #fff;
+            outline: none;
+            transition: all .2s;
+        }
+
+        .score-input:focus {
+            border-color: #4318ff;
+            box-shadow: 0 0 0 3px rgba(67,24,255,.10);
+        }
+
+        .score-input::placeholder {
+            color: #b5bdd4;
+            font-weight: 500;
+        }
+
+        .score-group {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            min-width: 270px;
+        }
+
+        .score-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            font-size: .65rem;
+            color: #8d98b8;
+            font-weight: 700;
+        }
+
+        .current-avg {
+            font-weight: 800;
+            color: #4318ff;
+            font-size: 1rem;
+        }
+
+        .score-note {
+            margin-top: 12px;
+            padding: 12px 14px;
+            background: #f7f8ff;
+            border: 1px solid #e8eaff;
+            border-radius: 10px;
+            color: #596584;
+            font-size: .82rem;
+            line-height: 1.5;
+        }
+
+        .modal-content {
+            max-width: 1450px;
+        }
+
+        .modal-summary {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .summary-pill {
+            background: #f4f7fe;
+            border: 1px solid #e2e7f4;
+            border-radius: 10px;
+            padding: 7px 11px;
+            font-size: .78rem;
+            color: #697493;
+            font-weight: 600;
+        }
+
+        .summary-pill strong {
+            color: #1b2559;
+        }
+
+        .save-status {
+            color: #00a878;
+            font-weight: 700;
+        }
+
+        .btn-reset {
+            background: #fff5f5;
+            color: #e53e3e;
+            border: 1px solid #fed7d7;
+            padding: 7px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-reset:hover {
+            background: #e53e3e;
+            color: #fff;
+        }
+
+        @media (max-width: 700px) {
+            .score-input {
+                width: 52px;
+            }
+
+            .score-group {
+                min-width: 240px;
+            }
+        }
+
         /* ================= RESPONSIVE ================= */
 
         @media (max-width: 700px) {
@@ -292,7 +408,7 @@
         <h1>BẢNG ĐIỂM CHI TIẾT - LỚP 10A4</h1>
 
         <p>
-            Trường THPT Phan Bội Châu • Sổ điểm điện tử theo Thông tư 22
+            Trường THPT Phan Bội Châu • Sổ điểm điện tử • Nhập nhiều lần điểm và tự tính ĐTB
         </p>
     </div>
 
@@ -341,7 +457,13 @@
             <option value="Giỏi">Giỏi</option>
             <option value="Khá">Khá</option>
             <option value="Trung bình">Trung bình</option>
+            <option value="Chưa có điểm">Chưa có điểm</option>
         </select>
+
+        <div class="score-note" style="margin:0; flex:1; min-width:280px;">
+            💡 Bấm <strong>Xem Điểm</strong> để nhập M1–M5, 15-1–15-5, giữa kỳ và cuối kỳ.
+            Điểm sẽ tự tính và tự lưu.
+        </div>
 
     </div>
 
@@ -408,8 +530,14 @@
                         margin-top:4px;
                     "
                 >
-                    Điểm Miệng, 15 phút, Giữa kỳ (x2) và Cuối kỳ (x3)
+                    Nhập nhiều lần điểm Miệng/15 phút • Giữa kỳ (x2) • Cuối kỳ (x3)
                 </p>
+
+                <div class="modal-summary">
+                    <span class="summary-pill">ĐTB hiện tại: <strong id="modal-overall-avg">0.00</strong></span>
+                    <span class="summary-pill">Số môn đã có điểm: <strong id="modal-subject-count">0/9</strong></span>
+                    <span class="summary-pill save-status" id="save-status">✓ Tự động lưu</span>
+                </div>
 
             </div>
 
@@ -431,10 +559,10 @@
 
                     <tr>
                         <th>Môn Học</th>
-                        <th>Miệng</th>
-                        <th>15 Phút</th>
-                        <th>Giữa Kỳ</th>
-                        <th>Cuối Kỳ</th>
+                        <th>Điểm Miệng (M1 → M5)</th>
+                        <th>Điểm 15 phút (15-1 → 15-5)</th>
+                        <th>Giữa Kỳ (x2)</th>
+                        <th>Cuối Kỳ (x3)</th>
                         <th>ĐTB Môn</th>
                     </tr>
 
@@ -538,167 +666,195 @@
 
 
     /* =====================================================
-       TẠO ĐIỂM MẶC ĐỊNH = 0
+       DỮ LIỆU ĐIỂM
+       - 5 cột Miệng
+       - 5 cột 15 phút
+       - Giữa kỳ x2
+       - Cuối kỳ x3
+       - Điểm chưa nhập được bỏ qua khi tính ĐTB hiện tại
     ===================================================== */
 
     function createZeroScores() {
-
         return {
-
-            m: 0,
-            p15: 0,
-            gk: 0,
-            ck: 0
-
+            m: ["", "", "", "", ""],
+            p15: ["", "", "", "", ""],
+            gk: "",
+            ck: ""
         };
-
     }
 
+    const STORAGE_KEY = "DIEM10A4_MULTI_SCORE_V2";
 
-    /* =====================================================
-       TẠO DỮ LIỆU HỌC SINH
-    ===================================================== */
+    function loadSavedScores() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (!Array.isArray(saved) || saved.length !== studentNames.length) return null;
+            return saved;
+        } catch (error) {
+            return null;
+        }
+    }
 
-    const students = studentNames.map((name, index) => {
+    function createStudents() {
+        const saved = loadSavedScores();
 
-        return {
+        return studentNames.map((name, index) => {
+            const savedStudent = saved && saved[index];
 
-            id: index + 1,
-
-            name: name,
-
-            scores: {
-
+            const defaultScores = {
                 math: createZeroScores(),
-
                 lit: createZeroScores(),
-
                 eng: createZeroScores(),
-
                 phys: createZeroScores(),
-
                 chem: createZeroScores(),
-
                 hist: createZeroScores(),
-
                 informatics: createZeroScores(),
-
                 technology: createZeroScores(),
-
                 law: createZeroScores()
+            };
 
+            if (savedStudent && savedStudent.scores) {
+                Object.keys(defaultScores).forEach(key => {
+                    if (savedStudent.scores[key]) {
+                        const old = savedStudent.scores[key];
+
+                        /* Hỗ trợ cả dữ liệu cũ m/p15/gk/ck nếu có */
+                        defaultScores[key].m = Array.isArray(old.m)
+                            ? old.m.slice(0, 5).concat(["", "", "", "", ""]).slice(0, 5)
+                            : (old.m !== "" && old.m != null ? [old.m, "", "", "", ""] : ["", "", "", "", ""]);
+
+                        defaultScores[key].p15 = Array.isArray(old.p15)
+                            ? old.p15.slice(0, 5).concat(["", "", "", "", ""]).slice(0, 5)
+                            : (old.p15 !== "" && old.p15 != null ? [old.p15, "", "", "", ""] : ["", "", "", "", ""]);
+
+                        defaultScores[key].gk = old.gk ?? "";
+                        defaultScores[key].ck = old.ck ?? "";
+                    }
+                });
             }
 
-        };
+            return {
+                id: index + 1,
+                name,
+                scores: defaultScores
+            };
+        });
+    }
 
-    });
+    const students = createStudents();
 
+    function validScore(value) {
+        if (value === "" || value === null || value === undefined) return null;
+
+        const number = Number(value);
+        if (!Number.isFinite(number) || number < 0 || number > 10) return null;
+
+        return number;
+    }
 
     /* =====================================================
-       TÍNH ĐIỂM TRUNG BÌNH MÔN
-       
-       Miệng + 15 phút + Giữa kỳ x2 + Cuối kỳ x3
-       Tổng hệ số = 7
+       TÍNH ĐTB MÔN KHOA HỌC
+       - Mỗi điểm Miệng/15 phút: hệ số 1
+       - Giữa kỳ: hệ số 2
+       - Cuối kỳ: hệ số 3
+       - Chỉ tính những cột đã nhập
     ===================================================== */
 
     function calcSubjectAvg(score) {
+        let total = 0;
+        let weight = 0;
 
-        return (
+        [...score.m, ...score.p15].forEach(value => {
+            const n = validScore(value);
+            if (n !== null) {
+                total += n;
+                weight += 1;
+            }
+        });
 
-            score.m +
-            score.p15 +
-            score.gk * 2 +
-            score.ck * 3
+        const gk = validScore(score.gk);
+        if (gk !== null) {
+            total += gk * 2;
+            weight += 2;
+        }
 
-        ) / 7;
+        const ck = validScore(score.ck);
+        if (ck !== null) {
+            total += ck * 3;
+            weight += 3;
+        }
 
+        return weight > 0 ? total / weight : 0;
     }
 
-
-    /* =====================================================
-       TÍNH ĐIỂM TRUNG BÌNH CHUNG
-       
-       9 MÔN
-    ===================================================== */
+    function hasSubjectScore(score) {
+        return [...score.m, ...score.p15].some(v => validScore(v) !== null)
+            || validScore(score.gk) !== null
+            || validScore(score.ck) !== null;
+    }
 
     function calcOverallGPA(student) {
-
         let total = 0;
-
         let count = 0;
 
         Object.values(student.scores).forEach(score => {
-
-            total += calcSubjectAvg(score);
-
-            count++;
-
+            if (hasSubjectScore(score)) {
+                total += calcSubjectAvg(score);
+                count++;
+            }
         });
 
-        if (count === 0) return 0;
-
-        return total / count;
-
+        return count > 0 ? total / count : 0;
     }
 
+    function getEnteredSubjectCount(student) {
+        return Object.values(student.scores).filter(hasSubjectScore).length;
+    }
+
+    function saveScores() {
+        try {
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(students)
+            );
+
+            const status = document.getElementById("save-status");
+            if (status) {
+                status.textContent = "✓ Đã tự động lưu";
+                setTimeout(() => {
+                    if (status) status.textContent = "✓ Tự động lưu";
+                }, 1200);
+            }
+        } catch (error) {
+            console.warn("Không thể lưu điểm:", error);
+        }
+    }
 
     /* =====================================================
        XẾP LOẠI
     ===================================================== */
 
-    function getRank(gpa) {
-
-        if (gpa >= 9.0) {
-
-            return "Xuất sắc";
-
+    function getRank(gpa, student) {
+        if (getEnteredSubjectCount(student) === 0) {
+            return "Chưa có điểm";
         }
 
-        if (gpa >= 8.0) {
-
-            return "Giỏi";
-
-        }
-
-        if (gpa >= 6.5) {
-
-            return "Khá";
-
-        }
-
+        if (gpa >= 9.0) return "Xuất sắc";
+        if (gpa >= 8.0) return "Giỏi";
+        if (gpa >= 6.5) return "Khá";
         return "Trung bình";
-
     }
-
 
     /* =====================================================
        MÀU XẾP LOẠI
     ===================================================== */
 
     function getBadgeClass(rank) {
-
-        if (rank === "Xuất sắc") {
-
-            return "badge-xuat-sac";
-
-        }
-
-        if (rank === "Giỏi") {
-
-            return "badge-gioi";
-
-        }
-
-        if (rank === "Khá") {
-
-            return "badge-kha";
-
-        }
-
+        if (rank === "Xuất sắc") return "badge-xuat-sac";
+        if (rank === "Giỏi") return "badge-gioi";
+        if (rank === "Khá") return "badge-kha";
         return "badge-trung-binh";
-
     }
-
 
     /* =====================================================
        HIỂN THỊ BẢNG
@@ -728,6 +884,7 @@
         let totalGpaSum = 0;
 
         let matchCount = 0;
+        let scoredStudentCount = 0;
 
         let topGpa = -1;
 
@@ -741,17 +898,17 @@
 
 
             const rank =
-                getRank(overallGpa);
+                getRank(overallGpa, student);
 
 
-            /* Tìm thủ khoa */
+            /* Tìm thủ khoa: chỉ xét học sinh đã có điểm */
 
-            if (overallGpa > topGpa) {
-
+            if (
+                getEnteredSubjectCount(student) > 0 &&
+                overallGpa > topGpa
+            ) {
                 topGpa = overallGpa;
-
                 topName = student.name;
-
             }
 
 
@@ -777,7 +934,10 @@
 
                 matchCount++;
 
-                totalGpaSum += overallGpa;
+                if (getEnteredSubjectCount(student) > 0) {
+                    totalGpaSum += overallGpa;
+                    scoredStudentCount++;
+                }
 
 
                 /* Điểm từng môn */
@@ -843,43 +1003,43 @@
                     </td>
 
                     <td>
-                        ${math.toFixed(1)}
+                        ${hasSubjectScore(student.scores.math) ? math.toFixed(1) : "--"}
                     </td>
 
                     <td>
-                        ${lit.toFixed(1)}
+                        ${hasSubjectScore(student.scores.lit) ? lit.toFixed(1) : "--"}
                     </td>
 
                     <td>
-                        ${eng.toFixed(1)}
+                        ${hasSubjectScore(student.scores.eng) ? eng.toFixed(1) : "--"}
                     </td>
 
                     <td>
-                        ${phys.toFixed(1)}
+                        ${hasSubjectScore(student.scores.phys) ? phys.toFixed(1) : "--"}
                     </td>
 
                     <td>
-                        ${chem.toFixed(1)}
+                        ${hasSubjectScore(student.scores.chem) ? chem.toFixed(1) : "--"}
                     </td>
 
                     <td>
-                        ${hist.toFixed(1)}
+                        ${hasSubjectScore(student.scores.hist) ? hist.toFixed(1) : "--"}
                     </td>
 
                     <td>
-                        ${informatics.toFixed(1)}
+                        ${hasSubjectScore(student.scores.informatics) ? informatics.toFixed(1) : "--"}
                     </td>
 
                     <td>
-                        ${technology.toFixed(1)}
+                        ${hasSubjectScore(student.scores.technology) ? technology.toFixed(1) : "--"}
                     </td>
 
                     <td>
-                        ${law.toFixed(1)}
+                        ${hasSubjectScore(student.scores.law) ? law.toFixed(1) : "--"}
                     </td>
 
                     <td class="score-highlight">
-                        ${overallGpa.toFixed(2)}
+                        ${getEnteredSubjectCount(student) > 0 ? overallGpa.toFixed(2) : "--"}
                     </td>
 
                     <td>
@@ -919,9 +1079,9 @@
         document.getElementById(
             "class-avg"
         ).textContent =
-            matchCount > 0
+            scoredStudentCount > 0
                 ? (
-                    totalGpaSum / matchCount
+                    totalGpaSum / scoredStudentCount
                 ).toFixed(2)
                 : "0.00";
 
@@ -935,98 +1095,189 @@
 
 
     /* =====================================================
-       MỞ CHI TIẾT ĐIỂM
+       MỞ CHI TIẾT ĐIỂM + NHẬP ĐIỂM
     ===================================================== */
 
-    function openModal(studentId) {
+    function makeScoreInput(studentId, subjectKey, type, index, value) {
+        const label = type === "m" ? `M${index + 1}` : `15-${index + 1}`;
 
-        const student =
-            students.find(
-                s => s.id === studentId
-            );
-
-
-        if (!student) return;
-
-
-        document.getElementById(
-            "modal-student-name"
-        ).textContent =
-            student.name;
-
-
-        const modalTbody =
-            document.getElementById(
-                "modal-table-body"
-            );
-
-
-        modalTbody.innerHTML = "";
-
-
-        Object.keys(student.scores).forEach(
-            subjectKey => {
-
-                const score =
-                    student.scores[
-                        subjectKey
-                    ];
-
-
-                const avg =
-                    calcSubjectAvg(score);
-
-
-                const tr =
-                    document.createElement("tr");
-
-
-                tr.innerHTML = `
-
-                    <td>
-                        ${subjectNames[subjectKey]}
-                    </td>
-
-                    <td>
-                        ${score.m}
-                    </td>
-
-                    <td>
-                        ${score.p15}
-                    </td>
-
-                    <td>
-                        ${score.gk} (x2)
-                    </td>
-
-                    <td>
-                        ${score.ck} (x3)
-                    </td>
-
-                    <td
-                        style="
-                            font-weight:700;
-                            color:#4318ff;
-                        "
-                    >
-                        ${avg.toFixed(1)}
-                    </td>
-
-                `;
-
-
-                modalTbody.appendChild(tr);
-
-            }
-        );
-
-
-        document.getElementById(
-            "detail-modal"
-        ).style.display = "flex";
-
+        return `
+            <label class="score-label">
+                ${label}
+                <input
+                    class="score-input"
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    inputmode="decimal"
+                    placeholder="—"
+                    value="${value ?? ""}"
+                    aria-label="${label}"
+                    oninput="updateScore(${studentId}, '${subjectKey}', '${type}', ${index}, this.value)"
+                >
+            </label>
+        `;
     }
 
+    function makeSingleScoreInput(studentId, subjectKey, type, value) {
+        return `
+            <input
+                class="score-input"
+                type="number"
+                min="0"
+                max="10"
+                step="0.1"
+                inputmode="decimal"
+                placeholder="—"
+                value="${value ?? ""}"
+                aria-label="${type === "gk" ? "Giữa kỳ" : "Cuối kỳ"}"
+                oninput="updateScore(${studentId}, '${subjectKey}', '${type}', null, this.value)"
+            >
+        `;
+    }
+
+    function updateScore(studentId, subjectKey, type, index, value) {
+        const student = students.find(s => s.id === studentId);
+        if (!student) return;
+
+        let cleanValue = value;
+
+        if (value !== "") {
+            const number = Number(value);
+
+            if (!Number.isFinite(number) || number < 0 || number > 10) {
+                cleanValue = "";
+            } else {
+                cleanValue = Math.round(number * 10) / 10;
+            }
+        }
+
+        if (type === "m" || type === "p15") {
+            student.scores[subjectKey][type][index] = cleanValue;
+        } else {
+            student.scores[subjectKey][type] = cleanValue;
+        }
+
+        saveScores();
+        updateModalStats();
+        renderTable();
+    }
+
+    function updateModalStats() {
+        const modal = document.getElementById("detail-modal");
+        if (!modal || modal.style.display !== "flex") return;
+
+        const name = document.getElementById("modal-student-name").textContent;
+        const student = students.find(s => s.name === name);
+        if (!student) return;
+
+        const avg = calcOverallGPA(student);
+        const count = getEnteredSubjectCount(student);
+
+        document.getElementById("modal-overall-avg").textContent = avg.toFixed(2);
+        document.getElementById("modal-subject-count").textContent = `${count}/9`;
+    }
+
+    function resetStudentScores(studentId) {
+        const student = students.find(s => s.id === studentId);
+        if (!student) return;
+
+        if (!confirm(`Xóa toàn bộ điểm của ${student.name}?`)) return;
+
+        Object.keys(student.scores).forEach(key => {
+            student.scores[key] = createZeroScores();
+        });
+
+        saveScores();
+        openModal(studentId);
+        renderTable();
+    }
+
+    function openModal(studentId) {
+        const student = students.find(s => s.id === studentId);
+        if (!student) return;
+
+        document.getElementById("modal-student-name").textContent = student.name;
+
+        const modalTbody = document.getElementById("modal-table-body");
+        modalTbody.innerHTML = "";
+
+        Object.keys(student.scores).forEach(subjectKey => {
+            const score = student.scores[subjectKey];
+            const avg = calcSubjectAvg(score);
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                <td>${subjectNames[subjectKey]}</td>
+
+                <td>
+                    <div class="score-group">
+                        ${score.m.map((value, index) =>
+                            makeScoreInput(student.id, subjectKey, "m", index, value)
+                        ).join("")}
+                    </div>
+                </td>
+
+                <td>
+                    <div class="score-group">
+                        ${score.p15.map((value, index) =>
+                            makeScoreInput(student.id, subjectKey, "p15", index, value)
+                        ).join("")}
+                    </div>
+                </td>
+
+                <td>
+                    ${makeSingleScoreInput(student.id, subjectKey, "gk", score.gk)}
+                </td>
+
+                <td>
+                    ${makeSingleScoreInput(student.id, subjectKey, "ck", score.ck)}
+                </td>
+
+                <td class="current-avg" id="avg-${student.id}-${subjectKey}">
+                    ${avg.toFixed(1)}
+                </td>
+            `;
+
+            modalTbody.appendChild(tr);
+        });
+
+        const note = document.createElement("div");
+        note.className = "score-note";
+        note.innerHTML = `
+            <strong>Cách tính:</strong>
+            mỗi điểm Miệng/15 phút hệ số 1,
+            Giữa kỳ hệ số 2,
+            Cuối kỳ hệ số 3.
+            Các ô chưa nhập sẽ <strong>không bị tính là 0</strong>.
+            Khi bạn nhập thêm điểm, ĐTB môn và ĐTB chung sẽ tự cập nhật và tự lưu trên trình duyệt.
+            <br>
+            <strong>Ví dụ:</strong> nếu có 3 điểm thường xuyên, 1 điểm giữa kỳ và 1 điểm cuối kỳ,
+            mẫu số sẽ là 3 + 2 + 3 = 8.
+        `;
+
+        const wrapper = document.querySelector("#detail-modal .modal-content");
+        const oldNote = wrapper.querySelector(".score-note");
+        if (oldNote) oldNote.remove();
+        wrapper.appendChild(note);
+
+        const headerActions = document.querySelector("#detail-modal .modal-header");
+        let resetButton = headerActions.querySelector(".btn-reset");
+
+        if (!resetButton) {
+            resetButton = document.createElement("button");
+            resetButton.className = "btn-reset";
+            resetButton.textContent = "Xóa điểm học sinh";
+            resetButton.onclick = () => resetStudentScores(studentId);
+            headerActions.appendChild(resetButton);
+        } else {
+            resetButton.onclick = () => resetStudentScores(studentId);
+        }
+
+        document.getElementById("detail-modal").style.display = "flex";
+        updateModalStats();
+    }
 
     /* =====================================================
        ĐÓNG MODAL
