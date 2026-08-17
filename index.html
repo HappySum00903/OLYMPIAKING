@@ -220,13 +220,15 @@
 
         .modal-content {
             background: #ffffff;
-            width: 100%;
-            max-width: 1000px;
+            width: 96vw;
+            max-width: none;
             border-radius: 20px;
-            padding: 28px;
+            padding: 22px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            max-height: 90vh;
+            max-height: 92vh;
             overflow-y: auto;
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
 
         .modal-header {
@@ -250,9 +252,33 @@
             color: #1b2559;
         }
 
+        .detail-table {
+            width: 100%;
+            min-width: 0;
+            table-layout: fixed;
+        }
+
         .detail-table th,
         .detail-table td {
             text-align: center;
+            box-sizing: border-box;
+        }
+
+        .detail-table th:nth-child(1),
+        .detail-table td:nth-child(1) { width: 13%; }
+        .detail-table th:nth-child(2),
+        .detail-table td:nth-child(2) { width: 27%; }
+        .detail-table th:nth-child(3),
+        .detail-table td:nth-child(3) { width: 27%; }
+        .detail-table th:nth-child(4),
+        .detail-table td:nth-child(4) { width: 10%; }
+        .detail-table th:nth-child(5),
+        .detail-table td:nth-child(5) { width: 10%; }
+        .detail-table th:nth-child(6),
+        .detail-table td:nth-child(6) { width: 13%; }
+
+        .detail-table th {
+            white-space: normal;
         }
 
         .detail-table td:first-child {
@@ -263,7 +289,7 @@
         /* ================= NHẬP NHIỀU ĐIỂM ================= */
 
         .score-input {
-            width: 58px;
+            width: 50px;
             padding: 7px 5px;
             border: 1px solid #dfe5f2;
             border-radius: 8px;
@@ -287,11 +313,12 @@
 
         .score-group {
             display: flex;
-            gap: 5px;
+            gap: 4px;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
-            min-width: 270px;
+            flex-wrap: nowrap;
+            min-width: 0;
+            width: 100%;
         }
 
         .score-label {
@@ -319,10 +346,6 @@
             color: #596584;
             font-size: .82rem;
             line-height: 1.5;
-        }
-
-        .modal-content {
-            max-width: 1450px;
         }
 
         .modal-summary {
@@ -366,13 +389,24 @@
             color: #fff;
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 900px) {
+            .modal-content {
+                width: 98vw;
+                padding: 14px;
+            }
+
             .score-input {
-                width: 52px;
+                width: 43px;
+                padding: 6px 3px;
             }
 
             .score-group {
-                min-width: 240px;
+                gap: 2px;
+            }
+
+            .detail-table th,
+            .detail-table td {
+                padding: 8px 4px;
             }
         }
 
@@ -551,7 +585,7 @@
         </div>
 
 
-        <div style="overflow-x:auto;">
+        <div style="overflow-x:hidden; width:100%;">
 
             <table class="detail-table">
 
