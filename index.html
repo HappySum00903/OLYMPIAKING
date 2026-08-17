@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bảng Điểm Chi Tiết Lớp 10A4 - THPT Phan Bội Châu</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fe;
+            color: #2b3674;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: #1b2559;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: #a3aed2;
+            font-size: 0.95rem;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        /* ================= STAT CARDS ================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0px 14px 30px rgba(112, 144, 176, 0.08);
+            border: 1px solid #e9edf7;
+        }
+
+        .stat-card h4 {
+            font-size: 0.8rem;
+            color: #a3aed2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1b2559;
+            margin-top: 6px;
+        }
+
+        /* ================= CONTROLS ================= */
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box,
+        .filter-box {
+            background: #ffffff;
+            border: 1px solid #e0e5f2;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .search-box:focus,
+        .filter-box:focus {
+            border-color: #4318ff;
+            box-shadow: 0 0 0 3px rgba(67, 24, 255, 0.1);
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0px 14px 30px rgba(112, 144, 176, 0.08);
+            border: 1px solid #e9edf7;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 14px 12px;
+            color: #a3aed2;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e9edf7;
+            background: #fafbfc;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #f4f7fe;
+            font-size: 0.92rem;
+            color: #2b3674;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .student-name {
+            font-weight: 700;
+            color: #1b2559;
+        }
+
+        .score-highlight {
+            font-weight: 700;
+            color: #4318ff;
+        }
+
+        /* ================= BADGES ================= */
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .badge-xuat-sac {
+            background-color: #e6f7ff;
+            color: #0088ff;
+        }
+
+        .badge-gioi {
+            background-color: #e6fffa;
+            color: #00b5d8;
+        }
+
+        .badge-kha {
+            background-color: #fffbe6;
+            color: #d69e2e;
+        }
+
+        .badge-trung-binh {
+            background-color: #fff5f5;
+            color: #e53e3e;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .btn-detail {
+            background: #f4f7fe;
+            color: #4318ff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-detail:hover {
+            background: #4318ff;
+            color: #ffffff;
+        }
+
+        /* ================= MODAL ================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 15, 25, 0.5);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e9edf7;
+            padding-bottom: 12px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #a3aed2;
+        }
+
+        .close-btn:hover {
+            color: #1b2559;
+        }
+
+        .detail-table th,
+        .detail-table td {
+            text-align: center;
+        }
+
+        .detail-table td:first-child {
+            text-align: left;
+            font-weight: 700;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+            body {
+                padding: 12px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .table-card {
+                padding: 10px;
+            }
+
+            .modal-content {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="header">
+        <h1>BẢNG ĐIỂM CHI TIẾT - LỚP 10A4</h1>
+
+        <p>
+            Trường THPT Phan Bội Châu • Sổ điểm điện tử theo Thông tư 22
+        </p>
+    </div>
+
+
+    <!-- ================= THỐNG KÊ ================= -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <h4>Sĩ số lớp</h4>
+            <p id="total-students">0</p>
+        </div>
+
+        <div class="stat-card">
+            <h4>ĐTB Cả Lớp</h4>
+            <p id="class-avg">0.00</p>
+        </div>
+
+        <div class="stat-card">
+            <h4>Thủ Khoa Lớp</h4>
+            <p id="top-student" style="color:#4318ff;">--</p>
+        </div>
+
+    </div>
+
+
+    <!-- ================= TÌM KIẾM ================= -->
+
+    <div class="controls">
+
+        <input
+            type="text"
+            id="search-input"
+            class="search-box"
+            placeholder="🔍 Tìm tên học sinh..."
+            oninput="renderTable()"
+        >
+
+        <select
+            id="rank-filter"
+            class="filter-box"
+            onchange="renderTable()"
+        >
+            <option value="ALL">Tất cả xếp loại</option>
+            <option value="Xuất sắc">Xuất sắc</option>
+            <option value="Giỏi">Giỏi</option>
+            <option value="Khá">Khá</option>
+            <option value="Trung bình">Trung bình</option>
+        </select>
+
+    </div>
+
+
+    <!-- ================= BẢNG ĐIỂM ================= -->
+
+    <div class="table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>STT</th>
+                    <th>Họ và Tên</th>
+
+                    <th>ĐTB Toán</th>
+                    <th>ĐTB Văn</th>
+                    <th>ĐTB Anh</th>
+                    <th>ĐTB Lý</th>
+                    <th>ĐTB Hóa</th>
+                    <th>ĐTB Sử</th>
+                    <th>ĐTB Tin</th>
+                    <th>ĐTB CN</th>
+                    <th>ĐTB KT & PL</th>
+
+                    <th>ĐTB Chung</th>
+                    <th>Xếp Loại</th>
+                    <th>Thao Tác</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="student-table-body"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MODAL ================= -->
+
+<div id="detail-modal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2
+                    id="modal-student-name"
+                    style="color:#1b2559;"
+                >
+                    Chi tiết điểm
+                </h2>
+
+                <p
+                    style="
+                        color:#a3aed2;
+                        font-size:0.85rem;
+                        margin-top:4px;
+                    "
+                >
+                    Điểm Miệng, 15 phút, Giữa kỳ (x2) và Cuối kỳ (x3)
+                </p>
+
+            </div>
+
+            <button
+                class="close-btn"
+                onclick="closeModal()"
+            >
+                &times;
+            </button>
+
+        </div>
+
+
+        <div style="overflow-x:auto;">
+
+            <table class="detail-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Môn Học</th>
+                        <th>Miệng</th>
+                        <th>15 Phút</th>
+                        <th>Giữa Kỳ</th>
+                        <th>Cuối Kỳ</th>
+                        <th>ĐTB Môn</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="modal-table-body"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       DANH SÁCH HỌC SINH
+       TẤT CẢ ĐIỂM BAN ĐẦU = 0
+    ===================================================== */
+
+    const studentNames = [
+
+        "Bùi Lê Khả Ái",
+        "Nguyễn Lê Khả Ái",
+        "Trân Nguyên Quốc Anh",
+        "Võ Thụy Ngọc Châu",
+        "Đỗ Quỳnh Chi",
+        "Vương Nhân Đạt",
+        "Trương Tấn Dũng",
+        "Mai Nguyễn Thùy Dương",
+        "Huỳnh Khánh Hưng",
+        "Nguyễn Gia Huy",
+        "Đào Phạm Phương Kha",
+        "Nguyễn Quốc Duy",
+        "Ngô Hoàng Minh Khôi",
+        "Võ Minh Khôi",
+        "Nguyễn Ngọc Minh Khôi",
+        "Nguyễn Tường Lam",
+        "Nguyễn Lê Gia Linh",
+        "Nguyễn Hoàng Trúc Mai",
+        "Nguyễn Tiến Mạnh",
+        "Đỗ Trần Kỳ Nam",
+        "Nguyễn Hải Nam",
+        "Nguyễn Ngọc Khánh Ngân",
+        "Biện Hoàng Bảo Ngọc",
+        "Hoàng Bảo Ngọc",
+        "Đặng Mậu Phước Nguyên",
+        "Phạm Hoàng Nhật",
+        "Phạm Quỳnh Uyên Nhi",
+        "Đào Xuân Như",
+        "Bùi Tấn Phát",
+        "Lê Tấn Phát",
+        "Lê Trần Quốc Phong",
+        "Đỗ Ngọc Quỳnh",
+        "Nguyễn Phạm Ngọc Quỳnh",
+        "Nguyễn Anh Sơn",
+        "Lê Võ Tấn Thắng",
+        "Hồ Thanh Thành",
+        "Huỳnh Lê Minh Thư",
+        "Phùng Công Thương",
+        "Phạm Nhật Khánh Thy",
+        "Võ Bảo Toàn",
+        "Võ Trần Minh Triết",
+        "Nguyễn Đặng Minh Trúc",
+        "Trương Trung Trực",
+        "Phan Xuân Trường",
+        "Phạm Lê Thị Bích Tuyền",
+        "Lư Lê Tường Vy"
+
+    ];
+
+
+    /* =====================================================
+       DANH SÁCH 9 MÔN
+    ===================================================== */
+
+    const subjectNames = {
+
+        math: "Toán Học",
+
+        lit: "Ngữ Văn",
+
+        eng: "Tiếng Anh",
+
+        phys: "Vật Lý",
+
+        chem: "Hóa Học",
+
+        hist: "Lịch Sử",
+
+        informatics: "Tin Học",
+
+        technology: "Công Nghệ",
+
+        law: "Giáo dục kinh tế và pháp luật"
+
+    };
+
+
+    /* =====================================================
+       TẠO ĐIỂM MẶC ĐỊNH = 0
+    ===================================================== */
+
+    function createZeroScores() {
+
+        return {
+
+            m: 0,
+            p15: 0,
+            gk: 0,
+            ck: 0
+
+        };
+
+    }
+
+
+    /* =====================================================
+       TẠO DỮ LIỆU HỌC SINH
+    ===================================================== */
+
+    const students = studentNames.map((name, index) => {
+
+        return {
+
+            id: index + 1,
+
+            name: name,
+
+            scores: {
+
+                math: createZeroScores(),
+
+                lit: createZeroScores(),
+
+                eng: createZeroScores(),
+
+                phys: createZeroScores(),
+
+                chem: createZeroScores(),
+
+                hist: createZeroScores(),
+
+                informatics: createZeroScores(),
+
+                technology: createZeroScores(),
+
+                law: createZeroScores()
+
+            }
+
+        };
+
+    });
+
+
+    /* =====================================================
+       TÍNH ĐIỂM TRUNG BÌNH MÔN
+       
+       Miệng + 15 phút + Giữa kỳ x2 + Cuối kỳ x3
+       Tổng hệ số = 7
+    ===================================================== */
+
+    function calcSubjectAvg(score) {
+
+        return (
+
+            score.m +
+            score.p15 +
+            score.gk * 2 +
+            score.ck * 3
+
+        ) / 7;
+
+    }
+
+
+    /* =====================================================
+       TÍNH ĐIỂM TRUNG BÌNH CHUNG
+       
+       9 MÔN
+    ===================================================== */
+
+    function calcOverallGPA(student) {
+
+        let total = 0;
+
+        let count = 0;
+
+        Object.values(student.scores).forEach(score => {
+
+            total += calcSubjectAvg(score);
+
+            count++;
+
+        });
+
+        if (count === 0) return 0;
+
+        return total / count;
+
+    }
+
+
+    /* =====================================================
+       XẾP LOẠI
+    ===================================================== */
+
+    function getRank(gpa) {
+
+        if (gpa >= 9.0) {
+
+            return "Xuất sắc";
+
+        }
+
+        if (gpa >= 8.0) {
+
+            return "Giỏi";
+
+        }
+
+        if (gpa >= 6.5) {
+
+            return "Khá";
+
+        }
+
+        return "Trung bình";
+
+    }
+
+
+    /* =====================================================
+       MÀU XẾP LOẠI
+    ===================================================== */
+
+    function getBadgeClass(rank) {
+
+        if (rank === "Xuất sắc") {
+
+            return "badge-xuat-sac";
+
+        }
+
+        if (rank === "Giỏi") {
+
+            return "badge-gioi";
+
+        }
+
+        if (rank === "Khá") {
+
+            return "badge-kha";
+
+        }
+
+        return "badge-trung-binh";
+
+    }
+
+
+    /* =====================================================
+       HIỂN THỊ BẢNG
+    ===================================================== */
+
+    function renderTable() {
+
+        const search =
+            document
+                .getElementById("search-input")
+                .value
+                .toLowerCase()
+                .trim();
+
+
+        const rankFilter =
+            document.getElementById("rank-filter").value;
+
+
+        const tbody =
+            document.getElementById("student-table-body");
+
+
+        tbody.innerHTML = "";
+
+
+        let totalGpaSum = 0;
+
+        let matchCount = 0;
+
+        let topGpa = -1;
+
+        let topName = "--";
+
+
+        students.forEach((student, index) => {
+
+            const overallGpa =
+                calcOverallGPA(student);
+
+
+            const rank =
+                getRank(overallGpa);
+
+
+            /* Tìm thủ khoa */
+
+            if (overallGpa > topGpa) {
+
+                topGpa = overallGpa;
+
+                topName = student.name;
+
+            }
+
+
+            /* Tìm kiếm */
+
+            const matchSearch =
+                student.name
+                    .toLowerCase()
+                    .includes(search);
+
+
+            /* Lọc xếp loại */
+
+            const matchRank =
+                rankFilter === "ALL" ||
+                rank === rankFilter;
+
+
+            if (
+                matchSearch &&
+                matchRank
+            ) {
+
+                matchCount++;
+
+                totalGpaSum += overallGpa;
+
+
+                /* Điểm từng môn */
+
+                const math =
+                    calcSubjectAvg(
+                        student.scores.math
+                    );
+
+                const lit =
+                    calcSubjectAvg(
+                        student.scores.lit
+                    );
+
+                const eng =
+                    calcSubjectAvg(
+                        student.scores.eng
+                    );
+
+                const phys =
+                    calcSubjectAvg(
+                        student.scores.phys
+                    );
+
+                const chem =
+                    calcSubjectAvg(
+                        student.scores.chem
+                    );
+
+                const hist =
+                    calcSubjectAvg(
+                        student.scores.hist
+                    );
+
+                const informatics =
+                    calcSubjectAvg(
+                        student.scores.informatics
+                    );
+
+                const technology =
+                    calcSubjectAvg(
+                        student.scores.technology
+                    );
+
+                const law =
+                    calcSubjectAvg(
+                        student.scores.law
+                    );
+
+
+                const tr =
+                    document.createElement("tr");
+
+
+                tr.innerHTML = `
+
+                    <td>
+                        ${index + 1}
+                    </td>
+
+                    <td class="student-name">
+                        ${student.name}
+                    </td>
+
+                    <td>
+                        ${math.toFixed(1)}
+                    </td>
+
+                    <td>
+                        ${lit.toFixed(1)}
+                    </td>
+
+                    <td>
+                        ${eng.toFixed(1)}
+                    </td>
+
+                    <td>
+                        ${phys.toFixed(1)}
+                    </td>
+
+                    <td>
+                        ${chem.toFixed(1)}
+                    </td>
+
+                    <td>
+                        ${hist.toFixed(1)}
+                    </td>
+
+                    <td>
+                        ${informatics.toFixed(1)}
+                    </td>
+
+                    <td>
+                        ${technology.toFixed(1)}
+                    </td>
+
+                    <td>
+                        ${law.toFixed(1)}
+                    </td>
+
+                    <td class="score-highlight">
+                        ${overallGpa.toFixed(2)}
+                    </td>
+
+                    <td>
+                        <span class="badge ${getBadgeClass(rank)}">
+                            ${rank}
+                        </span>
+                    </td>
+
+                    <td>
+                        <button
+                            class="btn-detail"
+                            onclick="openModal(${student.id})"
+                        >
+                            Xem Điểm
+                        </button>
+                    </td>
+
+                `;
+
+
+                tbody.appendChild(tr);
+
+            }
+
+        });
+
+
+        /* =================================================
+           CẬP NHẬT THỐNG KÊ
+        ================================================= */
+
+        document.getElementById(
+            "total-students"
+        ).textContent = matchCount;
+
+
+        document.getElementById(
+            "class-avg"
+        ).textContent =
+            matchCount > 0
+                ? (
+                    totalGpaSum / matchCount
+                ).toFixed(2)
+                : "0.00";
+
+
+        document.getElementById(
+            "top-student"
+        ).textContent =
+            topName;
+
+    }
+
+
+    /* =====================================================
+       MỞ CHI TIẾT ĐIỂM
+    ===================================================== */
+
+    function openModal(studentId) {
+
+        const student =
+            students.find(
+                s => s.id === studentId
+            );
+
+
+        if (!student) return;
+
+
+        document.getElementById(
+            "modal-student-name"
+        ).textContent =
+            student.name;
+
+
+        const modalTbody =
+            document.getElementById(
+                "modal-table-body"
+            );
+
+
+        modalTbody.innerHTML = "";
+
+
+        Object.keys(student.scores).forEach(
+            subjectKey => {
+
+                const score =
+                    student.scores[
+                        subjectKey
+                    ];
+
+
+                const avg =
+                    calcSubjectAvg(score);
+
+
+                const tr =
+                    document.createElement("tr");
+
+
+                tr.innerHTML = `
+
+                    <td>
+                        ${subjectNames[subjectKey]}
+                    </td>
+
+                    <td>
+                        ${score.m}
+                    </td>
+
+                    <td>
+                        ${score.p15}
+                    </td>
+
+                    <td>
+                        ${score.gk} (x2)
+                    </td>
+
+                    <td>
+                        ${score.ck} (x3)
+                    </td>
+
+                    <td
+                        style="
+                            font-weight:700;
+                            color:#4318ff;
+                        "
+                    >
+                        ${avg.toFixed(1)}
+                    </td>
+
+                `;
+
+
+                modalTbody.appendChild(tr);
+
+            }
+        );
+
+
+        document.getElementById(
+            "detail-modal"
+        ).style.display = "flex";
+
+    }
+
+
+    /* =====================================================
+       ĐÓNG MODAL
+    ===================================================== */
+
+    function closeModal() {
+
+        document.getElementById(
+            "detail-modal"
+        ).style.display = "none";
+
+    }
+
+
+    /* =====================================================
+       CLICK RA NGOÀI MODAL ĐỂ ĐÓNG
+    ===================================================== */
+
+    window.onclick = function(event) {
+
+        const modal =
+            document.getElementById(
+                "detail-modal"
+            );
+
+
+        if (event.target === modal) {
+
+            closeModal();
+
+        }
+
+    };
+
+
+    /* =====================================================
+       CHẠY BẢNG
+    ===================================================== */
+
+    renderTable();
+
+</script>
+
+</body>
+</html>
+/*chiều chỉnh lại thiếu cột miệng và 15' thiếu cột*/
