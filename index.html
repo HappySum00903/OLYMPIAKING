@@ -1,1508 +1,443 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Bảng Điểm Chi Tiết Lớp 10A4 - THPT Phan Bội Châu</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background-color: #f4f7fe;
-            color: #2b3674;
-            padding: 24px;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            font-size: 2.2rem;
-            color: #1b2559;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .header p {
-            color: #a3aed2;
-            font-size: 0.95rem;
-            margin-top: 6px;
-            font-weight: 600;
-        }
-
-        /* ================= STAT CARDS ================= */
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .stat-card {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0px 14px 30px rgba(112, 144, 176, 0.08);
-            border: 1px solid #e9edf7;
-        }
-
-        .stat-card h4 {
-            font-size: 0.8rem;
-            color: #a3aed2;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-card p {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1b2559;
-            margin-top: 6px;
-        }
-
-        /* ================= CONTROLS ================= */
-
-        .controls {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .search-box,
-        .filter-box {
-            background: #ffffff;
-            border: 1px solid #e0e5f2;
-            padding: 12px 18px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 260px;
-        }
-
-        .search-box:focus,
-        .filter-box:focus {
-            border-color: #4318ff;
-            box-shadow: 0 0 0 3px rgba(67, 24, 255, 0.1);
-        }
-
-        /* ================= TABLE ================= */
-
-        .table-card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0px 14px 30px rgba(112, 144, 176, 0.08);
-            border: 1px solid #e9edf7;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th {
-            padding: 14px 12px;
-            color: #a3aed2;
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #e9edf7;
-            background: #fafbfc;
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #f4f7fe;
-            font-size: 0.92rem;
-            color: #2b3674;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .student-name {
-            font-weight: 700;
-            color: #1b2559;
-        }
-
-        .score-highlight {
-            font-weight: 700;
-            color: #4318ff;
-        }
-
-        /* ================= BADGES ================= */
-
-        .badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        .badge-xuat-sac {
-            background-color: #e6f7ff;
-            color: #0088ff;
-        }
-
-        .badge-gioi {
-            background-color: #e6fffa;
-            color: #00b5d8;
-        }
-
-        .badge-kha {
-            background-color: #fffbe6;
-            color: #d69e2e;
-        }
-
-        .badge-trung-binh {
-            background-color: #fff5f5;
-            color: #e53e3e;
-        }
-
-        /* ================= BUTTON ================= */
-
-        .btn-detail {
-            background: #f4f7fe;
-            color: #4318ff;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-detail:hover {
-            background: #4318ff;
-            color: #ffffff;
-        }
-
-        /* ================= MODAL ================= */
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(11, 15, 25, 0.5);
-            backdrop-filter: blur(4px);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: #ffffff;
-            width: 99vw;
-            max-width: 1800px;
-            border-radius: 18px;
-            padding: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            max-height: 92vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            box-sizing: border-box;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #e9edf7;
-            padding-bottom: 12px;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #a3aed2;
-        }
-
-        .close-btn:hover {
-            color: #1b2559;
-        }
-
-        .detail-table {
-            width: 100%;
-            min-width: 0;
-            table-layout: fixed;
-        }
-
-        .detail-table th,
-        .detail-table td {
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        .detail-table th:nth-child(1),
-        .detail-table td:nth-child(1) { width: 12%; }
-        .detail-table th:nth-child(2),
-        .detail-table td:nth-child(2) { width: 30%; }
-        .detail-table th:nth-child(3),
-        .detail-table td:nth-child(3) { width: 30%; }
-        .detail-table th:nth-child(4),
-        .detail-table td:nth-child(4) { width: 9%; }
-        .detail-table th:nth-child(5),
-        .detail-table td:nth-child(5) { width: 9%; }
-        .detail-table th:nth-child(6),
-        .detail-table td:nth-child(6) { width: 10%; }
-
-        .detail-table th {
-            white-space: normal;
-        }
-
-        .detail-table td:first-child {
-            text-align: left;
-            font-weight: 700;
-        }
-
-        /* ================= NHẬP NHIỀU ĐIỂM ================= */
-
-        .score-input {
-            width: 38px;
-            min-width: 38px;
-            padding: 6px 2px;
-            border: 1px solid #dfe5f2;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 700;
-            color: #2b3674;
-            background: #fff;
-            outline: none;
-            transition: all .2s;
-        }
-
-        .score-input:focus {
-            border-color: #4318ff;
-            box-shadow: 0 0 0 3px rgba(67,24,255,.10);
-        }
-
-        .score-input::placeholder {
-            color: #b5bdd4;
-            font-weight: 500;
-        }
-
-        .score-group {
-            display: flex;
-            gap: 2px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: nowrap;
-            min-width: 0;
-            width: 100%;
-            overflow: visible;
-        }
-
-        .score-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            font-size: .58rem;
-            color: #8d98b8;
-            min-width: 38px;
-            font-weight: 700;
-        }
-
-        .current-avg {
-            font-weight: 800;
-            color: #4318ff;
-            font-size: 1rem;
-        }
-
-        .score-note {
-            margin-top: 12px;
-            padding: 12px 14px;
-            background: #f7f8ff;
-            border: 1px solid #e8eaff;
-            border-radius: 10px;
-            color: #596584;
-            font-size: .82rem;
-            line-height: 1.5;
-        }
-
-        .modal-summary {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-
-        .summary-pill {
-            background: #f4f7fe;
-            border: 1px solid #e2e7f4;
-            border-radius: 10px;
-            padding: 7px 11px;
-            font-size: .78rem;
-            color: #697493;
-            font-weight: 600;
-        }
-
-        .summary-pill strong {
-            color: #1b2559;
-        }
-
-        .save-status {
-            color: #00a878;
-            font-weight: 700;
-        }
-
-        .btn-reset {
-            background: #fff5f5;
-            color: #e53e3e;
-            border: 1px solid #fed7d7;
-            padding: 7px 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .btn-reset:hover {
-            background: #e53e3e;
-            color: #fff;
-        }
-
-        .admin-bar {
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:12px;
-            margin-bottom:18px;
-            padding:10px 14px;
-            background:#fff;
-            border:1px solid #e9edf7;
-            border-radius:12px;
-            box-shadow:0 8px 20px rgba(112,144,176,.06);
-        }
-
-        .admin-status {
-            font-size:.82rem;
-            font-weight:700;
-            color:#64708f;
-        }
-
-        .admin-status.admin-on { color:#00a878; }
-
-        .admin-btn {
-            border:1px solid #dfe5f2;
-            background:#f7f8ff;
-            color:#2b3674;
-            padding:8px 13px;
-            border-radius:9px;
-            font-weight:700;
-            cursor:pointer;
-        }
-
-        .admin-btn:hover { background:#eef0ff; }
-
-        .viewer-lock-note {
-            display:none;
-            margin-top:8px;
-            padding:9px 12px;
-            border-radius:9px;
-            background:#fff8e8;
-            border:1px solid #f5df9c;
-            color:#806500;
-            font-size:.8rem;
-            font-weight:600;
-        }
-
-        .score-input:disabled {
-            opacity:1;
-        }
-
-        .viewer-mode .score-input {
-            background:#f5f7fb;
-            color:#7d87a3;
-            cursor:not-allowed;
-            pointer-events:none;
-        }
-
-        .viewer-mode .viewer-lock-note { display:block; }
-
-        @media (max-width: 900px) {
-            .modal-content {
-                width: 98vw;
-                padding: 14px;
-            }
-
-            .score-input {
-                width: 32px;
-                min-width: 32px;
-                padding: 5px 1px;
-            }
-
-            .score-label {
-                min-width: 32px;
-                font-size: .52rem;
-            }
-
-            .score-group {
-                gap: 2px;
-            }
-
-            .detail-table th,
-            .detail-table td {
-                padding: 8px 4px;
-            }
-        }
-
-        /* ================= RESPONSIVE ================= */
-
-        @media (max-width: 700px) {
-            body {
-                padding: 12px;
-            }
-
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .table-card {
-                padding: 10px;
-            }
-
-            .modal-content {
-                padding: 18px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảng Điểm Chi Tiết Lớp 10A4 - THPT Phan Bội Châu</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(circle at 10% 10%,rgba(67,24,255,.12),transparent 25%),radial-gradient(circle at 90% 15%,rgba(0,184,255,.12),transparent 25%),linear-gradient(135deg,#eef4ff,#f8fbff 45%,#eef5ff);color:#24305e;min-height:100vh;padding:24px;overflow-x:hidden}
+.bg-shape{position:fixed;border-radius:50%;filter:blur(2px);opacity:.35;pointer-events:none;z-index:-1;animation:float 8s ease-in-out infinite}
+.shape1{width:180px;height:180px;background:#8b7cff;top:80px;left:-70px}.shape2{width:240px;height:240px;background:#55dfff;right:-100px;top:420px;animation-delay:2s}.shape3{width:130px;height:130px;background:#ffb8df;bottom:50px;left:20%;animation-delay:4s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-25px) rotate(8deg)}}
+.container{max-width:1600px;margin:auto}
+.header{position:relative;overflow:hidden;text-align:center;margin-bottom:25px;padding:45px 25px;border-radius:28px;color:white;background:linear-gradient(135deg,#211b69,#4318ff 45%,#087dff);box-shadow:0 25px 55px rgba(67,24,255,.25)}
+.header h1{position:relative;z-index:2;font-size:clamp(1.8rem,4vw,3rem);font-weight:900}.header p{position:relative;z-index:2;margin-top:10px;color:rgba(255,255,255,.88);font-weight:600}
+.header-icons{position:absolute;z-index:1;font-size:3rem;opacity:.18;animation:float 6s ease-in-out infinite}.icon1{left:8%;top:20px}.icon2{right:10%;bottom:20px}.icon3{left:18%;bottom:15px}.icon4{right:22%;top:15px}
+.admin-bar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:20px;padding:14px 18px;background:rgba(255,255,255,.85);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,.9);border-radius:18px;box-shadow:0 12px 30px rgba(71,91,150,.10)}
+.admin-status{font-size:.85rem;font-weight:800;color:#687492}.admin-status.admin-on{color:#00a878}
+.admin-btn,.edit-achievement-btn{border:0;background:linear-gradient(135deg,#4318ff,#1678ff);color:white;padding:10px 16px;border-radius:11px;font-weight:800;cursor:pointer;box-shadow:0 7px 18px rgba(67,24,255,.2);transition:.25s}
+.admin-btn:hover,.edit-achievement-btn:hover{transform:translateY(-2px)}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
+.stat-card{position:relative;overflow:hidden;background:rgba(255,255,255,.88);backdrop-filter:blur(15px);padding:22px;border-radius:20px;border:1px solid rgba(255,255,255,.9);box-shadow:0 15px 35px rgba(71,91,150,.09)}
+.stat-icon{font-size:1.8rem;margin-bottom:8px}.stat-card h4{font-size:.75rem;color:#8a96b5;text-transform:uppercase;letter-spacing:.7px}.stat-card p{font-size:1.65rem;font-weight:900;color:#1b2559;margin-top:6px}
+.controls{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}.search-box,.filter-box{background:rgba(255,255,255,.9);border:1px solid #e0e6f5;padding:13px 17px;border-radius:13px;font-size:.95rem;outline:none}.search-box{flex:1;min-width:260px}.score-note{padding:12px 15px;background:linear-gradient(135deg,#f4f5ff,#edf8ff);border:1px solid #e1e6ff;border-radius:12px;color:#596584;font-size:.82rem;line-height:1.5}
+.achievement-section{position:relative;margin:30px 0;padding:25px;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(244,247,255,.94));border:1px solid rgba(255,255,255,.95);box-shadow:0 25px 60px rgba(67,24,255,.14);overflow:hidden}
+.achievement-title{text-align:center;margin-bottom:20px}.achievement-title h2{font-size:clamp(1.7rem,3vw,2.5rem);font-weight:1000;color:#1b2559}.achievement-title p{margin-top:7px;color:#7b86a5;font-size:.9rem;font-weight:600}
+.achievement-admin{display:none;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}.viewer-mode .achievement-admin{display:none}.admin-mode .achievement-admin{display:flex}
+.achievement-editor{display:none;background:#f7f9ff;border:1px solid #e2e7f4;border-radius:18px;padding:18px;margin-bottom:20px}.admin-mode .achievement-editor{display:block}
+.editor-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.editor-field{display:flex;flex-direction:column;gap:6px}.editor-field label{font-size:.75rem;font-weight:800;color:#687492}.editor-field input,.editor-field textarea{width:100%;border:1px solid #dfe5f2;border-radius:10px;padding:10px;outline:none;background:white}.editor-field textarea{min-height:70px;resize:vertical}.editor-full{grid-column:1/-1}.editor-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.save-achievement{background:#00a878;color:#fff;border:0;padding:9px 14px;border-radius:10px;font-weight:800;cursor:pointer}.cancel-achievement{background:#fff1f1;color:#e53e3e;border:1px solid #fed7d7;padding:9px 14px;border-radius:10px;font-weight:800;cursor:pointer}
+.top-three{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;align-items:end;margin-bottom:20px}.podium{text-align:center;padding:22px 15px;border-radius:22px;border:1px solid}.podium.first{padding-top:30px;padding-bottom:30px;background:linear-gradient(145deg,#fff9cf,#fffdf0);border-color:#f2d36b}.podium.second{background:linear-gradient(145deg,#f7f9fc,#e9eef5);border-color:#ccd5e2}.podium.third{background:linear-gradient(145deg,#fff5e9,#ffead7);border-color:#e8c09b}.podium .medal{font-size:3rem}.podium h3{margin-top:5px;color:#1b2559;font-size:1.05rem}.podium p{margin-top:5px;font-size:1.25rem;font-weight:1000;color:#4318ff}.podium small{display:block;margin-top:5px;color:#7d87a3;font-weight:700}
+.achievement-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.achievement-card{padding:22px;border-radius:22px;background:linear-gradient(145deg,#fff,#f6f8ff);border:1px solid #e8ebf7;box-shadow:0 15px 35px rgba(50,65,120,.08)}.achievement-card .icon{font-size:2.3rem;margin-bottom:8px}.achievement-card h3{color:#6e7898;font-size:.75rem;text-transform:uppercase}.achievement-card .winner{margin-top:7px;color:#1b2559;font-size:1.2rem;font-weight:900}.achievement-card .value{margin-top:5px;font-size:1.05rem;font-weight:900;color:#4318ff}.achievement-card.gold{background:linear-gradient(145deg,#fffdf2,#fff8d9);border-color:#f7e7a0}.achievement-card.bronze{background:linear-gradient(145deg,#fffaf5,#fff0df);border-color:#f2d2ad}
+.achievement-list{margin-top:20px}.achievement-list-title{font-size:1.05rem;color:#1b2559;font-weight:900;margin-bottom:10px}.subject-achievements{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.subject-item{padding:13px;border-radius:14px;background:#f7f9ff;border:1px solid #e5e9f4}.subject-item strong{display:block;color:#1b2559;font-size:.82rem}.subject-item span{display:block;margin-top:4px;color:#4318ff;font-size:.78rem;font-weight:800}
+.empty-achievement{text-align:center;padding:30px;color:#8a95b2;font-weight:700;background:#f8f9fd;border-radius:18px;border:1px dashed #dce2ef}
+.table-card{background:rgba(255,255,255,.9);backdrop-filter:blur(15px);border-radius:22px;padding:15px;box-shadow:0 20px 45px rgba(71,91,150,.10);overflow-x:auto}
+table{width:100%;border-collapse:separate;border-spacing:0;text-align:left}th{padding:15px 12px;color:#8995b4;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;background:#f7f9ff;border-bottom:2px solid #e8ecf6;white-space:nowrap}td{padding:14px 12px;border-bottom:1px solid #eef1f8;font-size:.9rem;color:#34406f;font-weight:600;white-space:nowrap}.student-name{font-weight:800;color:#1b2559}.score-highlight{font-weight:900;color:#4318ff;font-size:1rem}
+.badge{padding:5px 11px;border-radius:30px;font-size:.72rem;font-weight:800;display:inline-block}.badge-xuat-sac{background:#e6f7ff;color:#0088ff}.badge-gioi{background:#e6fffa;color:#00a58b}.badge-kha{background:#fff8dc;color:#c38a00}.badge-trung-binh{background:#fff0f0;color:#e53e3e}
+.btn-detail{background:linear-gradient(135deg,#f0efff,#eaf4ff);color:#4318ff;border:1px solid #e2e3ff;padding:7px 13px;border-radius:9px;font-weight:800;cursor:pointer}
+.modal{display:none;position:fixed;inset:0;background:rgba(8,13,35,.58);backdrop-filter:blur(9px);align-items:center;justify-content:center;z-index:1000;padding:20px}.modal-content{background:rgba(255,255,255,.97);width:99vw;max-width:1800px;border-radius:24px;padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.3);max-height:92vh;overflow-y:auto}.modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;border-bottom:1px solid #e9edf7;padding-bottom:14px;gap:15px}.close-btn{background:#f3f5fb;border:0;width:38px;height:38px;border-radius:50%;font-size:1.5rem;cursor:pointer;color:#75809e}.detail-table{width:100%;table-layout:fixed}.detail-table th,.detail-table td{text-align:center}.score-input{width:38px;min-width:38px;padding:6px 2px;border:1px solid #dfe5f2;border-radius:8px;text-align:center;font-weight:800;color:#2b3674;background:#fff;outline:none}.score-group{display:flex;gap:3px;align-items:center;justify-content:center;flex-wrap:nowrap;width:100%}.score-label{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#8d98b8;min-width:38px;font-weight:800}.current-avg{font-weight:900;color:#4318ff;font-size:1rem}.modal-summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.summary-pill{background:#f4f7fe;border:1px solid #e2e7f4;border-radius:10px;padding:7px 11px;font-size:.76rem;color:#697493;font-weight:700}.btn-reset{background:#fff1f1;color:#e53e3e;border:1px solid #fed7d7;padding:8px 12px;border-radius:9px;font-weight:800;cursor:pointer}/* ================= STUDENT LOGIN ================= */
+.student-account-note{display:none;margin-top:8px;padding:9px 12px;border-radius:9px;background:#eef9ff;border:1px solid #cdeafa;color:#17607a;font-size:.8rem;font-weight:700}
+.student-mode .student-account-note{display:block}
+.student-mode #search-input,.student-mode #rank-filter{display:none}
+.student-mode .controls:before{content:"🔐 Bạn chỉ đang xem điểm của tài khoản của mình.";display:block;width:100%;padding:10px 13px;border-radius:11px;background:#eef9ff;border:1px solid #cdeafa;color:#17607a;font-weight:800;font-size:.82rem}
+.student-mode #student-table-body tr:not(.my-student-row){display:none}
+.student-mode .btn-detail{display:inline-block}
+.student-mode .score-note{display:none}
+.viewer-lock-note{display:none;margin-top:8px;padding:9px 12px;border-radius:9px;background:#fff8e8;border:1px solid #f5df9c;color:#806500;font-size:.8rem;font-weight:700}.viewer-mode .score-input{background:#f5f7fb;color:#7d87a3;cursor:not-allowed;pointer-events:none}.viewer-mode .viewer-lock-note{display:block}.footer{text-align:center;padding:30px 10px 10px;color:#8792b0;font-size:.8rem}
+.admin-mode .viewer-lock-note{display:none}
+@media(max-width:1000px){.achievement-grid,.subject-achievements{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.stats-grid{grid-template-columns:1fr}.top-three{grid-template-columns:1fr}.modal-content{width:98vw;padding:14px}.score-input{width:32px;min-width:32px}.score-label{min-width:32px}.detail-table th,.detail-table td{padding:8px 4px}}
+@media(max-width:700px){body{padding:10px}.header{padding:30px 15px;border-radius:20px}.header h1{font-size:1.5rem}.admin-bar{align-items:flex-start;flex-direction:column}.achievement-section{padding:15px}.achievement-grid,.subject-achievements,.editor-grid{grid-template-columns:1fr}.editor-full{grid-column:auto}.table-card{padding:8px}.modal-content{padding:12px}}
+</style>
 </head>
-
 <body>
-
+<div class="bg-shape shape1"></div><div class="bg-shape shape2"></div><div class="bg-shape shape3"></div>
 <div class="container">
-
-    <!-- ================= HEADER ================= -->
-
-    <div class="header">
-        <h1>BẢNG ĐIỂM CHI TIẾT - LỚP 10A4</h1>
-
-        <p>
-            Trường THPT Phan Bội Châu • Sổ điểm điện tử • Nhập nhiều lần điểm và tự tính ĐTB
-        </p>
-    </div>
-
-    <!-- ================= QUYỀN TRUY CẬP ================= -->
-    <div class="admin-bar">
-        <div>
-            <div id="admin-status" class="admin-status">👀 Chế độ xem: chỉ xem điểm</div>
-            <div id="viewer-lock-note" class="viewer-lock-note">🔒 Bạn đang ở chế độ xem. Chỉ tài khoản quản trị mới được nhập, sửa hoặc xóa điểm.</div>
-        </div>
-        <button id="admin-toggle" class="admin-btn" type="button" onclick="toggleAdmin()">🔐 Đăng nhập quản trị</button>
-    </div>
-
-
-    <!-- ================= THỐNG KÊ ================= -->
-
-    <div class="stats-grid">
-
-        <div class="stat-card">
-            <h4>Sĩ số lớp</h4>
-            <p id="total-students">0</p>
-        </div>
-
-        <div class="stat-card">
-            <h4>ĐTB Cả Lớp</h4>
-            <p id="class-avg">0.00</p>
-        </div>
-
-        <div class="stat-card">
-            <h4>Thủ Khoa Lớp</h4>
-            <p id="top-student" style="color:#4318ff;">--</p>
-        </div>
-
-    </div>
-
-
-    <!-- ================= TÌM KIẾM ================= -->
-
-    <div class="controls">
-
-        <input
-            type="text"
-            id="search-input"
-            class="search-box"
-            placeholder="🔍 Tìm tên học sinh..."
-            oninput="renderTable()"
-        >
-
-        <select
-            id="rank-filter"
-            class="filter-box"
-            onchange="renderTable()"
-        >
-            <option value="ALL">Tất cả xếp loại</option>
-            <option value="Xuất sắc">Xuất sắc</option>
-            <option value="Giỏi">Giỏi</option>
-            <option value="Khá">Khá</option>
-            <option value="Trung bình">Trung bình</option>
-            <option value="Chưa có điểm">Chưa có điểm</option>
-        </select>
-
-        <div class="score-note" style="margin:0; flex:1; min-width:280px;">
-            💡 Bấm <strong>Xem Điểm</strong> để xem chi tiết. Chỉ quản trị viên mới được nhập/sửa/xóa M1–M5, 15-1–15-5, giữa kỳ và cuối kỳ.
-        </div>
-
-    </div>
-
-
-    <!-- ================= BẢNG ĐIỂM ================= -->
-
-    <div class="table-card">
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>STT</th>
-                    <th>Họ và Tên</th>
-
-                    <th>ĐTB Toán</th>
-                    <th>ĐTB Văn</th>
-                    <th>ĐTB Anh</th>
-                    <th>ĐTB Lý</th>
-                    <th>ĐTB Hóa</th>
-                    <th>ĐTB Sử</th>
-                    <th>ĐTB Tin</th>
-                    <th>ĐTB CN</th>
-                    <th>ĐTB KT & PL</th>
-
-                    <th>ĐTB Chung</th>
-                    <th>Xếp Loại</th>
-                    <th>Thao Tác</th>
-                </tr>
-
-            </thead>
-
-            <tbody id="student-table-body"></tbody>
-
-        </table>
-
-    </div>
-
+<div class="header">
+<div class="header-icons icon1">📚</div><div class="header-icons icon2">🎓</div><div class="header-icons icon3">✏️</div><div class="header-icons icon4">💡</div>
+<h1>📚 BẢNG ĐIỂM CHI TIẾT - LỚP 10A4</h1>
+<p>🎓 Trường THPT Phan Bội Châu • Sổ điểm điện tử • Học tập – Tiến bộ – Thành công</p>
 </div>
 
+<div class="admin-bar">
+<div><div id="admin-status" class="admin-status">👀 Chế độ xem: chỉ xem điểm</div>
+<div id="viewer-lock-note" class="viewer-lock-note">🔒 Bạn đang ở chế độ xem. Chỉ tài khoản quản trị mới được nhập, sửa hoặc xóa điểm.</div>
+<div id="student-account-note" class="student-account-note"></div></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+<button id="student-login-btn" class="admin-btn" type="button" onclick="studentLogin()" style="background:linear-gradient(135deg,#00a878,#00c99a)">👨‍🎓 Đăng nhập học sinh</button>
+<button id="admin-toggle" class="admin-btn" type="button" onclick="toggleAdmin()">🔐 Đăng nhập quản trị</button>
+</div>
+</div>
 
-<!-- ================= MODAL ================= -->
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-icon">👨‍🎓</div><h4>Sĩ số lớp</h4><p id="total-students">0</p></div>
+<div class="stat-card"><div class="stat-icon">📈</div><h4>ĐTB Cả Lớp</h4><p id="class-avg">0.00</p></div>
+<div class="stat-card"><div class="stat-icon">🏆</div><h4>Thủ Khoa Lớp</h4><p id="top-student" style="color:#4318ff;">--</p></div>
+</div>
+
+<div class="controls">
+<input type="text" id="search-input" class="search-box" placeholder="🔍 Tìm tên học sinh..." oninput="renderTable()">
+<select id="rank-filter" class="filter-box" onchange="renderTable()">
+<option value="ALL">Tất cả xếp loại</option><option value="Xuất sắc">Xuất sắc</option><option value="Giỏi">Giỏi</option><option value="Khá">Khá</option><option value="Trung bình">Trung bình</option><option value="Chưa có điểm">Chưa có điểm</option>
+</select>
+<div class="score-note" style="margin:0;flex:1;min-width:280px">💡 Mỗi học sinh có 1 tài khoản riêng. Học sinh chỉ xem được điểm của mình; quản trị viên xem và quản lý toàn bộ lớp. Thành tích tập thể vẫn hiển thị cho tất cả.</div>
+</div>
+
+<section class="achievement-section">
+<div class="achievement-title">
+<h2>🏆 THÀNH TÍCH & KỶ NIỆM TẬP THỂ LỚP 10A4 🏆</h2>
+<p id="achievement-subtitle">Nơi lưu giữ những thành tích xuất sắc và kỷ niệm đáng nhớ của cả tập thể lớp</p>
+</div>
+
+<div class="achievement-admin">
+<button class="edit-achievement-btn" onclick="toggleAchievementEditor()">✏️ Quản lý thành tích lớp</button>
+</div>
+
+<div id="achievement-editor" class="achievement-editor">
+<div class="editor-grid">
+<div class="editor-field"><label>🏅 Biểu tượng</label><input id="edit-ach-icon" maxlength="4" placeholder="🏆"></div>
+<div class="editor-field"><label>📅 Thời gian / Năm học</label><input id="edit-ach-year" placeholder="Ví dụ: Năm học 2026–2027"></div>
+<div class="editor-field editor-full"><label>🏆 Tên thành tích tập thể</label><input id="edit-ach-title" placeholder="Ví dụ: Giải Nhất bóng đá nam"></div>
+<div class="editor-field editor-full"><label>📝 Nội dung / Kỷ niệm</label><textarea id="edit-ach-desc" placeholder="Ví dụ: Cả lớp đã thi đấu đoàn kết và giành Giải Nhất bóng đá nam trong Hội thao trường."></textarea></div>
+</div>
+<div class="editor-actions">
+<button class="save-achievement" onclick="addAchievement()">➕ Thêm thành tích</button>
+<button class="cancel-achievement" onclick="toggleAchievementEditor()">Đóng</button>
+</div>
+<div id="achievement-manage-list" class="achievement-manage-list"></div>
+</div>
+
+<div id="achievement-content"></div>
+</section>
+
+<div class="table-card">
+<table>
+<thead><tr>
+<th>STT</th><th>Họ và Tên</th><th>ĐTB Toán</th><th>ĐTB Văn</th><th>ĐTB Anh</th><th>ĐTB Lý</th><th>ĐTB Hóa</th><th>ĐTB Sử</th><th>ĐTB Tin</th><th>ĐTB CN</th><th>ĐTB KT & PL</th><th>ĐTB Chung</th><th>Xếp Loại</th><th>Thao Tác</th>
+</tr></thead>
+<tbody id="student-table-body"></tbody>
+</table>
+</div>
+<div class="footer">📖 <strong>10A4</strong> • Chăm chỉ hôm nay – Thành công ngày mai 🚀</div>
+</div>
 
 <div id="detail-modal" class="modal">
-
-    <div class="modal-content">
-
-        <div class="modal-header">
-
-            <div>
-
-                <h2
-                    id="modal-student-name"
-                    style="color:#1b2559;"
-                >
-                    Chi tiết điểm
-                </h2>
-
-                <p
-                    style="
-                        color:#a3aed2;
-                        font-size:0.85rem;
-                        margin-top:4px;
-                    "
-                >
-                    Nhập nhiều lần điểm Miệng/15 phút • Giữa kỳ (x2) • Cuối kỳ (x3)
-                </p>
-
-                <div class="modal-summary">
-                    <span class="summary-pill">ĐTB hiện tại: <strong id="modal-overall-avg">0.00</strong></span>
-                    <span class="summary-pill">Số môn đã có điểm: <strong id="modal-subject-count">0/9</strong></span>
-                    <span class="summary-pill save-status" id="save-status">✓ Tự động lưu</span>
-                </div>
-                <div class="viewer-lock-note">🔒 Chỉ xem — đăng nhập quản trị để nhập, sửa hoặc xóa điểm.</div>
-
-            </div>
-
-            <button
-                class="close-btn"
-                onclick="closeModal()"
-            >
-                &times;
-            </button>
-
-        </div>
-
-
-        <div style="overflow-x:hidden; width:100%;">
-
-            <table class="detail-table">
-
-                <thead>
-
-                    <tr>
-                        <th>Môn Học</th>
-                        <th>Điểm Miệng (M1 → M5)</th>
-                        <th>Điểm 15 phút (15-1 → 15-5)</th>
-                        <th>Giữa Kỳ (x2)</th>
-                        <th>Cuối Kỳ (x3)</th>
-                        <th>ĐTB Môn</th>
-                    </tr>
-
-                </thead>
-
-                <tbody id="modal-table-body"></tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
+<div class="modal-content">
+<div class="modal-header">
+<div>
+<h2 id="modal-student-name" style="color:#1b2559;">Chi tiết điểm</h2>
+<p style="color:#a3aed2;font-size:.85rem;margin-top:4px">📝 Nhập nhiều lần điểm Miệng/15 phút • Giữa kỳ (x2) • Cuối kỳ (x3)</p>
+<div class="modal-summary">
+<span class="summary-pill">📊 ĐTB hiện tại: <strong id="modal-overall-avg">0.00</strong></span>
+<span class="summary-pill">📚 Số môn đã có điểm: <strong id="modal-subject-count">0/9</strong></span>
+<span class="summary-pill" id="save-status">✓ Tự động lưu</span>
+</div>
+<div class="viewer-lock-note">🔒 Chỉ xem — đăng nhập quản trị để nhập, sửa hoặc xóa điểm.</div>
+</div>
+<button class="close-btn" onclick="closeModal()">&times;</button>
+</div>
+<div style="overflow-x:hidden;width:100%">
+<table class="detail-table">
+<thead><tr><th>Môn Học</th><th>Điểm Miệng (M1 → M5)</th><th>Điểm 15 phút (15-1 → 15-5)</th><th>Giữa Kỳ (x2)</th><th>Cuối Kỳ (x3)</th><th>ĐTB Môn</th></tr></thead>
+<tbody id="modal-table-body"></tbody>
+</table>
+</div>
+</div>
 </div>
 
-
 <script>
-
-    /* =====================================================
-       DANH SÁCH HỌC SINH
-       TẤT CẢ ĐIỂM BAN ĐẦU = 0
-    ===================================================== */
-
-    const studentNames = [
-
-        "Bùi Lê Khả Ái",
-        "Nguyễn Lê Khả Ái",
-        "Trân Nguyên Quốc Anh",
-        "Võ Thụy Ngọc Châu",
-        "Đỗ Quỳnh Chi",
-        "Vương Nhân Đạt",
-        "Trương Tấn Dũng",
-        "Mai Nguyễn Thùy Dương",
-        "Huỳnh Khánh Hưng",
-        "Nguyễn Gia Huy",
-        "Đào Phạm Phương Kha",
-        "Nguyễn Quốc Duy",
-        "Ngô Hoàng Minh Khôi",
-        "Võ Minh Khôi",
-        "Nguyễn Ngọc Minh Khôi",
-        "Nguyễn Tường Lam",
-        "Nguyễn Lê Gia Linh",
-        "Nguyễn Hoàng Trúc Mai",
-        "Nguyễn Tiến Mạnh",
-        "Đỗ Trần Kỳ Nam",
-        "Nguyễn Hải Nam",
-        "Nguyễn Ngọc Khánh Ngân",
-        "Biện Hoàng Bảo Ngọc",
-        "Hoàng Bảo Ngọc",
-        "Đặng Mậu Phước Nguyên",
-        "Phạm Hoàng Nhật",
-        "Phạm Quỳnh Uyên Nhi",
-        "Đào Xuân Như",
-        "Bùi Tấn Phát",
-        "Lê Tấn Phát",
-        "Lê Trần Quốc Phong",
-        "Đỗ Ngọc Quỳnh",
-        "Nguyễn Phạm Ngọc Quỳnh",
-        "Nguyễn Anh Sơn",
-        "Lê Võ Tấn Thắng",
-        "Hồ Thanh Thành",
-        "Huỳnh Lê Minh Thư",
-        "Phùng Công Thương",
-        "Phạm Nhật Khánh Thy",
-        "Võ Bảo Toàn",
-        "Võ Trần Minh Triết",
-        "Nguyễn Đặng Minh Trúc",
-        "Trương Trung Trực",
-        "Phan Xuân Trường",
-        "Phạm Lê Thị Bích Tuyền",
-        "Lư Lê Tường Vy"
-
-    ];
-
-
-    /* =====================================================
-       DANH SÁCH 9 MÔN
-    ===================================================== */
-
-    const subjectNames = {
-
-        math: "Toán Học",
-
-        lit: "Ngữ Văn",
-
-        eng: "Tiếng Anh",
-
-        phys: "Vật Lý",
-
-        chem: "Hóa Học",
-
-        hist: "Lịch Sử",
-
-        informatics: "Tin Học",
-
-        technology: "Công Nghệ",
-
-        law: "Giáo dục kinh tế và pháp luật"
-
-    };
-
-
-    /* =====================================================
-       DỮ LIỆU ĐIỂM
-       - 5 cột Miệng
-       - 5 cột 15 phút
-       - Giữa kỳ x2
-       - Cuối kỳ x3
-       - Điểm chưa nhập được bỏ qua khi tính ĐTB hiện tại
-    ===================================================== */
-
-    function createZeroScores() {
-        return {
-            m: ["", "", "", "", ""],
-            p15: ["", "", "", "", ""],
-            gk: "",
-            ck: ""
-        };
-    }
-
-    const STORAGE_KEY = "DIEM10A4_MULTI_SCORE_V2";
-
-    /* =====================================================
-       PHÂN QUYỀN
-       - Mặc định: chỉ xem
-       - Quản trị: được nhập/sửa/xóa điểm
-       LƯU Ý: Đây là lớp bảo vệ giao diện cho GitHub Pages.
-       Muốn bảo mật thật sự cần Firebase/Supabase + đăng nhập máy chủ.
-    ===================================================== */
-    const ADMIN_PASSWORD = "Nhandat1*";
-    let isAdmin = sessionStorage.getItem("DIEM10A4_ADMIN") === "1";
-
-    function updateAccessUI() {
-        const body = document.body;
-        const status = document.getElementById("admin-status");
-        const button = document.getElementById("admin-toggle");
-        const lockNote = document.getElementById("viewer-lock-note");
-
-        if (isAdmin) {
-            body.classList.remove("viewer-mode");
-            status.classList.add("admin-on");
-            status.textContent = "👨‍🏫 Chế độ quản trị: được nhập, sửa và xóa điểm";
-            button.textContent = "🔓 Đăng xuất quản trị";
-            lockNote.style.display = "none";
-        } else {
-            body.classList.add("viewer-mode");
-            status.classList.remove("admin-on");
-            status.textContent = "👀 Chế độ xem: chỉ xem điểm";
-            button.textContent = "🔐 Đăng nhập quản trị";
-            lockNote.style.display = "block";
-        }
-    }
-
-    function toggleAdmin() {
-        if (isAdmin) {
-            isAdmin = false;
-            sessionStorage.removeItem("DIEM10A4_ADMIN");
-            updateAccessUI();
-            const modal = document.getElementById("detail-modal");
-            if (modal && modal.style.display === "flex") {
-                const name = document.getElementById("modal-student-name").textContent;
-                const student = students.find(s => s.name === name);
-                if (student) openModal(student.id);
-            }
-            return;
-        }
-
-        const password = prompt("Nhập mật khẩu quản trị:");
-        if (password === ADMIN_PASSWORD) {
-            isAdmin = true;
-            sessionStorage.setItem("DIEM10A4_ADMIN", "1");
-            updateAccessUI();
-            const modal = document.getElementById("detail-modal");
-            if (modal && modal.style.display === "flex") {
-                const name = document.getElementById("modal-student-name").textContent;
-                const student = students.find(s => s.name === name);
-                if (student) openModal(student.id);
-            }
-            alert("Đăng nhập quản trị thành công. Bạn có thể nhập, sửa và xóa điểm.");
-        } else if (password !== null) {
-            alert("Mật khẩu không đúng.");
-        }
-    }
-
-    function loadSavedScores() {
-        try {
-            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-            if (!Array.isArray(saved) || saved.length !== studentNames.length) return null;
-            return saved;
-        } catch (error) {
-            return null;
-        }
-    }
-
-    function createStudents() {
-        const saved = loadSavedScores();
-
-        return studentNames.map((name, index) => {
-            const savedStudent = saved && saved[index];
-
-            const defaultScores = {
-                math: createZeroScores(),
-                lit: createZeroScores(),
-                eng: createZeroScores(),
-                phys: createZeroScores(),
-                chem: createZeroScores(),
-                hist: createZeroScores(),
-                informatics: createZeroScores(),
-                technology: createZeroScores(),
-                law: createZeroScores()
-            };
-
-            if (savedStudent && savedStudent.scores) {
-                Object.keys(defaultScores).forEach(key => {
-                    if (savedStudent.scores[key]) {
-                        const old = savedStudent.scores[key];
-
-                        /* Hỗ trợ cả dữ liệu cũ m/p15/gk/ck nếu có */
-                        defaultScores[key].m = Array.isArray(old.m)
-                            ? old.m.slice(0, 5).concat(["", "", "", "", ""]).slice(0, 5)
-                            : (old.m !== "" && old.m != null ? [old.m, "", "", "", ""] : ["", "", "", "", ""]);
-
-                        defaultScores[key].p15 = Array.isArray(old.p15)
-                            ? old.p15.slice(0, 5).concat(["", "", "", "", ""]).slice(0, 5)
-                            : (old.p15 !== "" && old.p15 != null ? [old.p15, "", "", "", ""] : ["", "", "", "", ""]);
-
-                        defaultScores[key].gk = old.gk ?? "";
-                        defaultScores[key].ck = old.ck ?? "";
-                    }
-                });
-            }
-
-            return {
-                id: index + 1,
-                name,
-                scores: defaultScores
-            };
-        });
-    }
-
-    const students = createStudents();
-
-    function validScore(value) {
-        if (value === "" || value === null || value === undefined) return null;
-
-        const number = Number(value);
-        if (!Number.isFinite(number) || number < 0 || number > 10) return null;
-
-        return number;
-    }
-
-    /* =====================================================
-       TÍNH ĐTB MÔN KHOA HỌC
-       - Mỗi điểm Miệng/15 phút: hệ số 1
-       - Giữa kỳ: hệ số 2
-       - Cuối kỳ: hệ số 3
-       - Chỉ tính những cột đã nhập
-    ===================================================== */
-
-    function calcSubjectAvg(score) {
-        let total = 0;
-        let weight = 0;
-
-        [...score.m, ...score.p15].forEach(value => {
-            const n = validScore(value);
-            if (n !== null) {
-                total += n;
-                weight += 1;
-            }
-        });
-
-        const gk = validScore(score.gk);
-        if (gk !== null) {
-            total += gk * 2;
-            weight += 2;
-        }
-
-        const ck = validScore(score.ck);
-        if (ck !== null) {
-            total += ck * 3;
-            weight += 3;
-        }
-
-        return weight > 0 ? total / weight : 0;
-    }
-
-    function hasSubjectScore(score) {
-        return [...score.m, ...score.p15].some(v => validScore(v) !== null)
-            || validScore(score.gk) !== null
-            || validScore(score.ck) !== null;
-    }
-
-    function calcOverallGPA(student) {
-        let total = 0;
-        let count = 0;
-
-        Object.values(student.scores).forEach(score => {
-            if (hasSubjectScore(score)) {
-                total += calcSubjectAvg(score);
-                count++;
-            }
-        });
-
-        return count > 0 ? total / count : 0;
-    }
-
-    function getEnteredSubjectCount(student) {
-        return Object.values(student.scores).filter(hasSubjectScore).length;
-    }
-
-    function saveScores() {
-        try {
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(students)
-            );
-
-            const status = document.getElementById("save-status");
-            if (status) {
-                status.textContent = "✓ Đã tự động lưu";
-                setTimeout(() => {
-                    if (status) status.textContent = "✓ Tự động lưu";
-                }, 1200);
-            }
-        } catch (error) {
-            console.warn("Không thể lưu điểm:", error);
-        }
-    }
-
-    /* =====================================================
-       XẾP LOẠI
-    ===================================================== */
-
-    function getRank(gpa, student) {
-        if (getEnteredSubjectCount(student) === 0) {
-            return "Chưa có điểm";
-        }
-
-        if (gpa >= 9.0) return "Xuất sắc";
-        if (gpa >= 8.0) return "Giỏi";
-        if (gpa >= 6.5) return "Khá";
-        return "Trung bình";
-    }
-
-    /* =====================================================
-       MÀU XẾP LOẠI
-    ===================================================== */
-
-    function getBadgeClass(rank) {
-        if (rank === "Xuất sắc") return "badge-xuat-sac";
-        if (rank === "Giỏi") return "badge-gioi";
-        if (rank === "Khá") return "badge-kha";
-        return "badge-trung-binh";
-    }
-
-    /* =====================================================
-       HIỂN THỊ BẢNG
-    ===================================================== */
-
-    function renderTable() {
-
-        const search =
-            document
-                .getElementById("search-input")
-                .value
-                .toLowerCase()
-                .trim();
-
-
-        const rankFilter =
-            document.getElementById("rank-filter").value;
-
-
-        const tbody =
-            document.getElementById("student-table-body");
-
-
-        tbody.innerHTML = "";
-
-
-        let totalGpaSum = 0;
-
-        let matchCount = 0;
-        let scoredStudentCount = 0;
-
-        let topGpa = -1;
-
-        let topName = "--";
-
-
-        students.forEach((student, index) => {
-
-            const overallGpa =
-                calcOverallGPA(student);
-
-
-            const rank =
-                getRank(overallGpa, student);
-
-
-            /* Tìm thủ khoa: chỉ xét học sinh đã có điểm */
-
-            if (
-                getEnteredSubjectCount(student) > 0 &&
-                overallGpa > topGpa
-            ) {
-                topGpa = overallGpa;
-                topName = student.name;
-            }
-
-
-            /* Tìm kiếm */
-
-            const matchSearch =
-                student.name
-                    .toLowerCase()
-                    .includes(search);
-
-
-            /* Lọc xếp loại */
-
-            const matchRank =
-                rankFilter === "ALL" ||
-                rank === rankFilter;
-
-
-            if (
-                matchSearch &&
-                matchRank
-            ) {
-
-                matchCount++;
-
-                if (getEnteredSubjectCount(student) > 0) {
-                    totalGpaSum += overallGpa;
-                    scoredStudentCount++;
-                }
-
-
-                /* Điểm từng môn */
-
-                const math =
-                    calcSubjectAvg(
-                        student.scores.math
-                    );
-
-                const lit =
-                    calcSubjectAvg(
-                        student.scores.lit
-                    );
-
-                const eng =
-                    calcSubjectAvg(
-                        student.scores.eng
-                    );
-
-                const phys =
-                    calcSubjectAvg(
-                        student.scores.phys
-                    );
-
-                const chem =
-                    calcSubjectAvg(
-                        student.scores.chem
-                    );
-
-                const hist =
-                    calcSubjectAvg(
-                        student.scores.hist
-                    );
-
-                const informatics =
-                    calcSubjectAvg(
-                        student.scores.informatics
-                    );
-
-                const technology =
-                    calcSubjectAvg(
-                        student.scores.technology
-                    );
-
-                const law =
-                    calcSubjectAvg(
-                        student.scores.law
-                    );
-
-
-                const tr =
-                    document.createElement("tr");
-
-
-                tr.innerHTML = `
-
-                    <td>
-                        ${index + 1}
-                    </td>
-
-                    <td class="student-name">
-                        ${student.name}
-                    </td>
-
-                    <td>
-                        ${hasSubjectScore(student.scores.math) ? math.toFixed(1) : "--"}
-                    </td>
-
-                    <td>
-                        ${hasSubjectScore(student.scores.lit) ? lit.toFixed(1) : "--"}
-                    </td>
-
-                    <td>
-                        ${hasSubjectScore(student.scores.eng) ? eng.toFixed(1) : "--"}
-                    </td>
-
-                    <td>
-                        ${hasSubjectScore(student.scores.phys) ? phys.toFixed(1) : "--"}
-                    </td>
-
-                    <td>
-                        ${hasSubjectScore(student.scores.chem) ? chem.toFixed(1) : "--"}
-                    </td>
-
-                    <td>
-                        ${hasSubjectScore(student.scores.hist) ? hist.toFixed(1) : "--"}
-                    </td>
-
-                    <td>
-                        ${hasSubjectScore(student.scores.informatics) ? informatics.toFixed(1) : "--"}
-                    </td>
-
-                    <td>
-                        ${hasSubjectScore(student.scores.technology) ? technology.toFixed(1) : "--"}
-                    </td>
-
-                    <td>
-                        ${hasSubjectScore(student.scores.law) ? law.toFixed(1) : "--"}
-                    </td>
-
-                    <td class="score-highlight">
-                        ${getEnteredSubjectCount(student) > 0 ? overallGpa.toFixed(2) : "--"}
-                    </td>
-
-                    <td>
-                        <span class="badge ${getBadgeClass(rank)}">
-                            ${rank}
-                        </span>
-                    </td>
-
-                    <td>
-                        <button
-                            class="btn-detail"
-                            onclick="openModal(${student.id})"
-                        >
-                            Xem Điểm
-                        </button>
-                    </td>
-
-                `;
-
-
-                tbody.appendChild(tr);
-
-            }
-
-        });
-
-
-        /* =================================================
-           CẬP NHẬT THỐNG KÊ
-        ================================================= */
-
-        document.getElementById(
-            "total-students"
-        ).textContent = matchCount;
-
-
-        document.getElementById(
-            "class-avg"
-        ).textContent =
-            scoredStudentCount > 0
-                ? (
-                    totalGpaSum / scoredStudentCount
-                ).toFixed(2)
-                : "0.00";
-
-
-        document.getElementById(
-            "top-student"
-        ).textContent =
-            topName;
-
-    }
-
-
-    /* =====================================================
-       MỞ CHI TIẾT ĐIỂM + NHẬP ĐIỂM
-    ===================================================== */
-
-    function makeScoreInput(studentId, subjectKey, type, index, value) {
-        const label = type === "m" ? `M${index + 1}` : `15-${index + 1}`;
-
-        return `
-            <label class="score-label">
-                ${label}
-                <input
-                    class="score-input"
-                    type="number"
-                    min="0"
-                    max="10"
-                    step="0.1"
-                    inputmode="decimal"
-                    placeholder="—"
-                    value="${value ?? ""}"
-                    aria-label="${label}"
-                    ${isAdmin ? "" : "disabled"}
-                    oninput="updateScore(${studentId}, '${subjectKey}', '${type}', ${index}, this.value)"
-                >
-            </label>
-        `;
-    }
-
-    function makeSingleScoreInput(studentId, subjectKey, type, value) {
-        return `
-            <input
-                class="score-input"
-                type="number"
-                min="0"
-                max="10"
-                step="0.1"
-                inputmode="decimal"
-                placeholder="—"
-                value="${value ?? ""}"
-                aria-label="${type === "gk" ? "Giữa kỳ" : "Cuối kỳ"}"
-                ${isAdmin ? "" : "disabled"}
-                oninput="updateScore(${studentId}, '${subjectKey}', '${type}', null, this.value)"
-            >
-        `;
-    }
-
-    function updateScore(studentId, subjectKey, type, index, value) {
-        if (!isAdmin) return;
-        const student = students.find(s => s.id === studentId);
-        if (!student) return;
-
-        let cleanValue = value;
-
-        if (value !== "") {
-            const number = Number(value);
-
-            if (!Number.isFinite(number) || number < 0 || number > 10) {
-                cleanValue = "";
-            } else {
-                cleanValue = Math.round(number * 10) / 10;
-            }
-        }
-
-        if (type === "m" || type === "p15") {
-            student.scores[subjectKey][type][index] = cleanValue;
-        } else {
-            student.scores[subjectKey][type] = cleanValue;
-        }
-
-        saveScores();
-        updateModalStats();
-        renderTable();
-    }
-
-    function updateModalStats() {
-        const modal = document.getElementById("detail-modal");
-        if (!modal || modal.style.display !== "flex") return;
-
-        const name = document.getElementById("modal-student-name").textContent;
-        const student = students.find(s => s.name === name);
-        if (!student) return;
-
-        const avg = calcOverallGPA(student);
-        const count = getEnteredSubjectCount(student);
-
-        document.getElementById("modal-overall-avg").textContent = avg.toFixed(2);
-        document.getElementById("modal-subject-count").textContent = `${count}/9`;
-    }
-
-    function resetStudentScores(studentId) {
-        if (!isAdmin) {
-            alert("Bạn đang ở chế độ xem. Chỉ quản trị viên mới được xóa điểm.");
-            return;
-        }
-        const student = students.find(s => s.id === studentId);
-        if (!student) return;
-
-        if (!confirm(`Xóa toàn bộ điểm của ${student.name}?`)) return;
-
-        Object.keys(student.scores).forEach(key => {
-            student.scores[key] = createZeroScores();
-        });
-
-        saveScores();
-        openModal(studentId);
-        renderTable();
-    }
-
-    function openModal(studentId) {
-        const student = students.find(s => s.id === studentId);
-        if (!student) return;
-
-        document.getElementById("modal-student-name").textContent = student.name;
-
-        const modalTbody = document.getElementById("modal-table-body");
-        modalTbody.innerHTML = "";
-
-        Object.keys(student.scores).forEach(subjectKey => {
-            const score = student.scores[subjectKey];
-            const avg = calcSubjectAvg(score);
-            const tr = document.createElement("tr");
-
-            tr.innerHTML = `
-                <td>${subjectNames[subjectKey]}</td>
-
-                <td>
-                    <div class="score-group">
-                        ${score.m.map((value, index) =>
-                            makeScoreInput(student.id, subjectKey, "m", index, value)
-                        ).join("")}
-                    </div>
-                </td>
-
-                <td>
-                    <div class="score-group">
-                        ${score.p15.map((value, index) =>
-                            makeScoreInput(student.id, subjectKey, "p15", index, value)
-                        ).join("")}
-                    </div>
-                </td>
-
-                <td>
-                    ${makeSingleScoreInput(student.id, subjectKey, "gk", score.gk)}
-                </td>
-
-                <td>
-                    ${makeSingleScoreInput(student.id, subjectKey, "ck", score.ck)}
-                </td>
-
-                <td class="current-avg" id="avg-${student.id}-${subjectKey}">
-                    ${avg.toFixed(1)}
-                </td>
-            `;
-
-            modalTbody.appendChild(tr);
-        });
-
-        const note = document.createElement("div");
-        note.className = "score-note";
-        note.innerHTML = `
-            <strong>Cách tính:</strong>
-            mỗi điểm Miệng/15 phút hệ số 1,
-            Giữa kỳ hệ số 2,
-            Cuối kỳ hệ số 3.
-            Các ô chưa nhập sẽ <strong>không bị tính là 0</strong>.
-            Khi bạn nhập thêm điểm, ĐTB môn và ĐTB chung sẽ tự cập nhật và tự lưu trên trình duyệt.
-            <br>
-            <strong>Ví dụ:</strong> nếu có 3 điểm thường xuyên, 1 điểm giữa kỳ và 1 điểm cuối kỳ,
-            mẫu số sẽ là 3 + 2 + 3 = 8.
-        `;
-
-        const wrapper = document.querySelector("#detail-modal .modal-content");
-        const oldNote = wrapper.querySelector(".score-note");
-        if (oldNote) oldNote.remove();
-        wrapper.appendChild(note);
-
-        const headerActions = document.querySelector("#detail-modal .modal-header");
-        let resetButton = headerActions.querySelector(".btn-reset");
-
-        if (isAdmin) {
-            if (!resetButton) {
-                resetButton = document.createElement("button");
-                resetButton.className = "btn-reset";
-                resetButton.textContent = "Xóa điểm học sinh";
-                headerActions.appendChild(resetButton);
-            }
-            resetButton.onclick = () => resetStudentScores(studentId);
-            resetButton.style.display = "inline-block";
-        } else if (resetButton) {
-            resetButton.style.display = "none";
-        }
-
-        document.getElementById("detail-modal").style.display = "flex";
-        updateModalStats();
-    }
-
-    /* =====================================================
-       ĐÓNG MODAL
-    ===================================================== */
-
-    function closeModal() {
-
-        document.getElementById(
-            "detail-modal"
-        ).style.display = "none";
-
-    }
-
-
-    /* =====================================================
-       CLICK RA NGOÀI MODAL ĐỂ ĐÓNG
-    ===================================================== */
-
-    window.onclick = function(event) {
-
-        const modal =
-            document.getElementById(
-                "detail-modal"
-            );
-
-
-        if (event.target === modal) {
-
-            closeModal();
-
-        }
-
-    };
-
-
-    /* =====================================================
-       CHẠY BẢNG
-    ===================================================== */
-
-    updateAccessUI();
-    renderTable();
-
+const studentNames=["Bùi Lê Khả Ái","Nguyễn Lê Khả Ái","Trân Nguyên Quốc Anh","Võ Thụy Ngọc Châu","Đỗ Quỳnh Chi","Vương Nhân Đạt","Trương Tấn Dũng","Mai Nguyễn Thùy Dương","Huỳnh Khánh Hưng","Nguyễn Gia Huy","Đào Phạm Phương Kha","Nguyễn Quốc Duy","Ngô Hoàng Minh Khôi","Võ Minh Khôi","Nguyễn Ngọc Minh Khôi","Nguyễn Tường Lam","Nguyễn Lê Gia Linh","Nguyễn Hoàng Trúc Mai","Nguyễn Tiến Mạnh","Đỗ Trần Kỳ Nam","Nguyễn Hải Nam","Nguyễn Ngọc Khánh Ngân","Biện Hoàng Bảo Ngọc","Hoàng Bảo Ngọc","Đặng Mậu Phước Nguyên","Phạm Hoàng Nhật","Phạm Quỳnh Uyên Nhi","Đào Xuân Như","Bùi Tấn Phát","Lê Tấn Phát","Lê Trần Quốc Phong","Đỗ Ngọc Quỳnh","Nguyễn Phạm Ngọc Quỳnh","Nguyễn Anh Sơn","Lê Võ Tấn Thắng","Hồ Thanh Thành","Huỳnh Lê Minh Thư","Phùng Công Thương","Phạm Nhật Khánh Thy","Võ Bảo Toàn","Võ Trần Minh Triết","Nguyễn Đặng Minh Trúc","Trương Trung Trực","Phan Xuân Trường","Phạm Lê Thị Bích Tuyền","Lư Lê Tường Vy"];
+const subjectNames={math:"Toán Học",lit:"Ngữ Văn",eng:"Tiếng Anh",phys:"Vật Lý",chem:"Hóa Học",hist:"Lịch Sử",informatics:"Tin Học",technology:"Công Nghệ",law:"Giáo dục kinh tế và pháp luật"};
+const subjectShortNames={math:"Toán",lit:"Văn",eng:"Anh",phys:"Lý",chem:"Hóa",hist:"Sử",informatics:"Tin",technology:"Công Nghệ",law:"KT & PL"};
+const subjectKeys=["math","lit","eng","phys","chem","hist","informatics","technology","law"];
+function createZeroScores(){return{m:["","","","",""],p15:["","","","",""],gk:"",ck:""}}
+const STORAGE_KEY="DIEM10A4_MULTI_SCORE_V3", ADMIN_PASSWORD="Nhandat1*";
+const STUDENT_LOGIN_KEY="DIEM10A4_STUDENT_LOGIN";
+// 46 tài khoản học sinh: HS01 → HS46. Mật khẩu mẫu: 10A4@01 → 10A4@46.
+// Có thể đổi mật khẩu trong mảng này.
+const studentAccounts=studentNames.map((name,index)=>({
+ username:`HS${String(index+1).padStart(2,"0")}`,
+ password:`10A4@${String(index+1).padStart(2,"0")}`,
+ studentId:index+1,
+ name
+}));
+let isAdmin=sessionStorage.getItem("DIEM10A4_ADMIN")==="1";
+let loggedStudentId=Number(sessionStorage.getItem(STUDENT_LOGIN_KEY)||0)||null;
+if(isAdmin) loggedStudentId=null;
+
+function loadSavedScores(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY));return Array.isArray(s)&&s.length===studentNames.length?s:null}catch(e){return null}}
+function createStudents(){
+ const saved=loadSavedScores();
+ return studentNames.map((name,index)=>{
+  const d={}; subjectKeys.forEach(k=>d[k]=createZeroScores());
+  const ss=saved?.[index]?.scores;
+  if(ss) subjectKeys.forEach(k=>{if(ss[k]){d[k].m=Array.isArray(ss[k].m)?ss[k].m.slice(0,5):["","","","",""];d[k].p15=Array.isArray(ss[k].p15)?ss[k].p15.slice(0,5):["","","","",""];d[k].gk=ss[k].gk??"";d[k].ck=ss[k].ck??"";}});
+  return{id:index+1,name,scores:d};
+ });
+}
+const students=createStudents();
+
+function validScore(v){if(v===""||v==null)return null;const n=Number(v);return Number.isFinite(n)&&n>=0&&n<=10?n:null}
+function calcSubjectAvg(s){let t=0,w=0;[...s.m,...s.p15].forEach(v=>{const n=validScore(v);if(n!==null){t+=n;w++}});const g=validScore(s.gk),c=validScore(s.ck);if(g!==null){t+=g*2;w+=2}if(c!==null){t+=c*3;w+=3}return w?t/w:0}
+function hasSubjectScore(s){return [...s.m,...s.p15].some(v=>validScore(v)!==null)||validScore(s.gk)!==null||validScore(s.ck)!==null}
+function calcOverallGPA(st){let t=0,c=0;subjectKeys.forEach(k=>{if(hasSubjectScore(st.scores[k])){t+=calcSubjectAvg(st.scores[k]);c++}});return c?t/c:0}
+function getEnteredSubjectCount(st){return subjectKeys.filter(k=>hasSubjectScore(st.scores[k])).length}
+function getRank(gpa,st){if(!getEnteredSubjectCount(st))return"Chưa có điểm";if(gpa>=9)return"Xuất sắc";if(gpa>=8)return"Giỏi";if(gpa>=6.5)return"Khá";return"Trung bình"}
+function getBadgeClass(r){return r==="Xuất sắc"?"badge-xuat-sac":r==="Giỏi"?"badge-gioi":r==="Khá"?"badge-kha":"badge-trung-binh"}
+function saveScores(){localStorage.setItem(STORAGE_KEY,JSON.stringify(students));const e=document.getElementById("save-status");if(e){e.textContent="✓ Đã tự động lưu";setTimeout(()=>e.textContent="✓ Tự động lưu",1000)}}
+
+function getLoggedStudent(){
+ return loggedStudentId?students.find(s=>s.id===loggedStudentId):null;
+}
+
+function updateAccessUI(){
+ const body=document.body;
+ body.classList.toggle("admin-mode",isAdmin);
+ body.classList.toggle("viewer-mode",!isAdmin);
+ body.classList.toggle("student-mode",!isAdmin && !!loggedStudentId);
+ const s=document.getElementById("admin-status"),b=document.getElementById("admin-toggle");
+ const sb=document.getElementById("student-login-btn");
+ const note=document.getElementById("student-account-note");
+ if(isAdmin){
+  s.className="admin-status admin-on";
+  s.textContent="👨‍🏫 Chế độ quản trị: được xem và quản lý toàn bộ lớp";
+  b.textContent="🔓 Đăng xuất quản trị";
+  sb.style.display="none";
+  note.style.display="none";
+ }else if(loggedStudentId){
+  const st=getLoggedStudent();
+  s.className="admin-status admin-on";
+  s.textContent=`👨‍🎓 Đang đăng nhập: ${st?st.name:"Học sinh"}`;
+  b.textContent="🔐 Đăng nhập quản trị";
+  sb.style.display="inline-block";
+  sb.textContent="🚪 Đăng xuất học sinh";
+  note.textContent=`🔒 Bạn chỉ được xem điểm của ${st?st.name:"tài khoản này"}. Không thể xem điểm của học sinh khác.`;
+  note.style.display="block";
+ }else{
+  s.className="admin-status";
+  s.textContent="👀 Chế độ khách: hãy đăng nhập tài khoản học sinh để xem điểm cá nhân";
+  b.textContent="🔐 Đăng nhập quản trị";
+  sb.style.display="inline-block";
+  sb.textContent="👨‍🎓 Đăng nhập học sinh";
+  note.style.display="none";
+ }
+}
+
+function toggleAdmin(){
+ if(isAdmin){
+  isAdmin=false;
+  sessionStorage.removeItem("DIEM10A4_ADMIN");
+  updateAccessUI(); renderTable(); return;
+ }
+ const p=prompt("🔐 Nhập mật khẩu quản trị:");
+ if(p===ADMIN_PASSWORD){
+  isAdmin=true; loggedStudentId=null;
+  sessionStorage.setItem("DIEM10A4_ADMIN","1");
+  sessionStorage.removeItem(STUDENT_LOGIN_KEY);
+  updateAccessUI(); renderTable();
+  alert("✅ Đăng nhập quản trị thành công! Bạn có thể xem toàn bộ lớp, nhập/sửa/xóa điểm và quản lý thành tích tập thể.");
+ }else if(p!==null) alert("❌ Mật khẩu không đúng.");
+}
+
+function studentLogin(){
+ if(isAdmin){
+  alert("🔐 Bạn đang ở chế độ quản trị. Hãy đăng xuất quản trị trước nếu muốn đăng nhập tài khoản học sinh.");
+  return;
+ }
+ if(loggedStudentId){
+  loggedStudentId=null;
+  sessionStorage.removeItem(STUDENT_LOGIN_KEY);
+  updateAccessUI(); renderTable();
+  return;
+ }
+ const username=prompt("👨‍🎓 Tên tài khoản (ví dụ HS01):");
+ if(username===null)return;
+ const password=prompt("🔑 Mật khẩu:");
+ if(password===null)return;
+ const account=studentAccounts.find(a=>a.username.toLowerCase()===username.trim().toLowerCase() && a.password===password);
+ if(!account){alert("❌ Tài khoản hoặc mật khẩu không đúng.");return;}
+ loggedStudentId=account.studentId;
+ sessionStorage.setItem(STUDENT_LOGIN_KEY,String(loggedStudentId));
+ updateAccessUI(); renderTable();
+ alert(`✅ Đăng nhập thành công! Xin chào ${account.name}.`);
+}
+
+const ACHIEVEMENT_KEY="DIEM10A4_CLASS_ACHIEVEMENTS_V1";
+
+function loadClassAchievements(){
+ try{
+  const data=JSON.parse(localStorage.getItem(ACHIEVEMENT_KEY));
+  return Array.isArray(data)?data:[];
+ }catch(e){return [];}
+}
+
+function saveClassAchievements(list){
+ localStorage.setItem(ACHIEVEMENT_KEY,JSON.stringify(list));
+}
+
+function escapeHtml(s){
+ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
+}
+
+function renderAchievements(){
+ const list=loadClassAchievements();
+ const content=document.getElementById("achievement-content");
+ const subtitle=document.getElementById("achievement-subtitle");
+ subtitle.textContent="Nơi lưu giữ những thành tích xuất sắc và kỷ niệm đáng nhớ của cả tập thể lớp";
+
+ if(list.length===0){
+  content.innerHTML=`<div class="empty-achievement">📚 Chưa có thành tích tập thể nào.<br>Đăng nhập quản trị để thêm những thành tích đáng nhớ của lớp 10A4!</div>`;
+ }else{
+  content.innerHTML=`<div class="class-achievement-list">${list.map((item,index)=>`
+   <article class="class-achievement-card">
+    <div class="class-achievement-icon">${escapeHtml(item.icon||"🏆")}</div>
+    <div class="class-achievement-info">
+     <div class="class-achievement-year">📅 ${escapeHtml(item.year||"")}</div>
+     <h3>${escapeHtml(item.title)}</h3>
+     <p>${escapeHtml(item.desc)}</p>
+    </div>
+    <div class="class-achievement-number">#${index+1}</div>
+   </article>`).join("")}</div>`;
+ }
+ renderAchievementManager();
+}
+
+function toggleAchievementEditor(){
+ if(!isAdmin){alert("🔒 Chỉ quản trị viên mới được quản lý thành tích tập thể.");return;}
+ const ed=document.getElementById("achievement-editor");
+ const open=getComputedStyle(ed).display!=="none";
+ ed.style.display=open?"none":"block";
+ if(!open){
+  document.getElementById("edit-ach-icon").value="🏆";
+  document.getElementById("edit-ach-year").value="";
+  document.getElementById("edit-ach-title").value="";
+  document.getElementById("edit-ach-desc").value="";
+  renderAchievementManager();
+  ed.scrollIntoView({behavior:"smooth",block:"center"});
+ }
+}
+
+function addAchievement(){
+ if(!isAdmin)return;
+ const icon=document.getElementById("edit-ach-icon").value.trim()||"🏆";
+ const year=document.getElementById("edit-ach-year").value.trim()||"Năm học 2026–2027";
+ const title=document.getElementById("edit-ach-title").value.trim();
+ const desc=document.getElementById("edit-ach-desc").value.trim();
+ if(!title){alert("⚠️ Vui lòng nhập tên thành tích tập thể.");return;}
+ const list=loadClassAchievements();
+ list.push({id:Date.now(),icon,year,title,desc});
+ saveClassAchievements(list);
+ document.getElementById("edit-ach-year").value="";
+ document.getElementById("edit-ach-title").value="";
+ document.getElementById("edit-ach-desc").value="";
+ renderAchievements();
+ alert("✅ Đã thêm thành tích của tập thể lớp!");
+}
+
+function editAchievement(id){
+ if(!isAdmin)return;
+ const list=loadClassAchievements();
+ const item=list.find(x=>x.id===id);
+ if(!item)return;
+ const title=prompt("🏆 Tên thành tích:",item.title);
+ if(title===null)return;
+ const year=prompt("📅 Thời gian / Năm học:",item.year);
+ if(year===null)return;
+ const desc=prompt("📝 Nội dung / Kỷ niệm:",item.desc||"");
+ if(desc===null)return;
+ const icon=prompt("🏅 Biểu tượng (ví dụ 🏆 🥇 ⚽ 🎤):",item.icon||"🏆");
+ if(icon===null)return;
+ item.title=title.trim()||item.title; item.year=year.trim(); item.desc=desc.trim(); item.icon=icon.trim()||"🏆";
+ saveClassAchievements(list); renderAchievements();
+}
+
+function deleteAchievement(id){
+ if(!isAdmin)return;
+ const list=loadClassAchievements();
+ const item=list.find(x=>x.id===id);
+ if(!item)return;
+ if(!confirm(`Xóa thành tích “${item.title}” khỏi kỷ niệm lớp?`))return;
+ saveClassAchievements(list.filter(x=>x.id!==id));
+ renderAchievements();
+}
+
+function renderAchievementManager(){
+ const box=document.getElementById("achievement-manage-list");
+ if(!box)return;
+ const list=loadClassAchievements();
+ box.innerHTML=list.length?`<h3>🗂️ Danh sách thành tích đã lưu</h3>${list.map((item,index)=>`
+  <div class="manage-achievement-item">
+   <div><strong>${index+1}. ${escapeHtml(item.icon)} ${escapeHtml(item.title)}</strong><small>${escapeHtml(item.year)}</small></div>
+   <div class="manage-achievement-actions"><button onclick="editAchievement(${item.id})">✏️ Sửa</button><button onclick="deleteAchievement(${item.id})">🗑️ Xóa</button></div>
+  </div>`).join("")}`:`<div class="manage-empty">Chưa có thành tích nào được lưu.</div>`;
+}
+
+function renderTable(){
+ const search=document.getElementById("search-input").value.toLowerCase().trim();
+ const rankFilter=document.getElementById("rank-filter").value;
+ const tbody=document.getElementById("student-table-body");
+ tbody.innerHTML="";
+ let totalGpaSum=0,matchCount=0,scoredStudentCount=0,topGpa=-1,topName="--";
+ const visibleStudents=isAdmin?students:(loggedStudentId?students.filter(s=>s.id===loggedStudentId):[]);
+ students.forEach(student=>{
+  const g=calcOverallGPA(student);
+  if(getEnteredSubjectCount(student)>0 && g>topGpa){topGpa=g;topName=student.name;}
+ });
+ visibleStudents.forEach((student)=>{
+  const overallGpa=calcOverallGPA(student);
+  const rank=getRank(overallGpa,student);
+  const matchSearch=student.name.toLowerCase().includes(search);
+  const matchRank=rankFilter==="ALL"||rank===rankFilter;
+  if(!matchSearch||!matchRank)return;
+  matchCount++;
+  if(getEnteredSubjectCount(student)>0){totalGpaSum+=overallGpa;scoredStudentCount++;}
+  const tr=document.createElement("tr");
+  tr.className=(!isAdmin && loggedStudentId===student.id)?"my-student-row":"";
+  let html=`<td>${student.id}</td><td class="student-name">👤 ${student.name}${(!isAdmin&&loggedStudentId===student.id)?" <span class=\"badge badge-gioi\">Tài khoản của bạn</span>":""}</td>`;
+  subjectKeys.forEach(key=>{const avg=calcSubjectAvg(student.scores[key]);html+=`<td>${hasSubjectScore(student.scores[key])?avg.toFixed(1):"--"}</td>`;});
+  html+=`<td class="score-highlight">${getEnteredSubjectCount(student)>0?overallGpa.toFixed(2):"--"}</td><td><span class="badge ${getBadgeClass(rank)}">${rank}</span></td><td><button class="btn-detail" onclick="openModal(${student.id})">📖 Xem Điểm</button></td>`;
+  tr.innerHTML=html; tbody.appendChild(tr);
+ });
+ document.getElementById("total-students").textContent=students.length;
+ document.getElementById("class-avg").textContent=scoredStudentCount>0&&isAdmin?(totalGpaSum/scoredStudentCount).toFixed(2):(isAdmin?"0.00":(loggedStudentId?calcOverallGPA(getLoggedStudent()).toFixed(2):"--"));
+ document.getElementById("top-student").textContent=topName;
+ renderAchievements();
+}
+
+function makeScoreInput(id,k,t,i,v){const l=t==="m"?`M${i+1}`:`15-${i+1}`;return `<label class="score-label">${l}<input class="score-input" type="number" min="0" max="10" step="0.1" value="${v??""}" ${isAdmin?"":"disabled"} oninput="updateScore(${id},'${k}','${t}',${i},this.value)"></label>`}
+function makeSingleScoreInput(id,k,t,v){return `<input class="score-input" type="number" min="0" max="10" step="0.1" value="${v??""}" ${isAdmin?"":"disabled"} oninput="updateScore(${id},'${k}','${t}',null,this.value)">`}
+function updateScore(id,k,t,i,v){
+ if(!isAdmin)return;const s=students.find(x=>x.id===id);if(!s)return;
+ let cv=v;if(v!==""){const n=Number(v);if(!Number.isFinite(n)||n<0||n>10)cv="";else cv=Math.round(n*10)/10}
+ if(t==="m"||t==="p15")s.scores[k][t][i]=cv;else s.scores[k][t]=cv;
+ saveScores();updateModalStats();renderTable();
+ const a=document.getElementById(`avg-${id}-${k}`);if(a)a.textContent=calcSubjectAvg(s.scores[k]).toFixed(1);
+}
+function updateModalStats(){
+ const modal=document.getElementById("detail-modal");if(modal.style.display!=="flex")return;
+ const s=students.find(x=>x.name===document.getElementById("modal-student-name").textContent);if(!s)return;
+ document.getElementById("modal-overall-avg").textContent=calcOverallGPA(s).toFixed(2);document.getElementById("modal-subject-count").textContent=`${getEnteredSubjectCount(s)}/9`;
+}
+function resetStudentScores(id){
+ if(!isAdmin){alert("🔒 Chỉ quản trị viên mới được xóa điểm.");return}
+ const s=students.find(x=>x.id===id);if(!s)return;
+ if(!confirm(`Xóa toàn bộ điểm của ${s.name}?`))return;
+ subjectKeys.forEach(k=>s.scores[k]=createZeroScores());saveScores();openModal(id);renderTable();
+}
+function openModal(id){
+ const s=students.find(x=>x.id===id);if(!s)return;
+ document.getElementById("modal-student-name").textContent=s.name;
+ const tb=document.getElementById("modal-table-body");tb.innerHTML="";
+ subjectKeys.forEach(k=>{const sc=s.scores[k],tr=document.createElement("tr");tr.innerHTML=`<td>📘 ${subjectNames[k]}</td><td><div class="score-group">${sc.m.map((v,i)=>makeScoreInput(s.id,k,"m",i,v)).join("")}</div></td><td><div class="score-group">${sc.p15.map((v,i)=>makeScoreInput(s.id,k,"p15",i,v)).join("")}</div></td><td>${makeSingleScoreInput(s.id,k,"gk",sc.gk)}</td><td>${makeSingleScoreInput(s.id,k,"ck",sc.ck)}</td><td class="current-avg" id="avg-${s.id}-${k}">${calcSubjectAvg(sc).toFixed(1)}</td>`;tb.appendChild(tr)});
+ let ha=document.querySelector(".modal-header .btn-reset");if(!ha){ha=document.createElement("button");ha.className="btn-reset";ha.textContent="🗑️ Xóa điểm học sinh";document.querySelector(".modal-header").appendChild(ha)}
+ ha.style.display=isAdmin?"inline-block":"none";ha.onclick=()=>resetStudentScores(id);
+ document.getElementById("detail-modal").style.display="flex";updateModalStats();
+}
+function closeModal(){document.getElementById("detail-modal").style.display="none"}
+window.onclick=e=>{if(e.target===document.getElementById("detail-modal"))closeModal()}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+updateAccessUI();renderTable();
 </script>
-
 </body>
 </html>
