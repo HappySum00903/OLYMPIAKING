@@ -1,443 +1,283 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bảng Điểm Chi Tiết Lớp 10A4 - THPT Phan Bội Châu</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Olympia Training</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
-html{scroll-behavior:smooth}
-body{background:radial-gradient(circle at 10% 10%,rgba(67,24,255,.12),transparent 25%),radial-gradient(circle at 90% 15%,rgba(0,184,255,.12),transparent 25%),linear-gradient(135deg,#eef4ff,#f8fbff 45%,#eef5ff);color:#24305e;min-height:100vh;padding:24px;overflow-x:hidden}
-.bg-shape{position:fixed;border-radius:50%;filter:blur(2px);opacity:.35;pointer-events:none;z-index:-1;animation:float 8s ease-in-out infinite}
-.shape1{width:180px;height:180px;background:#8b7cff;top:80px;left:-70px}.shape2{width:240px;height:240px;background:#55dfff;right:-100px;top:420px;animation-delay:2s}.shape3{width:130px;height:130px;background:#ffb8df;bottom:50px;left:20%;animation-delay:4s}
-@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-25px) rotate(8deg)}}
-.container{max-width:1600px;margin:auto}
-.header{position:relative;overflow:hidden;text-align:center;margin-bottom:25px;padding:45px 25px;border-radius:28px;color:white;background:linear-gradient(135deg,#211b69,#4318ff 45%,#087dff);box-shadow:0 25px 55px rgba(67,24,255,.25)}
-.header h1{position:relative;z-index:2;font-size:clamp(1.8rem,4vw,3rem);font-weight:900}.header p{position:relative;z-index:2;margin-top:10px;color:rgba(255,255,255,.88);font-weight:600}
-.header-icons{position:absolute;z-index:1;font-size:3rem;opacity:.18;animation:float 6s ease-in-out infinite}.icon1{left:8%;top:20px}.icon2{right:10%;bottom:20px}.icon3{left:18%;bottom:15px}.icon4{right:22%;top:15px}
-.admin-bar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:20px;padding:14px 18px;background:rgba(255,255,255,.85);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,.9);border-radius:18px;box-shadow:0 12px 30px rgba(71,91,150,.10)}
-.admin-status{font-size:.85rem;font-weight:800;color:#687492}.admin-status.admin-on{color:#00a878}
-.admin-btn,.edit-achievement-btn{border:0;background:linear-gradient(135deg,#4318ff,#1678ff);color:white;padding:10px 16px;border-radius:11px;font-weight:800;cursor:pointer;box-shadow:0 7px 18px rgba(67,24,255,.2);transition:.25s}
-.admin-btn:hover,.edit-achievement-btn:hover{transform:translateY(-2px)}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
-.stat-card{position:relative;overflow:hidden;background:rgba(255,255,255,.88);backdrop-filter:blur(15px);padding:22px;border-radius:20px;border:1px solid rgba(255,255,255,.9);box-shadow:0 15px 35px rgba(71,91,150,.09)}
-.stat-icon{font-size:1.8rem;margin-bottom:8px}.stat-card h4{font-size:.75rem;color:#8a96b5;text-transform:uppercase;letter-spacing:.7px}.stat-card p{font-size:1.65rem;font-weight:900;color:#1b2559;margin-top:6px}
-.controls{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}.search-box,.filter-box{background:rgba(255,255,255,.9);border:1px solid #e0e6f5;padding:13px 17px;border-radius:13px;font-size:.95rem;outline:none}.search-box{flex:1;min-width:260px}.score-note{padding:12px 15px;background:linear-gradient(135deg,#f4f5ff,#edf8ff);border:1px solid #e1e6ff;border-radius:12px;color:#596584;font-size:.82rem;line-height:1.5}
-.achievement-section{position:relative;margin:30px 0;padding:25px;border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(244,247,255,.94));border:1px solid rgba(255,255,255,.95);box-shadow:0 25px 60px rgba(67,24,255,.14);overflow:hidden}
-.achievement-title{text-align:center;margin-bottom:20px}.achievement-title h2{font-size:clamp(1.7rem,3vw,2.5rem);font-weight:1000;color:#1b2559}.achievement-title p{margin-top:7px;color:#7b86a5;font-size:.9rem;font-weight:600}
-.achievement-admin{display:none;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}.viewer-mode .achievement-admin{display:none}.admin-mode .achievement-admin{display:flex}
-.achievement-editor{display:none;background:#f7f9ff;border:1px solid #e2e7f4;border-radius:18px;padding:18px;margin-bottom:20px}.admin-mode .achievement-editor{display:block}
-.editor-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.editor-field{display:flex;flex-direction:column;gap:6px}.editor-field label{font-size:.75rem;font-weight:800;color:#687492}.editor-field input,.editor-field textarea{width:100%;border:1px solid #dfe5f2;border-radius:10px;padding:10px;outline:none;background:white}.editor-field textarea{min-height:70px;resize:vertical}.editor-full{grid-column:1/-1}.editor-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.save-achievement{background:#00a878;color:#fff;border:0;padding:9px 14px;border-radius:10px;font-weight:800;cursor:pointer}.cancel-achievement{background:#fff1f1;color:#e53e3e;border:1px solid #fed7d7;padding:9px 14px;border-radius:10px;font-weight:800;cursor:pointer}
-.top-three{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;align-items:end;margin-bottom:20px}.podium{text-align:center;padding:22px 15px;border-radius:22px;border:1px solid}.podium.first{padding-top:30px;padding-bottom:30px;background:linear-gradient(145deg,#fff9cf,#fffdf0);border-color:#f2d36b}.podium.second{background:linear-gradient(145deg,#f7f9fc,#e9eef5);border-color:#ccd5e2}.podium.third{background:linear-gradient(145deg,#fff5e9,#ffead7);border-color:#e8c09b}.podium .medal{font-size:3rem}.podium h3{margin-top:5px;color:#1b2559;font-size:1.05rem}.podium p{margin-top:5px;font-size:1.25rem;font-weight:1000;color:#4318ff}.podium small{display:block;margin-top:5px;color:#7d87a3;font-weight:700}
-.achievement-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.achievement-card{padding:22px;border-radius:22px;background:linear-gradient(145deg,#fff,#f6f8ff);border:1px solid #e8ebf7;box-shadow:0 15px 35px rgba(50,65,120,.08)}.achievement-card .icon{font-size:2.3rem;margin-bottom:8px}.achievement-card h3{color:#6e7898;font-size:.75rem;text-transform:uppercase}.achievement-card .winner{margin-top:7px;color:#1b2559;font-size:1.2rem;font-weight:900}.achievement-card .value{margin-top:5px;font-size:1.05rem;font-weight:900;color:#4318ff}.achievement-card.gold{background:linear-gradient(145deg,#fffdf2,#fff8d9);border-color:#f7e7a0}.achievement-card.bronze{background:linear-gradient(145deg,#fffaf5,#fff0df);border-color:#f2d2ad}
-.achievement-list{margin-top:20px}.achievement-list-title{font-size:1.05rem;color:#1b2559;font-weight:900;margin-bottom:10px}.subject-achievements{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.subject-item{padding:13px;border-radius:14px;background:#f7f9ff;border:1px solid #e5e9f4}.subject-item strong{display:block;color:#1b2559;font-size:.82rem}.subject-item span{display:block;margin-top:4px;color:#4318ff;font-size:.78rem;font-weight:800}
-.empty-achievement{text-align:center;padding:30px;color:#8a95b2;font-weight:700;background:#f8f9fd;border-radius:18px;border:1px dashed #dce2ef}
-.table-card{background:rgba(255,255,255,.9);backdrop-filter:blur(15px);border-radius:22px;padding:15px;box-shadow:0 20px 45px rgba(71,91,150,.10);overflow-x:auto}
-table{width:100%;border-collapse:separate;border-spacing:0;text-align:left}th{padding:15px 12px;color:#8995b4;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;background:#f7f9ff;border-bottom:2px solid #e8ecf6;white-space:nowrap}td{padding:14px 12px;border-bottom:1px solid #eef1f8;font-size:.9rem;color:#34406f;font-weight:600;white-space:nowrap}.student-name{font-weight:800;color:#1b2559}.score-highlight{font-weight:900;color:#4318ff;font-size:1rem}
-.badge{padding:5px 11px;border-radius:30px;font-size:.72rem;font-weight:800;display:inline-block}.badge-xuat-sac{background:#e6f7ff;color:#0088ff}.badge-gioi{background:#e6fffa;color:#00a58b}.badge-kha{background:#fff8dc;color:#c38a00}.badge-trung-binh{background:#fff0f0;color:#e53e3e}
-.btn-detail{background:linear-gradient(135deg,#f0efff,#eaf4ff);color:#4318ff;border:1px solid #e2e3ff;padding:7px 13px;border-radius:9px;font-weight:800;cursor:pointer}
-.modal{display:none;position:fixed;inset:0;background:rgba(8,13,35,.58);backdrop-filter:blur(9px);align-items:center;justify-content:center;z-index:1000;padding:20px}.modal-content{background:rgba(255,255,255,.97);width:99vw;max-width:1800px;border-radius:24px;padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.3);max-height:92vh;overflow-y:auto}.modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;border-bottom:1px solid #e9edf7;padding-bottom:14px;gap:15px}.close-btn{background:#f3f5fb;border:0;width:38px;height:38px;border-radius:50%;font-size:1.5rem;cursor:pointer;color:#75809e}.detail-table{width:100%;table-layout:fixed}.detail-table th,.detail-table td{text-align:center}.score-input{width:38px;min-width:38px;padding:6px 2px;border:1px solid #dfe5f2;border-radius:8px;text-align:center;font-weight:800;color:#2b3674;background:#fff;outline:none}.score-group{display:flex;gap:3px;align-items:center;justify-content:center;flex-wrap:nowrap;width:100%}.score-label{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;color:#8d98b8;min-width:38px;font-weight:800}.current-avg{font-weight:900;color:#4318ff;font-size:1rem}.modal-summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.summary-pill{background:#f4f7fe;border:1px solid #e2e7f4;border-radius:10px;padding:7px 11px;font-size:.76rem;color:#697493;font-weight:700}.btn-reset{background:#fff1f1;color:#e53e3e;border:1px solid #fed7d7;padding:8px 12px;border-radius:9px;font-weight:800;cursor:pointer}/* ================= STUDENT LOGIN ================= */
-.student-account-note{display:none;margin-top:8px;padding:9px 12px;border-radius:9px;background:#eef9ff;border:1px solid #cdeafa;color:#17607a;font-size:.8rem;font-weight:700}
-.student-mode .student-account-note{display:block}
-.student-mode #search-input,.student-mode #rank-filter{display:none}
-.student-mode .controls:before{content:"🔐 Bạn chỉ đang xem điểm của tài khoản của mình.";display:block;width:100%;padding:10px 13px;border-radius:11px;background:#eef9ff;border:1px solid #cdeafa;color:#17607a;font-weight:800;font-size:.82rem}
-.student-mode #student-table-body tr:not(.my-student-row){display:none}
-.student-mode .btn-detail{display:inline-block}
-.student-mode .score-note{display:none}
-.viewer-lock-note{display:none;margin-top:8px;padding:9px 12px;border-radius:9px;background:#fff8e8;border:1px solid #f5df9c;color:#806500;font-size:.8rem;font-weight:700}.viewer-mode .score-input{background:#f5f7fb;color:#7d87a3;cursor:not-allowed;pointer-events:none}.viewer-mode .viewer-lock-note{display:block}.footer{text-align:center;padding:30px 10px 10px;color:#8792b0;font-size:.8rem}
-.admin-mode .viewer-lock-note{display:none}
-@media(max-width:1000px){.achievement-grid,.subject-achievements{grid-template-columns:1fr 1fr}}
-@media(max-width:900px){.stats-grid{grid-template-columns:1fr}.top-three{grid-template-columns:1fr}.modal-content{width:98vw;padding:14px}.score-input{width:32px;min-width:32px}.score-label{min-width:32px}.detail-table th,.detail-table td{padding:8px 4px}}
-@media(max-width:700px){body{padding:10px}.header{padding:30px 15px;border-radius:20px}.header h1{font-size:1.5rem}.admin-bar{align-items:flex-start;flex-direction:column}.achievement-section{padding:15px}.achievement-grid,.subject-achievements,.editor-grid{grid-template-columns:1fr}.editor-full{grid-column:auto}.table-card{padding:8px}.modal-content{padding:12px}}
+:root{--bg:#07111f;--panel:#101e31;--panel2:#14253b;--line:#263b56;--text:#edf4ff;--muted:#9eb0c8;--gold:#f5c451;--gold2:#ffdf86;--blue:#61b9ff;--green:#5bd6a2;--red:#ff7777;--shadow:0 18px 45px rgba(0,0,0,.24)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% -10%,#18365a 0,transparent 32%),var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:1320px;margin:auto;padding:24px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.brand{display:flex;align-items:center;gap:13px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#ffe28e,#d79a25);display:grid;place-items:center;color:#172235;font-size:25px;font-weight:1000;box-shadow:0 8px 22px #d99e2b33}.brand h1{margin:0;font-size:21px;letter-spacing:1.5px}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.top-actions{display:flex;gap:9px;align-items:center}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:12px;background:#0d1a2a}.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;padding:7px;background:#0b1929;border:1px solid var(--line);border-radius:15px}.nav button{border:0;background:transparent;color:var(--muted);padding:11px 16px;border-radius:10px;font-weight:700}.nav button.active{background:linear-gradient(135deg,#f8d77a,#e6aa35);color:#182235;box-shadow:0 5px 15px #e6aa352e}.view{display:none}.view.active{display:block}.hero{position:relative;overflow:hidden;padding:30px;border-radius:22px;background:linear-gradient(115deg,#172f4c 0%,#12243a 60%,#182b44 100%);border:1px solid #36516f;box-shadow:var(--shadow);margin-bottom:20px}.hero:after{content:'✦';position:absolute;right:6%;top:-65px;font-size:220px;color:#f5c45112;transform:rotate(12deg)}.eyebrow{color:var(--gold);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}.hero h2{font-size:clamp(28px,4vw,43px);line-height:1.1;margin:10px 0 12px;max-width:680px}.hero p{color:#bdcde0;max-width:650px;line-height:1.65;margin:0}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:1}.btn{border:1px solid var(--line);background:#1a2e47;color:var(--text);border-radius:11px;padding:11px 15px;font-weight:800;transition:.18s}.btn:hover{transform:translateY(-1px);filter:brightness(1.12)}.btn.primary{background:linear-gradient(135deg,#ffdf86,#e6aa35);border-color:#f3c45b;color:#182235}.btn.blue{background:#163c5e;border-color:#326a9e}.btn.ghost{background:transparent}.btn.danger{color:#ffaaaa;border-color:#70414b;background:#321f2b}.btn.small{padding:8px 11px;font-size:12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:20px}.stat,.panel,.mode-card{background:linear-gradient(155deg,#12243a,#0e1b2d);border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow)}.stat{padding:17px}.stat .label{font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:27px;margin-top:8px}.stat small{color:var(--muted);font-size:11px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:22px 0 13px}.section-head h3{margin:0;font-size:18px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.mode-card{padding:19px;cursor:pointer;transition:.2s}.mode-card:hover{border-color:#d4a843;transform:translateY(-3px)}.mode-icon{width:43px;height:43px;border-radius:13px;background:#253b57;display:grid;place-items:center;font-size:22px;margin-bottom:14px}.mode-card h4{margin:0 0 7px}.mode-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}.panel{padding:20px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.field{display:flex;flex-direction:column;gap:6px;min-width:150px;flex:1}.field label{font-size:11px;color:var(--muted);font-weight:800}.field input,.field select,.field textarea,.search{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#091727;color:var(--text);outline:none}.field input:focus,.field select:focus,.field textarea:focus,.search:focus{border-color:var(--blue)}.field textarea{min-height:75px;resize:vertical}.search-wrap{flex:2;min-width:220px}.question-list{display:grid;gap:10px}.q-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:14px;border:1px solid var(--line);border-radius:13px;background:#0d1b2c}.q-row h4{font-size:13px;margin:0 0 6px;line-height:1.5}.q-meta{display:flex;gap:7px;flex-wrap:wrap}.tag{font-size:10px;padding:4px 8px;border-radius:999px;background:#1b3049;color:#b8cbe0}.tag.gold{background:#4b3c1c;color:#ffdc82}.tag.green{background:#173c35;color:#8de6bf}.q-actions{display:flex;gap:7px;flex-shrink:0}.muted{color:var(--muted)}.tiny{font-size:11px}.empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:13px}.practice-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:15px}.question-box{min-height:350px}.question-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:18px}.question-text{font-size:clamp(18px,2.5vw,24px);font-weight:750;line-height:1.55;margin:10px 0 22px}.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}.option{padding:14px;border:1px solid var(--line);border-radius:12px;background:#10233a;color:var(--text);text-align:left;line-height:1.45}.option:hover{border-color:#6e99c4}.option.selected{border-color:var(--blue);background:#163858}.option.correct{border-color:var(--green);background:#13392f}.option.wrong{border-color:var(--red);background:#3c222c}.feedback{padding:13px;border-radius:11px;margin-top:15px;line-height:1.55;font-size:13px}.feedback.good{background:#12372f;color:#b5f2d5;border:1px solid #286b59}.feedback.bad{background:#3a222b;color:#ffc0c0;border:1px solid #75414e}.side-panel h3{margin-top:0}.side-stat{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.progress{height:7px;border-radius:99px;background:#22364e;overflow:hidden;margin:10px 0}.progress span{display:block;height:100%;background:linear-gradient(90deg,#f1bd48,#ffdf86);width:0;transition:.2s}.game-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:15px}.game-stage{display:flex;gap:6px;flex-wrap:wrap}.stage-chip{padding:7px 10px;border-radius:9px;background:#14263c;color:var(--muted);font-size:11px;font-weight:800}.stage-chip.active{color:#1a2637;background:var(--gold)}.stage-chip.done{color:#a3e9c8;background:#174034}.game-card{max-width:850px;margin:12px auto;padding:25px}.game-card h2{margin:7px 0 8px}.timer{font-size:24px;font-weight:900;color:var(--gold);font-variant-numeric:tabular-nums}.clue-list{display:grid;gap:9px;margin:15px 0}.clue{padding:12px;border:1px solid var(--line);border-radius:10px;background:#0b1a2b;color:#b9c9dc}.clue.revealed{border-color:#8c7138;color:#fff0c4;background:#382f1d}.answer-input{display:flex;gap:8px;margin-top:14px}.answer-input input{flex:1;min-width:0;background:#081727;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:12px}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal-backdrop{position:fixed;inset:0;background:#020711c9;display:none;place-items:center;padding:20px;z-index:20}.modal-backdrop.show{display:grid}.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:#102037;border:1px solid #3b5471;border-radius:18px;padding:22px;box-shadow:0 25px 80px #0009}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}.modal-head h3{margin:0}.close{background:transparent;border:0;color:var(--muted);font-size:25px}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#e9bd56;color:#172235;font-weight:800;padding:11px 16px;border-radius:10px;z-index:30;transition:.25s;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}.footer{text-align:center;color:#70839c;font-size:11px;padding:26px 0 8px}.hidden{display:none!important}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.modes{grid-template-columns:repeat(2,1fr)}.practice-layout{grid-template-columns:1fr}.side-panel{order:-1}.admin-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.app{padding:13px}.topbar{align-items:flex-start}.brand h1{font-size:17px}.top-actions .pill{display:none}.hero{padding:22px}.stats{gap:8px}.stat{padding:13px}.stat strong{font-size:22px}.modes{grid-template-columns:1fr 1fr;gap:8px}.mode-card{padding:13px}.mode-card p{font-size:11px}.nav{display:grid;grid-template-columns:1fr 1fr}.nav button{padding:10px}.options{grid-template-columns:1fr}.q-row{align-items:flex-start}.q-actions{flex-direction:column}.game-card{padding:16px}.answer-input{flex-direction:column}}
 </style>
 </head>
 <body>
-<div class="bg-shape shape1"></div><div class="bg-shape shape2"></div><div class="bg-shape shape3"></div>
-<div class="container">
-<div class="header">
-<div class="header-icons icon1">📚</div><div class="header-icons icon2">🎓</div><div class="header-icons icon3">✏️</div><div class="header-icons icon4">💡</div>
-<h1>📚 BẢNG ĐIỂM CHI TIẾT - LỚP 10A4</h1>
-<p>🎓 Trường THPT Phan Bội Châu • Sổ điểm điện tử • Học tập – Tiến bộ – Thành công</p>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">🏆</div><div><h1>OLYMPIA TRAINING</h1><p>LUYỆN KIẾN THỨC · CHINH PHỤC ĐỈNH CAO</p></div></div>
+    <div class="top-actions"><span class="pill">● CHẾ ĐỘ OFFLINE</span><button class="btn small" id="exportTop">Xuất dữ liệu ↓</button></div>
+  </header>
+  <nav class="nav">
+    <button class="active" data-view="home">⌂ Tổng quan</button>
+    <button data-view="practice">✦ Luyện tập</button>
+    <button data-view="game">🏆 Thi Olympia</button>
+    <button data-view="bank">▤ Ngân hàng câu hỏi</button>
+  </nav>
+
+  <main>
+    <section class="view active" id="view-home">
+      <div class="hero">
+        <div class="eyebrow">YOUR OLYMPIA JOURNEY STARTS HERE</div>
+        <h2>Không ngừng học hỏi.<br><span style="color:var(--gold)">Chạm tới đỉnh Olympia.</span></h2>
+        <p>Ôn luyện kiến thức đa lĩnh vực, rèn phản xạ và thử sức với 4 vòng thi mô phỏng. Dữ liệu được lưu ngay trên trình duyệt của bạn.</p>
+        <div class="hero-actions"><button class="btn primary" data-go="game">Bắt đầu thi đấu →</button><button class="btn" data-go="practice">Luyện câu hỏi ngay</button></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="label">TỔNG CÂU HỎI</div><strong id="statQuestions">0</strong><small>Trong ngân hàng hiện tại</small></div>
+        <div class="stat"><div class="label">ĐÃ TRẢ LỜI</div><strong id="statAnswered">0</strong><small>Lượt trả lời luyện tập</small></div>
+        <div class="stat"><div class="label">TỈ LỆ CHÍNH XÁC</div><strong id="statAccuracy">0%</strong><small>Dựa trên lượt đã chấm</small></div>
+        <div class="stat"><div class="label">CÂU ĐÃ LƯU</div><strong id="statSaved">0</strong><small>Danh sách cần ôn lại</small></div>
+      </div>
+      <div class="section-head"><div><h3>Chọn vòng thi để luyện</h3><p>Bốn chặng thử thách theo phong cách Olympia.</p></div></div>
+      <div class="modes">
+        <div class="mode-card" data-go="game"><div class="mode-icon">⚡</div><h4>Khởi động</h4><p>Chuỗi câu hỏi nhanh, nhiều lĩnh vực, rèn phản xạ.</p></div>
+        <div class="mode-card" data-go="game"><div class="mode-icon">🧩</div><h4>Vượt chướng ngại vật</h4><p>Mở gợi ý từng bước và tìm từ khóa bí ẩn.</p></div>
+        <div class="mode-card" data-go="game"><div class="mode-icon">🚀</div><h4>Tăng tốc</h4><p>Giải câu hỏi tư duy và ghi điểm theo tốc độ.</p></div>
+        <div class="mode-card" data-go="game"><div class="mode-icon">🏁</div><h4>Về đích</h4><p>Chọn gói điểm và hoàn thành chặng cuối.</p></div>
+      </div>
+      <div class="section-head"><div><h3>Học đa lĩnh vực</h3><p>Chọn môn học để tập trung củng cố kiến thức.</p></div></div>
+      <div id="subjectTiles" class="modes"></div>
+      <p class="tiny muted" style="margin-top:16px">Lưu ý: phiên bản đầu tiên có bộ câu hỏi mẫu tự biên soạn để chạy thử. Đây chưa phải kho lưu trữ đầy đủ các câu hỏi từng xuất hiện trên truyền hình.</p>
+    </section>
+
+    <section class="view" id="view-practice">
+      <div class="section-head"><div><h3>Luyện tập thông minh</h3><p>Lọc câu hỏi theo môn, chủ đề và độ khó.</p></div><button class="btn small" id="resetPractice">Làm mới bộ lọc</button></div>
+      <div class="panel" style="margin-bottom:14px">
+        <div class="toolbar">
+          <div class="field"><label>MÔN HỌC</label><select id="practiceSubject"><option value="all">Tất cả môn</option></select></div>
+          <div class="field"><label>ĐỘ KHÓ</label><select id="practiceDifficulty"><option value="all">Tất cả độ khó</option><option>Dễ</option><option>Trung bình</option><option>Khó</option><option>Olympia</option></select></div>
+          <div class="field"><label>TRẠNG THÁI</label><select id="practiceMode"><option value="all">Tất cả câu hỏi</option><option value="saved">Chỉ câu đã lưu</option><option value="wrong">Câu từng trả lời sai</option></select></div>
+        </div>
+        <button class="btn primary" id="startPractice">Lấy câu hỏi ngẫu nhiên</button>
+      </div>
+      <div class="practice-layout">
+        <div class="panel question-box" id="practiceCard"><div class="empty">Chọn bộ lọc rồi nhấn <b>Lấy câu hỏi ngẫu nhiên</b> để bắt đầu.</div></div>
+        <aside class="panel side-panel"><h3>Tiến độ luyện tập</h3><div class="side-stat"><span>Đã trả lời</span><b id="pAnswered">0</b></div><div class="side-stat"><span>Trả lời đúng</span><b id="pCorrect">0</b></div><div class="side-stat"><span>Độ chính xác</span><b id="pAccuracy">0%</b></div><div class="progress"><span id="pProgress"></span></div><p class="tiny muted">Mẹo: hãy đọc phần giải thích sau mỗi câu, kể cả khi bạn đã trả lời đúng.</p></aside>
+      </div>
+    </section>
+
+    <section class="view" id="view-game">
+      <div class="section-head"><div><h3>Đấu trường Olympia</h3><p>Một trận mô phỏng gồm đủ bốn vòng thi.</p></div><button class="btn small ghost" id="gameRules">Luật chơi</button></div>
+      <div class="panel" id="gameStart">
+        <div class="eyebrow">READY, SET, OLYMPIA</div><h2 style="font-size:29px;margin:9px 0">Sẵn sàng chinh phục thử thách?</h2><p class="muted" style="line-height:1.6;max-width:700px">Trận đấu gồm 8 câu Khởi động, 1 từ khóa Vượt chướng ngại vật, 4 câu Tăng tốc và 3 câu Về đích. Đây là luật mô phỏng để luyện tập, không phải bản sao chính thức của luật thi từng mùa.</p>
+        <div class="stats" style="margin:20px 0"><div class="stat"><div class="label">KHỞI ĐỘNG</div><strong>8</strong><small>12 giây / câu</small></div><div class="stat"><div class="label">CHƯỚNG NGẠI</div><strong>4</strong><small>Gợi ý mở dần</small></div><div class="stat"><div class="label">TĂNG TỐC</div><strong>4</strong><small>40 → 10 điểm</small></div><div class="stat"><div class="label">VỀ ĐÍCH</div><strong>3</strong><small>Chọn gói điểm</small></div></div>
+        <button class="btn primary" id="beginGame">▶ Bắt đầu trận đấu</button>
+      </div>
+      <div class="hidden" id="gameArena">
+        <div class="game-head"><div class="game-stage"><span class="stage-chip active" id="chip-warm">1 Khởi động</span><span class="stage-chip" id="chip-obstacle">2 Chướng ngại</span><span class="stage-chip" id="chip-speed">3 Tăng tốc</span><span class="stage-chip" id="chip-finish">4 Về đích</span></div><div class="pill">ĐIỂM: <b id="gameScore" style="color:var(--gold);margin-left:5px">0</b></div></div>
+        <div class="panel game-card" id="gameContent"></div>
+      </div>
+      <div class="panel hidden" id="gameResult" style="text-align:center;padding:35px"><div style="font-size:55px">🏆</div><div class="eyebrow">MATCH COMPLETED</div><h2>Hoàn thành trận đấu!</h2><div style="font-size:48px;color:var(--gold);font-weight:950" id="finalScore">0</div><p class="muted" id="finalMessage"></p><button class="btn primary" id="playAgain">Thi đấu lại</button></div>
+    </section>
+
+    <section class="view" id="view-bank">
+      <div class="section-head"><div><h3>Ngân hàng câu hỏi</h3><p>Quản lý câu hỏi mẫu và câu hỏi do bạn tự thêm.</p></div><button class="btn primary" id="openAdd">＋ Thêm câu hỏi</button></div>
+      <div class="panel" style="margin-bottom:14px">
+        <div class="toolbar"><div class="field search-wrap"><label>TÌM KIẾM</label><input class="search" id="bankSearch" placeholder="Nhập nội dung, chủ đề hoặc môn học..."></div><div class="field"><label>MÔN HỌC</label><select id="bankSubject"><option value="all">Tất cả môn</option></select></div><div class="field"><label>ĐỘ KHÓ</label><select id="bankDifficulty"><option value="all">Tất cả</option><option>Dễ</option><option>Trung bình</option><option>Khó</option><option>Olympia</option></select></div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn small" id="exportBank">Xuất JSON ↓</button><button class="btn small" id="importBank">Nhập JSON ↑</button><button class="btn small danger" id="resetBank">Khôi phục câu hỏi mẫu</button><input type="file" id="importFile" accept=".json,application/json" class="hidden"></div>
+      </div>
+      <div class="section-head"><div><h3 id="bankCount">Danh sách câu hỏi</h3><p>Mỗi câu hỏi có đáp án và giải thích.</p></div></div>
+      <div class="question-list" id="bankList"></div>
+    </section>
+  </main>
+  <footer class="footer">OLYMPIA TRAINING · Bản thử nghiệm chạy offline · Dữ liệu lưu trên thiết bị hiện tại</footer>
 </div>
 
-<div class="admin-bar">
-<div><div id="admin-status" class="admin-status">👀 Chế độ xem: chỉ xem điểm</div>
-<div id="viewer-lock-note" class="viewer-lock-note">🔒 Bạn đang ở chế độ xem. Chỉ tài khoản quản trị mới được nhập, sửa hoặc xóa điểm.</div>
-<div id="student-account-note" class="student-account-note"></div></div>
-<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
-<button id="student-login-btn" class="admin-btn" type="button" onclick="studentLogin()" style="background:linear-gradient(135deg,#00a878,#00c99a)">👨‍🎓 Đăng nhập học sinh</button>
-<button id="admin-toggle" class="admin-btn" type="button" onclick="toggleAdmin()">🔐 Đăng nhập quản trị</button>
-</div>
-</div>
-
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-icon">👨‍🎓</div><h4>Sĩ số lớp</h4><p id="total-students">0</p></div>
-<div class="stat-card"><div class="stat-icon">📈</div><h4>ĐTB Cả Lớp</h4><p id="class-avg">0.00</p></div>
-<div class="stat-card"><div class="stat-icon">🏆</div><h4>Thủ Khoa Lớp</h4><p id="top-student" style="color:#4318ff;">--</p></div>
-</div>
-
-<div class="controls">
-<input type="text" id="search-input" class="search-box" placeholder="🔍 Tìm tên học sinh..." oninput="renderTable()">
-<select id="rank-filter" class="filter-box" onchange="renderTable()">
-<option value="ALL">Tất cả xếp loại</option><option value="Xuất sắc">Xuất sắc</option><option value="Giỏi">Giỏi</option><option value="Khá">Khá</option><option value="Trung bình">Trung bình</option><option value="Chưa có điểm">Chưa có điểm</option>
-</select>
-<div class="score-note" style="margin:0;flex:1;min-width:280px">💡 Mỗi học sinh có 1 tài khoản riêng. Học sinh chỉ xem được điểm của mình; quản trị viên xem và quản lý toàn bộ lớp. Thành tích tập thể vẫn hiển thị cho tất cả.</div>
-</div>
-
-<section class="achievement-section">
-<div class="achievement-title">
-<h2>🏆 THÀNH TÍCH & KỶ NIỆM TẬP THỂ LỚP 10A4 🏆</h2>
-<p id="achievement-subtitle">Nơi lưu giữ những thành tích xuất sắc và kỷ niệm đáng nhớ của cả tập thể lớp</p>
-</div>
-
-<div class="achievement-admin">
-<button class="edit-achievement-btn" onclick="toggleAchievementEditor()">✏️ Quản lý thành tích lớp</button>
-</div>
-
-<div id="achievement-editor" class="achievement-editor">
-<div class="editor-grid">
-<div class="editor-field"><label>🏅 Biểu tượng</label><input id="edit-ach-icon" maxlength="4" placeholder="🏆"></div>
-<div class="editor-field"><label>📅 Thời gian / Năm học</label><input id="edit-ach-year" placeholder="Ví dụ: Năm học 2026–2027"></div>
-<div class="editor-field editor-full"><label>🏆 Tên thành tích tập thể</label><input id="edit-ach-title" placeholder="Ví dụ: Giải Nhất bóng đá nam"></div>
-<div class="editor-field editor-full"><label>📝 Nội dung / Kỷ niệm</label><textarea id="edit-ach-desc" placeholder="Ví dụ: Cả lớp đã thi đấu đoàn kết và giành Giải Nhất bóng đá nam trong Hội thao trường."></textarea></div>
-</div>
-<div class="editor-actions">
-<button class="save-achievement" onclick="addAchievement()">➕ Thêm thành tích</button>
-<button class="cancel-achievement" onclick="toggleAchievementEditor()">Đóng</button>
-</div>
-<div id="achievement-manage-list" class="achievement-manage-list"></div>
-</div>
-
-<div id="achievement-content"></div>
-</section>
-
-<div class="table-card">
-<table>
-<thead><tr>
-<th>STT</th><th>Họ và Tên</th><th>ĐTB Toán</th><th>ĐTB Văn</th><th>ĐTB Anh</th><th>ĐTB Lý</th><th>ĐTB Hóa</th><th>ĐTB Sử</th><th>ĐTB Tin</th><th>ĐTB CN</th><th>ĐTB KT & PL</th><th>ĐTB Chung</th><th>Xếp Loại</th><th>Thao Tác</th>
-</tr></thead>
-<tbody id="student-table-body"></tbody>
-</table>
-</div>
-<div class="footer">📖 <strong>10A4</strong> • Chăm chỉ hôm nay – Thành công ngày mai 🚀</div>
-</div>
-
-<div id="detail-modal" class="modal">
-<div class="modal-content">
-<div class="modal-header">
-<div>
-<h2 id="modal-student-name" style="color:#1b2559;">Chi tiết điểm</h2>
-<p style="color:#a3aed2;font-size:.85rem;margin-top:4px">📝 Nhập nhiều lần điểm Miệng/15 phút • Giữa kỳ (x2) • Cuối kỳ (x3)</p>
-<div class="modal-summary">
-<span class="summary-pill">📊 ĐTB hiện tại: <strong id="modal-overall-avg">0.00</strong></span>
-<span class="summary-pill">📚 Số môn đã có điểm: <strong id="modal-subject-count">0/9</strong></span>
-<span class="summary-pill" id="save-status">✓ Tự động lưu</span>
-</div>
-<div class="viewer-lock-note">🔒 Chỉ xem — đăng nhập quản trị để nhập, sửa hoặc xóa điểm.</div>
-</div>
-<button class="close-btn" onclick="closeModal()">&times;</button>
-</div>
-<div style="overflow-x:hidden;width:100%">
-<table class="detail-table">
-<thead><tr><th>Môn Học</th><th>Điểm Miệng (M1 → M5)</th><th>Điểm 15 phút (15-1 → 15-5)</th><th>Giữa Kỳ (x2)</th><th>Cuối Kỳ (x3)</th><th>ĐTB Môn</th></tr></thead>
-<tbody id="modal-table-body"></tbody>
-</table>
-</div>
-</div>
-</div>
-
+<div class="modal-backdrop" id="addModal"><div class="modal"><div class="modal-head"><h3>＋ Thêm câu hỏi mới</h3><button class="close" data-close="addModal">×</button></div><form id="addForm"><div class="admin-grid"><div class="field"><label>MÔN HỌC</label><select id="newSubject" required></select></div><div class="field"><label>ĐỘ KHÓ</label><select id="newDifficulty"><option>Dễ</option><option selected>Trung bình</option><option>Khó</option><option>Olympia</option></select></div><div class="field"><label>CHỦ ĐỀ</label><input id="newTopic" required placeholder="Ví dụ: Cơ học"></div><div class="field"><label>NGUỒN (TÙY CHỌN)</label><input id="newSource" placeholder="Ví dụ: Tự biên soạn"></div></div><div class="field" style="margin-top:12px"><label>NỘI DUNG CÂU HỎI</label><textarea id="newPrompt" required placeholder="Nhập câu hỏi..."></textarea></div><div class="admin-grid" style="margin-top:12px"><div class="field"><label>ĐÁP ÁN A</label><input id="optA" required></div><div class="field"><label>ĐÁP ÁN B</label><input id="optB" required></div><div class="field"><label>ĐÁP ÁN C</label><input id="optC" required></div><div class="field"><label>ĐÁP ÁN D</label><input id="optD" required></div></div><div class="admin-grid" style="margin-top:12px"><div class="field"><label>ĐÁP ÁN ĐÚNG</label><select id="newAnswer"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div><div class="field"><label>GIẢI THÍCH</label><input id="newExplanation" placeholder="Giải thích ngắn gọn..."></div></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:18px"><button type="button" class="btn" data-close="addModal">Hủy</button><button class="btn primary" type="submit">Lưu câu hỏi</button></div></form></div></div>
+<div class="modal-backdrop" id="rulesModal"><div class="modal"><div class="modal-head"><h3>Thể lệ trận mô phỏng</h3><button class="close" data-close="rulesModal">×</button></div><p><b>Khởi động:</b> 8 câu trắc nghiệm, mỗi câu đúng 10 điểm. Có đồng hồ 12 giây/câu.</p><p><b>Vượt chướng ngại vật:</b> mở 4 gợi ý theo thứ tự. Đoán đúng sớm được 40, 30, 20 hoặc 10 điểm.</p><p><b>Tăng tốc:</b> 4 câu hỏi, đúng lần lượt được 40, 30, 20 và 10 điểm.</p><p><b>Về đích:</b> chọn gói 10, 20 hoặc 30 điểm cho từng câu. Trả lời sai không bị trừ điểm trong phiên bản này.</p><p class="tiny muted">Đây là cơ chế luyện tập do Olympia Training thiết kế, chỉ lấy cảm hứng từ cấu trúc 4 vòng thi quen thuộc.</p></div></div>
+<div class="toast" id="toast"></div>
 <script>
-const studentNames=["Bùi Lê Khả Ái","Nguyễn Lê Khả Ái","Trân Nguyên Quốc Anh","Võ Thụy Ngọc Châu","Đỗ Quỳnh Chi","Vương Nhân Đạt","Trương Tấn Dũng","Mai Nguyễn Thùy Dương","Huỳnh Khánh Hưng","Nguyễn Gia Huy","Đào Phạm Phương Kha","Nguyễn Quốc Duy","Ngô Hoàng Minh Khôi","Võ Minh Khôi","Nguyễn Ngọc Minh Khôi","Nguyễn Tường Lam","Nguyễn Lê Gia Linh","Nguyễn Hoàng Trúc Mai","Nguyễn Tiến Mạnh","Đỗ Trần Kỳ Nam","Nguyễn Hải Nam","Nguyễn Ngọc Khánh Ngân","Biện Hoàng Bảo Ngọc","Hoàng Bảo Ngọc","Đặng Mậu Phước Nguyên","Phạm Hoàng Nhật","Phạm Quỳnh Uyên Nhi","Đào Xuân Như","Bùi Tấn Phát","Lê Tấn Phát","Lê Trần Quốc Phong","Đỗ Ngọc Quỳnh","Nguyễn Phạm Ngọc Quỳnh","Nguyễn Anh Sơn","Lê Võ Tấn Thắng","Hồ Thanh Thành","Huỳnh Lê Minh Thư","Phùng Công Thương","Phạm Nhật Khánh Thy","Võ Bảo Toàn","Võ Trần Minh Triết","Nguyễn Đặng Minh Trúc","Trương Trung Trực","Phan Xuân Trường","Phạm Lê Thị Bích Tuyền","Lư Lê Tường Vy"];
-const subjectNames={math:"Toán Học",lit:"Ngữ Văn",eng:"Tiếng Anh",phys:"Vật Lý",chem:"Hóa Học",hist:"Lịch Sử",informatics:"Tin Học",technology:"Công Nghệ",law:"Giáo dục kinh tế và pháp luật"};
-const subjectShortNames={math:"Toán",lit:"Văn",eng:"Anh",phys:"Lý",chem:"Hóa",hist:"Sử",informatics:"Tin",technology:"Công Nghệ",law:"KT & PL"};
-const subjectKeys=["math","lit","eng","phys","chem","hist","informatics","technology","law"];
-function createZeroScores(){return{m:["","","","",""],p15:["","","","",""],gk:"",ck:""}}
-const STORAGE_KEY="DIEM10A4_MULTI_SCORE_V3", ADMIN_PASSWORD="Nhandat1*";
-const STUDENT_LOGIN_KEY="DIEM10A4_STUDENT_LOGIN";
-// 46 tài khoản học sinh: HS01 → HS46. Mật khẩu mẫu: 10A4@01 → 10A4@46.
-// Có thể đổi mật khẩu trong mảng này.
-const studentAccounts=studentNames.map((name,index)=>({
- username:`HS${String(index+1).padStart(2,"0")}`,
- password:`10A4@${String(index+1).padStart(2,"0")}`,
- studentId:index+1,
- name
-}));
-let isAdmin=sessionStorage.getItem("DIEM10A4_ADMIN")==="1";
-let loggedStudentId=Number(sessionStorage.getItem(STUDENT_LOGIN_KEY)||0)||null;
-if(isAdmin) loggedStudentId=null;
+const SUBJECTS=['Toán học','Vật lý','Hóa học','Sinh học','Tin học','Lịch sử','Địa lý','Ngữ văn','Tiếng Anh','Kinh tế - Pháp luật','Kiến thức chung'];
+const SAMPLE=[
+{subject:'Toán học',topic:'Đại số',difficulty:'Dễ',prompt:'Nghiệm của phương trình 3x − 9 = 0 là số nào?',options:['1','2','3','4'],answer:2,explanation:'3x = 9 nên x = 3.'},
+{subject:'Toán học',topic:'Hình học',difficulty:'Trung bình',prompt:'Tổng số đo ba góc trong một tam giác bằng bao nhiêu độ?',options:['90°','180°','270°','360°'],answer:1,explanation:'Tổng ba góc trong mọi tam giác bằng 180°.'},
+{subject:'Toán học',topic:'Số học',difficulty:'Khó',prompt:'Số nguyên tố nhỏ nhất lớn hơn 50 là số nào?',options:['51','52','53','57'],answer:2,explanation:'51 = 3 × 17; 53 chỉ có hai ước dương là 1 và 53.'},
+{subject:'Vật lý',topic:'Động học',difficulty:'Dễ',prompt:'Một vật đi được 120 m trong 10 s. Tốc độ trung bình của vật là bao nhiêu?',options:['10 m/s','12 m/s','15 m/s','20 m/s'],answer:1,explanation:'v = s/t = 120/10 = 12 m/s.'},
+{subject:'Vật lý',topic:'Điện học',difficulty:'Trung bình',prompt:'Đơn vị đo cường độ dòng điện trong hệ SI là gì?',options:['Vôn','Ôm','Ampe','Oát'],answer:2,explanation:'Cường độ dòng điện có đơn vị SI là ampe (A).'},
+{subject:'Vật lý',topic:'Quang học',difficulty:'Khó',prompt:'Trong môi trường đồng tính và trong suốt, ánh sáng truyền theo đường nào?',options:['Đường cong bất kỳ','Đường thẳng','Đường xoắn ốc','Đường gấp khúc'],answer:1,explanation:'Ánh sáng truyền theo đường thẳng trong môi trường đồng tính, trong suốt.'},
+{subject:'Hóa học',topic:'Nguyên tử',difficulty:'Dễ',prompt:'Kí hiệu hóa học của nguyên tố vàng là gì?',options:['Ag','Au','Fe','Cu'],answer:1,explanation:'Vàng có kí hiệu hóa học là Au, bắt nguồn từ tiếng Latin aurum.'},
+{subject:'Hóa học',topic:'Bảng tuần hoàn',difficulty:'Trung bình',prompt:'Nguyên tố có số hiệu nguyên tử 8 là nguyên tố nào?',options:['Nitơ','Cacbon','Oxi','Flo'],answer:2,explanation:'Oxi có số hiệu nguyên tử Z = 8.'},
+{subject:'Hóa học',topic:'Phản ứng hóa học',difficulty:'Khó',prompt:'Khí nào chiếm tỉ lệ thể tích lớn nhất trong không khí khô?',options:['Oxi','Nitơ','Cacbon đioxit','Argon'],answer:1,explanation:'Nitơ chiếm khoảng 78% thể tích không khí khô.'},
+{subject:'Sinh học',topic:'Tế bào',difficulty:'Dễ',prompt:'Bào quan nào được xem là nơi diễn ra phần lớn quá trình tạo ATP trong tế bào nhân thực?',options:['Ribosome','Ti thể','Bộ máy Golgi','Không bào'],answer:1,explanation:'Ti thể là nơi diễn ra phần lớn quá trình hô hấp tế bào tạo ATP.'},
+{subject:'Sinh học',topic:'Di truyền',difficulty:'Trung bình',prompt:'Phân tử mang thông tin di truyền chủ yếu ở phần lớn sinh vật là gì?',options:['Protein','Lipid','DNA','Tinh bột'],answer:2,explanation:'DNA lưu trữ và truyền đạt thông tin di truyền ở phần lớn sinh vật.'},
+{subject:'Sinh học',topic:'Sinh thái',difficulty:'Khó',prompt:'Sinh vật nào sau đây thường được xếp vào nhóm sinh vật sản xuất trong hệ sinh thái trên cạn?',options:['Nấm','Cây xanh','Thỏ','Hổ'],answer:1,explanation:'Cây xanh quang hợp, tự tổng hợp chất hữu cơ nên là sinh vật sản xuất.'},
+{subject:'Tin học',topic:'Lập trình',difficulty:'Dễ',prompt:'Trong ngôn ngữ C++, phép toán nào dùng để lấy phần dư của phép chia nguyên?',options:['/','%','//','mod'],answer:1,explanation:'Toán tử % trả về phần dư của phép chia số nguyên trong C++.'},
+{subject:'Tin học',topic:'Hệ đếm',difficulty:'Trung bình',prompt:'Số nhị phân 1010 có giá trị thập phân bằng bao nhiêu?',options:['8','9','10','12'],answer:2,explanation:'1010₂ = 1×8 + 0×4 + 1×2 + 0×1 = 10.'},
+{subject:'Tin học',topic:'Thuật toán',difficulty:'Olympia',prompt:'Thuật toán tìm kiếm nhị phân cần dữ liệu đầu vào có tính chất quan trọng nào?',options:['Được sắp xếp','Không có phần tử trùng','Chỉ chứa số nguyên tố','Có số phần tử chẵn'],answer:0,explanation:'Tìm kiếm nhị phân loại bỏ một nửa phạm vi mỗi bước, vì vậy dãy cần được sắp xếp.'},
+{subject:'Lịch sử',topic:'Lịch sử Việt Nam',difficulty:'Dễ',prompt:'Chiến thắng Bạch Đằng năm 938 gắn liền với tên tuổi của ai?',options:['Trần Hưng Đạo','Ngô Quyền','Lý Thường Kiệt','Đinh Bộ Lĩnh'],answer:1,explanation:'Ngô Quyền lãnh đạo chiến thắng Bạch Đằng năm 938, chấm dứt thời kỳ Bắc thuộc kéo dài.'},
+{subject:'Lịch sử',topic:'Lịch sử thế giới',difficulty:'Trung bình',prompt:'Cuộc Cách mạng công nghiệp lần thứ nhất khởi đầu ở quốc gia nào?',options:['Pháp','Đức','Anh','Hoa Kỳ'],answer:2,explanation:'Cách mạng công nghiệp lần thứ nhất khởi đầu ở Anh vào nửa sau thế kỉ XVIII.'},
+{subject:'Lịch sử',topic:'Văn minh cổ đại',difficulty:'Khó',prompt:'Hai con sông gắn liền với sự hình thành nền văn minh Lưỡng Hà là gì?',options:['Sông Nile và Congo','Sông Tigris và Euphrates','Sông Ấn và sông Hằng','Hoàng Hà và Trường Giang'],answer:1,explanation:'Văn minh Lưỡng Hà hình thành ở lưu vực hai sông Tigris và Euphrates.'},
+{subject:'Địa lý',topic:'Địa lý tự nhiên',difficulty:'Dễ',prompt:'Đường xích đạo chia Trái Đất thành hai bán cầu nào?',options:['Đông và Tây','Bắc và Nam','Lục địa và đại dương','Nhiệt đới và ôn đới'],answer:1,explanation:'Xích đạo chia Trái Đất thành bán cầu Bắc và bán cầu Nam.'},
+{subject:'Địa lý',topic:'Khí hậu',difficulty:'Trung bình',prompt:'Dụng cụ thường dùng để đo nhiệt độ không khí là gì?',options:['Khí áp kế','Ẩm kế','Nhiệt kế','Vũ kế'],answer:2,explanation:'Nhiệt kế dùng để đo nhiệt độ.'},
+{subject:'Địa lý',topic:'Địa lý Việt Nam',difficulty:'Khó',prompt:'Đồng bằng nào có diện tích lớn nhất Việt Nam?',options:['Đồng bằng sông Hồng','Đồng bằng ven biển miền Trung','Đồng bằng sông Cửu Long','Đồng bằng Thanh - Nghệ - Tĩnh'],answer:2,explanation:'Đồng bằng sông Cửu Long là đồng bằng có diện tích lớn nhất nước ta.'},
+{subject:'Ngữ văn',topic:'Tác giả - tác phẩm',difficulty:'Dễ',prompt:'Tác phẩm Truyện Kiều do tác giả nào sáng tác?',options:['Nguyễn Trãi','Nguyễn Du','Hồ Xuân Hương','Nam Cao'],answer:1,explanation:'Truyện Kiều là kiệt tác của đại thi hào Nguyễn Du.'},
+{subject:'Ngữ văn',topic:'Thể loại',difficulty:'Trung bình',prompt:'Thể thơ lục bát truyền thống của Việt Nam gồm các dòng thơ có số tiếng như thế nào?',options:['5 và 7','6 và 8','7 và 7','8 và 8'],answer:1,explanation:'Một cặp lục bát gồm dòng sáu tiếng và dòng tám tiếng.'},
+{subject:'Ngữ văn',topic:'Biện pháp tu từ',difficulty:'Khó',prompt:'Câu “Mặt trời xuống biển như hòn lửa” sử dụng biện pháp tu từ nổi bật nào?',options:['Nhân hóa','So sánh','Hoán dụ','Nói quá'],answer:1,explanation:'Hình ảnh mặt trời được so sánh với hòn lửa qua từ “như”.'},
+{subject:'Tiếng Anh',topic:'Vocabulary',difficulty:'Dễ',prompt:'Choose the word closest in meaning to “rapid”.',options:['Slow','Fast','Weak','Quiet'],answer:1,explanation:'Rapid có nghĩa là nhanh; từ gần nghĩa nhất là fast.'},
+{subject:'Tiếng Anh',topic:'Grammar',difficulty:'Trung bình',prompt:'Choose the correct form: “She ____ to school every day.”',options:['go','goes','going','gone'],answer:1,explanation:'Chủ ngữ ngôi thứ ba số ít ở thì hiện tại đơn dùng động từ thêm -s/-es.'},
+{subject:'Tiếng Anh',topic:'Vocabulary',difficulty:'Khó',prompt:'What does the phrase “once in a blue moon” mean?',options:['Very often','Very rarely','Every night','At the same time'],answer:1,explanation:'“Once in a blue moon” là thành ngữ chỉ việc rất hiếm khi xảy ra.'},
+{subject:'Kinh tế - Pháp luật',topic:'Pháp luật',difficulty:'Dễ',prompt:'Văn bản nào có hiệu lực pháp lý cao nhất trong hệ thống pháp luật Việt Nam?',options:['Thông tư','Nghị định','Hiến pháp','Quyết định'],answer:2,explanation:'Hiến pháp là luật cơ bản, có hiệu lực pháp lý cao nhất.'},
+{subject:'Kinh tế - Pháp luật',topic:'Kinh tế',difficulty:'Trung bình',prompt:'Khi giá một hàng hóa tăng, các yếu tố khác không đổi, lượng cầu thông thường sẽ biến động thế nào?',options:['Tăng','Giảm','Không đổi trong mọi trường hợp','Tăng gấp đôi'],answer:1,explanation:'Theo quy luật cầu, giá tăng thường làm lượng cầu giảm khi các yếu tố khác không đổi.'},
+{subject:'Kinh tế - Pháp luật',topic:'Công dân',difficulty:'Khó',prompt:'Hành vi nào thể hiện trách nhiệm của công dân trong bảo vệ môi trường?',options:['Đổ rác xuống sông','Phân loại và bỏ rác đúng nơi quy định','Đốt rác nhựa tùy tiện','Khai thác tài nguyên không giới hạn'],answer:1,explanation:'Phân loại và xử lý rác đúng nơi quy định góp phần bảo vệ môi trường.'},
+{subject:'Kiến thức chung',topic:'Thiên văn',difficulty:'Dễ',prompt:'Hành tinh nào được gọi là “hành tinh đỏ”?',options:['Sao Kim','Sao Hỏa','Sao Mộc','Sao Thổ'],answer:1,explanation:'Sao Hỏa có bề mặt chứa nhiều oxit sắt nên có màu đỏ đặc trưng.'},
+{subject:'Kiến thức chung',topic:'Thể thao',difficulty:'Trung bình',prompt:'Một đội bóng đá có bao nhiêu cầu thủ trên sân khi trận đấu bắt đầu theo luật thông thường?',options:['9','10','11','12'],answer:2,explanation:'Mỗi đội có 11 cầu thủ trên sân, bao gồm thủ môn.'},
+{subject:'Kiến thức chung',topic:'Địa danh',difficulty:'Khó',prompt:'Tháp Eiffel nằm ở thành phố nào?',options:['Rome','Paris','Madrid','Berlin'],answer:1,explanation:'Tháp Eiffel là công trình nổi tiếng ở Paris, Pháp.'},
+{subject:'Toán học',topic:'Xác suất',difficulty:'Olympia',prompt:'Gieo một con xúc xắc cân đối sáu mặt. Xác suất xuất hiện mặt có số chấm chẵn là bao nhiêu?',options:['1/6','1/3','1/2','2/3'],answer:2,explanation:'Có 3 kết quả chẵn trong 6 kết quả đồng khả năng: 3/6 = 1/2.'},
+{subject:'Vật lý',topic:'Cơ học',difficulty:'Olympia',prompt:'Một vật được ném thẳng đứng lên cao. Bỏ qua lực cản không khí, tại điểm cao nhất, đại lượng nào bằng 0?',options:['Gia tốc','Trọng lực','Vận tốc tức thời','Khối lượng'],answer:2,explanation:'Ở điểm cao nhất, vận tốc tức thời bằng 0; gia tốc trọng trường vẫn hướng xuống.'},
+{subject:'Sinh học',topic:'Thực vật',difficulty:'Olympia',prompt:'Trong quang hợp, thực vật hấp thụ chủ yếu khí nào từ môi trường?',options:['Oxygen','Carbon dioxide','Nitrogen','Hydrogen'],answer:1,explanation:'Thực vật hấp thụ CO₂ và nước để tổng hợp chất hữu cơ, giải phóng oxygen.'},
+{subject:'Tin học',topic:'Mạng máy tính',difficulty:'Olympia',prompt:'Tên miền “.edu” thường gắn với nhóm tổ chức nào?',options:['Giáo dục','Quân sự','Thương mại','Chính phủ'],answer:0,explanation:'Tên miền .edu thường được dùng cho các cơ sở giáo dục, đặc biệt phổ biến tại Hoa Kỳ.'},
+{subject:'Lịch sử',topic:'Lịch sử hiện đại',difficulty:'Olympia',prompt:'Tổ chức Liên Hợp Quốc chính thức thành lập vào năm nào?',options:['1919','1939','1945','1954'],answer:2,explanation:'Hiến chương Liên Hợp Quốc có hiệu lực ngày 24/10/1945.'},
+{subject:'Địa lý',topic:'Địa lý thế giới',difficulty:'Olympia',prompt:'Đại dương nào có diện tích lớn nhất trên Trái Đất?',options:['Đại Tây Dương','Ấn Độ Dương','Bắc Băng Dương','Thái Bình Dương'],answer:3,explanation:'Thái Bình Dương là đại dương rộng lớn nhất.'},
+{subject:'Ngữ văn',topic:'Tiếng Việt',difficulty:'Olympia',prompt:'Từ “lấp lánh” thuộc kiểu từ nào?',options:['Từ đơn','Từ ghép chính phụ','Từ láy','Từ ghép đẳng lập'],answer:2,explanation:'“Lấp lánh” là từ láy, có sự lặp lại phụ âm đầu.'},
+{subject:'Tiếng Anh',topic:'Grammar',difficulty:'Olympia',prompt:'Choose the correct sentence.',options:['If I were you, I would study harder.','If I am you, I will studied harder.','If I was you, I would studies harder.','If I be you, I study harder.'],answer:0,explanation:'Câu điều kiện loại 2 dùng If + quá khứ đơn, would + động từ nguyên mẫu.'},
+{subject:'Kiến thức chung',topic:'Khoa học',difficulty:'Olympia',prompt:'Đơn vị đo tần số trong hệ SI được đặt theo tên nhà khoa học nào?',options:['Isaac Newton','Heinrich Hertz','James Watt','Michael Faraday'],answer:1,explanation:'Đơn vị hertz (Hz) được đặt theo tên nhà vật lý Heinrich Rudolf Hertz.'}
+].map((q,i)=>({...q,id:'sample-'+(i+1),source:'Olympia Training – câu hỏi mẫu tự biên soạn',sample:true}));
 
-function loadSavedScores(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY));return Array.isArray(s)&&s.length===studentNames.length?s:null}catch(e){return null}}
-function createStudents(){
- const saved=loadSavedScores();
- return studentNames.map((name,index)=>{
-  const d={}; subjectKeys.forEach(k=>d[k]=createZeroScores());
-  const ss=saved?.[index]?.scores;
-  if(ss) subjectKeys.forEach(k=>{if(ss[k]){d[k].m=Array.isArray(ss[k].m)?ss[k].m.slice(0,5):["","","","",""];d[k].p15=Array.isArray(ss[k].p15)?ss[k].p15.slice(0,5):["","","","",""];d[k].gk=ss[k].gk??"";d[k].ck=ss[k].ck??"";}});
-  return{id:index+1,name,scores:d};
- });
-}
-const students=createStudents();
 
-function validScore(v){if(v===""||v==null)return null;const n=Number(v);return Number.isFinite(n)&&n>=0&&n<=10?n:null}
-function calcSubjectAvg(s){let t=0,w=0;[...s.m,...s.p15].forEach(v=>{const n=validScore(v);if(n!==null){t+=n;w++}});const g=validScore(s.gk),c=validScore(s.ck);if(g!==null){t+=g*2;w+=2}if(c!==null){t+=c*3;w+=3}return w?t/w:0}
-function hasSubjectScore(s){return [...s.m,...s.p15].some(v=>validScore(v)!==null)||validScore(s.gk)!==null||validScore(s.ck)!==null}
-function calcOverallGPA(st){let t=0,c=0;subjectKeys.forEach(k=>{if(hasSubjectScore(st.scores[k])){t+=calcSubjectAvg(st.scores[k]);c++}});return c?t/c:0}
-function getEnteredSubjectCount(st){return subjectKeys.filter(k=>hasSubjectScore(st.scores[k])).length}
-function getRank(gpa,st){if(!getEnteredSubjectCount(st))return"Chưa có điểm";if(gpa>=9)return"Xuất sắc";if(gpa>=8)return"Giỏi";if(gpa>=6.5)return"Khá";return"Trung bình"}
-function getBadgeClass(r){return r==="Xuất sắc"?"badge-xuat-sac":r==="Giỏi"?"badge-gioi":r==="Khá"?"badge-kha":"badge-trung-binh"}
-function saveScores(){localStorage.setItem(STORAGE_KEY,JSON.stringify(students));const e=document.getElementById("save-status");if(e){e.textContent="✓ Đã tự động lưu";setTimeout(()=>e.textContent="✓ Tự động lưu",1000)}}
+const EXTRA = [
+{id:'extra-001',subject:"Toán học",topic:"Hàm số",difficulty:"Dễ",prompt:"Đồ thị hàm số y = 2x + 1 cắt trục tung tại điểm nào?",options:["(0;1)", "(1;0)", "(0;2)", "(2;0)"],answer:0,explanation:"Cho x = 0 thì y = 1.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-002',subject:"Toán học",topic:"Phương trình",difficulty:"Trung bình",prompt:"Phương trình x² = 16 có bao nhiêu nghiệm thực?",options:["1", "2", "3", "4"],answer:1,explanation:"Hai nghiệm là x = 4 và x = -4.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-003',subject:"Toán học",topic:"Hình học",difficulty:"Trung bình",prompt:"Đường tròn bán kính R có chu vi bằng biểu thức nào?",options:["πR²", "2πR", "4πR", "πR"],answer:1,explanation:"Chu vi đường tròn C = 2πR.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-004',subject:"Toán học",topic:"Số học",difficulty:"Khó",prompt:"Ước chung lớn nhất của 36 và 48 là bao nhiêu?",options:["6", "8", "12", "16"],answer:2,explanation:"36 = 3×12 và 48 = 4×12; 12 là ước chung lớn nhất.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-005',subject:"Toán học",topic:"Tổ hợp",difficulty:"Olympia",prompt:"Có bao nhiêu cách chọn 2 học sinh từ 5 học sinh phân biệt?",options:["5", "10", "15", "20"],answer:1,explanation:"Số cách là C(5,2) = 5×4/2 = 10.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-006',subject:"Vật lý",topic:"Điện học",difficulty:"Dễ",prompt:"Dụng cụ dùng để đo hiệu điện thế là gì?",options:["Ampe kế", "Vôn kế", "Lực kế", "Nhiệt kế"],answer:1,explanation:"Vôn kế dùng để đo hiệu điện thế.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-007',subject:"Vật lý",topic:"Cơ học",difficulty:"Trung bình",prompt:"Một lực 10 N tác dụng lên vật làm vật dịch chuyển 3 m cùng hướng lực. Công của lực là bao nhiêu?",options:["13 J", "30 J", "3,3 J", "7 J"],answer:1,explanation:"A = F.s = 10×3 = 30 J.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-008',subject:"Vật lý",topic:"Nhiệt học",difficulty:"Dễ",prompt:"Nhiệt độ 0°C tương ứng bao nhiêu kelvin, xấp xỉ?",options:["0 K", "100 K", "273 K", "373 K"],answer:2,explanation:"0°C tương ứng khoảng 273,15 K.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-009',subject:"Vật lý",topic:"Sóng",difficulty:"Khó",prompt:"Âm thanh không truyền được trong môi trường nào?",options:["Nước", "Thép", "Không khí", "Chân không"],answer:3,explanation:"Âm thanh cần môi trường vật chất để truyền.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-010',subject:"Vật lý",topic:"Quang học",difficulty:"Olympia",prompt:"Hiện tượng ánh sáng bị đổi hướng khi truyền xiên qua mặt phân cách hai môi trường trong suốt gọi là gì?",options:["Phản xạ", "Khúc xạ", "Nhiễu xạ", "Giao thoa"],answer:1,explanation:"Đó là hiện tượng khúc xạ ánh sáng.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-011',subject:"Hóa học",topic:"Nguyên tử",difficulty:"Dễ",prompt:"Kí hiệu hóa học của natri là gì?",options:["N", "Na", "Ni", "Ne"],answer:1,explanation:"Natri có kí hiệu Na.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-012',subject:"Hóa học",topic:"Hợp chất",difficulty:"Trung bình",prompt:"Công thức hóa học của nước là gì?",options:["H₂O", "CO₂", "O₂", "H₂O₂"],answer:0,explanation:"Một phân tử nước gồm hai nguyên tử hydrogen và một nguyên tử oxygen.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-013',subject:"Hóa học",topic:"Dung dịch",difficulty:"Trung bình",prompt:"Dung dịch có pH nhỏ hơn 7 ở 25°C thường có tính chất gì?",options:["Bazơ", "Trung tính", "Axit", "Muối"],answer:2,explanation:"Ở 25°C, pH < 7 biểu thị môi trường axit.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-014',subject:"Hóa học",topic:"Phản ứng",difficulty:"Khó",prompt:"Khí làm đục nước vôi trong là khí nào?",options:["O₂", "CO₂", "H₂", "N₂"],answer:1,explanation:"CO₂ phản ứng với Ca(OH)₂ tạo kết tủa CaCO₃.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-015',subject:"Hóa học",topic:"Bảng tuần hoàn",difficulty:"Olympia",prompt:"Nguyên tố nào là kim loại lỏng ở điều kiện thường?",options:["Sắt", "Nhôm", "Thủy ngân", "Đồng"],answer:2,explanation:"Thủy ngân (Hg) là kim loại lỏng ở điều kiện thường.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-016',subject:"Sinh học",topic:"Tế bào",difficulty:"Dễ",prompt:"Bộ phận nào điều khiển phần lớn hoạt động của tế bào nhân thực?",options:["Màng tế bào", "Nhân tế bào", "Ribosome", "Thành tế bào"],answer:1,explanation:"Nhân chứa phần lớn DNA và điều hòa hoạt động tế bào.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-017',subject:"Sinh học",topic:"Cơ thể người",difficulty:"Trung bình",prompt:"Cơ quan nào bơm máu đi khắp cơ thể?",options:["Phổi", "Gan", "Tim", "Thận"],answer:2,explanation:"Tim co bóp để bơm máu qua hệ tuần hoàn.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-018',subject:"Sinh học",topic:"Di truyền",difficulty:"Khó",prompt:"Các nucleotide của DNA liên kết bổ sung theo nguyên tắc nào?",options:["A-G, T-C", "A-T, G-C", "A-C, G-T", "A-U, G-C"],answer:1,explanation:"Trong DNA, A bắt cặp với T và G bắt cặp với C.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-019',subject:"Sinh học",topic:"Sinh thái",difficulty:"Trung bình",prompt:"Trong chuỗi thức ăn, sinh vật tiêu thụ bậc một thường ăn nhóm nào?",options:["Sinh vật sản xuất", "Sinh vật phân giải", "Động vật ăn thịt", "Sinh vật tiêu thụ bậc hai"],answer:0,explanation:"Sinh vật tiêu thụ bậc một thường ăn sinh vật sản xuất.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-020',subject:"Sinh học",topic:"Vi sinh vật",difficulty:"Olympia",prompt:"Sinh vật nào sau đây thuộc nhóm nấm men?",options:["Saccharomyces cerevisiae", "Escherichia coli", "Trùng roi", "Tảo lục"],answer:0,explanation:"Saccharomyces cerevisiae là loài nấm men thường dùng trong lên men.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-021',subject:"Tin học",topic:"C++",difficulty:"Dễ",prompt:"Trong C++, câu lệnh nào thường dùng để xuất dữ liệu ra màn hình?",options:["cin", "cout", "getline", "return"],answer:1,explanation:"cout là luồng xuất chuẩn trong C++.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-022',subject:"Tin học",topic:"Mạng máy tính",difficulty:"Trung bình",prompt:"Giao thức nào thường được dùng để truyền tải trang web?",options:["HTTP", "FTP", "SMTP", "SSH"],answer:0,explanation:"HTTP là giao thức truyền tải siêu văn bản; HTTPS là phiên bản có mã hóa.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-023',subject:"Tin học",topic:"Thuật toán",difficulty:"Khó",prompt:"Độ phức tạp thời gian của tìm kiếm nhị phân trên dãy đã sắp xếp là gì?",options:["O(1)", "O(log n)", "O(n)", "O(n²)"],answer:1,explanation:"Mỗi bước giảm một nửa phạm vi tìm kiếm.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-024',subject:"Tin học",topic:"An toàn số",difficulty:"Dễ",prompt:"Mật khẩu nào an toàn hơn?",options:["12345678", "password", "TenSinhNhat", "Chuỗi dài, khó đoán và duy nhất"],answer:3,explanation:"Mật khẩu dài, riêng biệt và khó đoán an toàn hơn.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-025',subject:"Tin học",topic:"Phần cứng",difficulty:"Olympia",prompt:"Bộ phận nào thực hiện phần lớn phép tính và điều khiển trong máy tính?",options:["CPU", "Màn hình", "Bàn phím", "Loa"],answer:0,explanation:"CPU là bộ xử lý trung tâm.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-026',subject:"Lịch sử",topic:"Việt Nam",difficulty:"Dễ",prompt:"Ai là người đọc bản Tuyên ngôn Độc lập ngày 2/9/1945?",options:["Võ Nguyên Giáp", "Hồ Chí Minh", "Phạm Văn Đồng", "Trường Chinh"],answer:1,explanation:"Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập tại Quảng trường Ba Đình.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-027',subject:"Lịch sử",topic:"Việt Nam",difficulty:"Trung bình",prompt:"Chiến thắng Điện Biên Phủ diễn ra vào năm nào?",options:["1945", "1954", "1968", "1975"],answer:1,explanation:"Chiến dịch Điện Biên Phủ kết thúc thắng lợi ngày 7/5/1954.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-028',subject:"Lịch sử",topic:"Thế giới",difficulty:"Dễ",prompt:"Kim tự tháp Giza gắn với nền văn minh cổ đại nào?",options:["Hy Lạp", "La Mã", "Ai Cập", "Lưỡng Hà"],answer:2,explanation:"Quần thể kim tự tháp Giza thuộc nền văn minh Ai Cập cổ đại.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-029',subject:"Lịch sử",topic:"Thế giới",difficulty:"Khó",prompt:"Văn kiện nào thường được xem là mốc mở đầu Cách mạng Pháp năm 1789?",options:["Tấn công ngục Bastille", "Đại hội Vienna", "Tuyên ngôn Versailles", "Hòa ước Paris 1919"],answer:0,explanation:"Ngày 14/7/1789, người dân Paris tấn công ngục Bastille.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-030',subject:"Lịch sử",topic:"Văn minh",difficulty:"Olympia",prompt:"Chữ hình nêm là thành tựu chữ viết gắn với cư dân cổ đại nào?",options:["Sumer ở Lưỡng Hà", "Inca ở Nam Mỹ", "La Mã", "Nhật Bản"],answer:0,explanation:"Người Sumer ở Lưỡng Hà phát triển chữ hình nêm.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-031',subject:"Địa lý",topic:"Việt Nam",difficulty:"Dễ",prompt:"Thủ đô của Việt Nam là thành phố nào?",options:["Huế", "Đà Nẵng", "Hà Nội", "TP. Hồ Chí Minh"],answer:2,explanation:"Hà Nội là thủ đô nước Cộng hòa xã hội chủ nghĩa Việt Nam.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-032',subject:"Địa lý",topic:"Tự nhiên",difficulty:"Trung bình",prompt:"Lớp khí quyển gần mặt đất nhất là lớp nào?",options:["Tầng đối lưu", "Tầng bình lưu", "Tầng giữa", "Tầng nhiệt"],answer:0,explanation:"Tầng đối lưu là lớp khí quyển thấp nhất, nơi diễn ra phần lớn hiện tượng thời tiết.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-033',subject:"Địa lý",topic:"Thế giới",difficulty:"Dễ",prompt:"Châu lục nào có diện tích lớn nhất?",options:["Châu Phi", "Châu Á", "Châu Âu", "Châu Đại Dương"],answer:1,explanation:"Châu Á là châu lục có diện tích lớn nhất.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-034',subject:"Địa lý",topic:"Bản đồ",difficulty:"Khó",prompt:"Kinh tuyến gốc đi qua địa danh nào ở Anh?",options:["Greenwich", "Liverpool", "Oxford", "Edinburgh"],answer:0,explanation:"Kinh tuyến gốc 0° đi qua Greenwich, London.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-035',subject:"Địa lý",topic:"Khí hậu",difficulty:"Olympia",prompt:"Hiện tượng El Niño thường gắn với sự nóng lên bất thường của vùng biển nào?",options:["Tây Bắc Đại Tây Dương", "Trung và đông Thái Bình Dương xích đạo", "Bắc Băng Dương", "Địa Trung Hải"],answer:1,explanation:"El Niño gắn với nhiệt độ mặt nước biển tăng ở khu vực trung và đông Thái Bình Dương xích đạo.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-036',subject:"Ngữ văn",topic:"Tác giả",difficulty:"Dễ",prompt:"Ai là tác giả truyện ngắn “Lão Hạc”?",options:["Nam Cao", "Ngô Tất Tố", "Kim Lân", "Thạch Lam"],answer:0,explanation:"Lão Hạc là truyện ngắn nổi tiếng của Nam Cao.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-037',subject:"Ngữ văn",topic:"Tác phẩm",difficulty:"Trung bình",prompt:"“Đồng chí” là bài thơ của nhà thơ nào?",options:["Tố Hữu", "Chính Hữu", "Huy Cận", "Xuân Diệu"],answer:1,explanation:"Bài thơ Đồng chí do Chính Hữu sáng tác.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-038',subject:"Ngữ văn",topic:"Tiếng Việt",difficulty:"Dễ",prompt:"Từ nào sau đây là từ ghép?",options:["Lung linh", "Lấp lánh", "Xe đạp", "Xanh xanh"],answer:2,explanation:"Xe đạp là từ ghép gồm hai tiếng có quan hệ về nghĩa.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-039',subject:"Ngữ văn",topic:"Biện pháp tu từ",difficulty:"Khó",prompt:"Biện pháp tu từ gọi tên sự vật bằng tên sự vật khác có quan hệ gần gũi là gì?",options:["Ẩn dụ", "Hoán dụ", "Nói giảm", "Điệp ngữ"],answer:1,explanation:"Hoán dụ dựa trên mối quan hệ gần gũi giữa các sự vật.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-040',subject:"Ngữ văn",topic:"Văn học thế giới",difficulty:"Olympia",prompt:"Tác phẩm “Romeo và Juliet” thuộc thể loại nào?",options:["Sử thi", "Bi kịch", "Truyện ngụ ngôn", "Tùy bút"],answer:1,explanation:"Romeo và Juliet là vở bi kịch nổi tiếng của William Shakespeare.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-041',subject:"Tiếng Anh",topic:"Grammar",difficulty:"Dễ",prompt:"Choose the correct plural form of “child”.",options:["Childs", "Childes", "Children", "Childrens"],answer:2,explanation:"The plural form of child is children.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-042',subject:"Tiếng Anh",topic:"Grammar",difficulty:"Trung bình",prompt:"Choose the correct word: “I have lived here ____ 2020.”",options:["for", "since", "during", "from"],answer:1,explanation:"Since đi với một mốc thời gian bắt đầu.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-043',subject:"Tiếng Anh",topic:"Vocabulary",difficulty:"Dễ",prompt:"What is the opposite of “ancient”?",options:["Modern", "Old", "Historic", "Traditional"],answer:0,explanation:"Modern là trái nghĩa với ancient.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-044',subject:"Tiếng Anh",topic:"Grammar",difficulty:"Khó",prompt:"Choose the correct passive sentence: “They built this bridge in 2010.”",options:["This bridge built in 2010.", "This bridge was built in 2010.", "This bridge is build in 2010.", "This bridge has build in 2010."],answer:1,explanation:"Câu bị động quá khứ đơn: was/were + past participle.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-045',subject:"Tiếng Anh",topic:"Idioms",difficulty:"Olympia",prompt:"The idiom “break the ice” means to…",options:["Make people feel more comfortable", "Destroy frozen water", "End a friendship", "Become angry"],answer:0,explanation:"Break the ice nghĩa là phá tan sự ngượng ngùng ban đầu.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-046',subject:"Kinh tế - Pháp luật",topic:"Pháp luật",difficulty:"Dễ",prompt:"Quy tắc xử sự chung do Nhà nước ban hành hoặc thừa nhận và bảo đảm thực hiện được gọi là gì?",options:["Phong tục", "Quy phạm pháp luật", "Sở thích", "Nội quy gia đình"],answer:1,explanation:"Đó là khái niệm quy phạm pháp luật.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-047',subject:"Kinh tế - Pháp luật",topic:"Kinh tế",difficulty:"Trung bình",prompt:"Tình trạng mức giá chung của hàng hóa và dịch vụ tăng liên tục được gọi là gì?",options:["Giảm phát", "Lạm phát", "Cạnh tranh", "Độc quyền"],answer:1,explanation:"Lạm phát là sự tăng lên của mức giá chung theo thời gian.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-048',subject:"Kinh tế - Pháp luật",topic:"Công dân",difficulty:"Dễ",prompt:"Hoạt động nào thể hiện quyền tham gia quản lý nhà nước và xã hội của công dân?",options:["Góp ý dự thảo chính sách theo quy định", "Phá hoại tài sản công", "Trốn tránh nghĩa vụ", "Lan truyền tin sai"],answer:0,explanation:"Công dân có thể tham gia góp ý, kiến nghị theo quy định pháp luật.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-049',subject:"Kinh tế - Pháp luật",topic:"Quyền trẻ em",difficulty:"Khó",prompt:"Công ước quốc tế quan trọng về quyền trẻ em được Đại hội đồng Liên Hợp Quốc thông qua năm nào?",options:["1945", "1979", "1989", "2000"],answer:2,explanation:"Công ước về quyền trẻ em được thông qua ngày 20/11/1989.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-050',subject:"Kinh tế - Pháp luật",topic:"Kinh tế",difficulty:"Olympia",prompt:"Chi phí cơ hội được hiểu khái quát là gì?",options:["Tổng số tiền đã chi", "Giá trị của lựa chọn tốt nhất bị từ bỏ", "Khoản thuế phải nộp", "Lợi nhuận chắc chắn"],answer:1,explanation:"Chi phí cơ hội là giá trị phương án tốt nhất bị bỏ qua khi lựa chọn.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-051',subject:"Kiến thức chung",topic:"Khoa học",difficulty:"Dễ",prompt:"Hành tinh lớn nhất trong Hệ Mặt Trời là hành tinh nào?",options:["Trái Đất", "Sao Thổ", "Sao Mộc", "Sao Hải Vương"],answer:2,explanation:"Sao Mộc là hành tinh lớn nhất Hệ Mặt Trời.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-052',subject:"Kiến thức chung",topic:"Nghệ thuật",difficulty:"Trung bình",prompt:"Nhạc cụ nào thường có 88 phím trên đàn piano tiêu chuẩn hiện đại?",options:["Đàn violin", "Đàn piano", "Sáo ngang", "Trống"],answer:1,explanation:"Đàn piano tiêu chuẩn hiện đại thường có 88 phím.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-053',subject:"Kiến thức chung",topic:"Thể thao",difficulty:"Dễ",prompt:"Một trận đấu tennis đơn Grand Slam nam hiện nay thường cần thắng bao nhiêu set?",options:["2 set", "3 set", "4 set", "5 set"],answer:1,explanation:"Thể thức đơn nam Grand Slam là thắng 3 trong tối đa 5 set.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-054',subject:"Kiến thức chung",topic:"Y học",difficulty:"Khó",prompt:"Vitamin nào được cơ thể tổng hợp ở da khi tiếp xúc với ánh nắng phù hợp?",options:["Vitamin A", "Vitamin B12", "Vitamin C", "Vitamin D"],answer:3,explanation:"Da có thể tổng hợp vitamin D khi tiếp xúc tia UVB.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true},
+{id:'extra-055',subject:"Kiến thức chung",topic:"Địa danh",difficulty:"Olympia",prompt:"Kênh đào Panama nối liền hai đại dương nào?",options:["Thái Bình Dương và Đại Tây Dương", "Ấn Độ Dương và Bắc Băng Dương", "Đại Tây Dương và Bắc Băng Dương", "Thái Bình Dương và Ấn Độ Dương"],answer:0,explanation:"Kênh đào Panama nối Đại Tây Dương với Thái Bình Dương qua vùng biển Caribe.",source:'Olympia Training – câu hỏi tự biên soạn',sample:true}
+];
+const STORAGE={bank:'olympia_bank_v1',stats:'olympia_stats_v1',saved:'olympia_saved_v1'};
+let bank=load(STORAGE.bank,SAMPLE);{const known=new Set(bank.map(q=>q.id));[...SAMPLE,...EXTRA].forEach(q=>{if(!known.has(q.id)){bank.push(q);known.add(q.id)}})}let stats=load(STORAGE.stats,{answered:0,correct:0,wrongIds:[]});let saved=load(STORAGE.saved,[]);persist();
+let currentPractice=null;let practiceLocked=false;let practiceQueue=[];let practicePoolKey='';let lastPracticeId=null;let game=null;let timerHandle=null;
+function load(key,fallback){try{const x=localStorage.getItem(key);return x?JSON.parse(x):fallback}catch(e){return fallback}}
+function persist(){localStorage.setItem(STORAGE.bank,JSON.stringify(bank));localStorage.setItem(STORAGE.stats,JSON.stringify(stats));localStorage.setItem(STORAGE.saved,JSON.stringify(saved));}
+function escapeHTML(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function shuffleQuestion(q){const mixed=shuffle(q.options.map((text,index)=>({text,index})));return {...q,options:mixed.map(x=>x.text),answer:mixed.findIndex(x=>x.index===q.answer)}}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2300)}
+function showView(name){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById('view-'+name).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));if(name==='bank')renderBank();if(name==='home')renderDashboard();if(name==='practice')updatePracticeStats();window.scrollTo({top:0,behavior:'smooth'})}
+function fillSubjectSelects(){['practiceSubject','bankSubject','newSubject'].forEach(id=>{const el=document.getElementById(id);const first=id==='practiceSubject'?'Tất cả môn':id==='bankSubject'?'Tất cả môn':null;el.innerHTML=first?'<option value="all">'+first+'</option>':'';SUBJECTS.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;el.appendChild(o)})})}
+function renderDashboard(){document.getElementById('statQuestions').textContent=bank.length;document.getElementById('statAnswered').textContent=stats.answered;document.getElementById('statAccuracy').textContent=(stats.answered?Math.round(stats.correct/stats.answered*100):0)+'%';document.getElementById('statSaved').textContent=saved.length;document.getElementById('subjectTiles').innerHTML=SUBJECTS.map(s=>{const n=bank.filter(q=>q.subject===s).length;return `<div class="mode-card" data-subject-go="${escapeHTML(s)}"><div class="mode-icon">${subjectIcon(s)}</div><h4>${escapeHTML(s)}</h4><p>${n} câu hỏi trong ngân hàng</p></div>`}).join('');document.querySelectorAll('[data-subject-go]').forEach(el=>el.addEventListener('click',()=>{showView('practice');document.getElementById('practiceSubject').value=el.dataset.subjectGo;startPractice()}))}
+function subjectIcon(s){return ({'Toán học':'∑','Vật lý':'⚛','Hóa học':'🧪','Sinh học':'🌿','Tin học':'💻','Lịch sử':'📜','Địa lý':'🌍','Ngữ văn':'📖','Tiếng Anh':'🔤','Kinh tế - Pháp luật':'⚖','Kiến thức chung':'💡'})[s]||'✦'}
+function getPracticePool(){let pool=[...bank];const s=document.getElementById('practiceSubject').value,d=document.getElementById('practiceDifficulty').value,m=document.getElementById('practiceMode').value;if(s!=='all')pool=pool.filter(q=>q.subject===s);if(d!=='all')pool=pool.filter(q=>q.difficulty===d);if(m==='saved')pool=pool.filter(q=>saved.includes(q.id));if(m==='wrong')pool=pool.filter(q=>stats.wrongIds.includes(q.id));return pool}
+function updatePracticeStats(){document.getElementById('pAnswered').textContent=stats.answered;document.getElementById('pCorrect').textContent=stats.correct;document.getElementById('pAccuracy').textContent=(stats.answered?Math.round(stats.correct/stats.answered*100):0)+'%';document.getElementById('pProgress').style.width=(stats.answered?Math.round(stats.correct/stats.answered*100):0)+'%'}
+function startPractice(){const pool=getPracticePool();if(!pool.length){practiceQueue=[];practicePoolKey='';document.getElementById('practiceCard').innerHTML='<div class="empty">Không tìm thấy câu hỏi phù hợp. Hãy đổi bộ lọc hoặc thêm câu hỏi vào ngân hàng.</div>';return}const key=pool.map(q=>q.id).sort().join('|');if(key!==practicePoolKey||!practiceQueue.length){practiceQueue=shuffle(pool);if(practiceQueue.length>1&&practiceQueue[0].id===lastPracticeId){[practiceQueue[0],practiceQueue[1]]=[practiceQueue[1],practiceQueue[0]]}practicePoolKey=key;if(lastPracticeId&&key===practicePoolKey&&practiceQueue.length===pool.length)toast('Đã xáo lại bộ câu hỏi – bắt đầu lượt mới, không lặp trong cùng lượt')}const next=practiceQueue.shift();lastPracticeId=next.id;currentPractice=shuffleQuestion(next);practiceLocked=false;renderPracticeQuestion()}
+function renderPracticeQuestion(){const q=currentPractice;const isSaved=saved.includes(q.id);document.getElementById('practiceCard').innerHTML=`<div class="question-top"><div class="q-meta"><span class="tag gold">${escapeHTML(q.subject)}</span><span class="tag">${escapeHTML(q.topic)}</span><span class="tag">${escapeHTML(q.difficulty)}</span></div><button class="btn small ${isSaved?'primary':''}" id="saveCurrent">${isSaved?'★ Đã lưu':'☆ Lưu câu hỏi'}</button></div><div class="eyebrow">CÂU HỎI LUYỆN TẬP</div><div class="question-text">${escapeHTML(q.prompt)}</div><div class="options">${q.options.map((o,i)=>`<button class="option" data-answer="${i}"><b>${'ABCD'[i]}.</b> ${escapeHTML(o)}</button>`).join('')}</div><div id="practiceFeedback"></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:18px"><button class="btn primary" id="nextPractice" disabled>Câu tiếp theo →</button></div>`;
+ document.getElementById('saveCurrent').onclick=()=>toggleSaved(q.id);document.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>answerPractice(Number(b.dataset.answer)));document.getElementById('nextPractice').onclick=startPractice}
+function answerPractice(choice){if(practiceLocked)return;practiceLocked=true;const q=currentPractice;const good=choice===q.answer;stats.answered++;if(good)stats.correct++;else if(!stats.wrongIds.includes(q.id))stats.wrongIds.push(q.id);persist();document.querySelectorAll('[data-answer]').forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');else if(i===choice)b.classList.add('wrong')});document.getElementById('practiceFeedback').innerHTML=`<div class="feedback ${good?'good':'bad'}"><b>${good?'Chính xác! +1 câu đúng':'Chưa chính xác!'}</b><br>Đáp án: <b>${'ABCD'[q.answer]}. ${escapeHTML(q.options[q.answer])}</b><br>${escapeHTML(q.explanation||'Chưa có giải thích.')}</div>`;document.getElementById('nextPractice').disabled=false;updatePracticeStats();renderDashboard()}
+function toggleSaved(id){if(saved.includes(id)){saved=saved.filter(x=>x!==id);toast('Đã bỏ khỏi danh sách lưu')}else{saved.push(id);toast('Đã lưu câu hỏi để ôn lại')}persist();if(currentPractice&&currentPractice.id===id)renderPracticeQuestion();renderDashboard()}
+function renderBank(){const search=document.getElementById('bankSearch').value.toLowerCase().trim(),s=document.getElementById('bankSubject').value,d=document.getElementById('bankDifficulty').value;let list=bank.filter(q=>(s==='all'||q.subject===s)&&(d==='all'||q.difficulty===d)&&[q.prompt,q.topic,q.subject].join(' ').toLowerCase().includes(search));document.getElementById('bankCount').textContent=`Danh sách câu hỏi (${list.length}/${bank.length})`;document.getElementById('bankList').innerHTML=list.length?list.map(q=>`<div class="q-row"><div style="min-width:0;flex:1"><h4>${escapeHTML(q.prompt)}</h4><div class="q-meta"><span class="tag gold">${escapeHTML(q.subject)}</span><span class="tag">${escapeHTML(q.topic)}</span><span class="tag">${escapeHTML(q.difficulty)}</span><span class="tag green">Đáp án ${'ABCD'[q.answer]}</span>${saved.includes(q.id)?'<span class="tag gold">★ Đã lưu</span>':''}</div></div><div class="q-actions"><button class="btn small" data-detail="${escapeHTML(q.id)}">Xem</button><button class="btn small danger" data-delete="${escapeHTML(q.id)}">Xóa</button></div></div>`).join(''):'<div class="empty">Không có câu hỏi phù hợp.</div>';document.querySelectorAll('[data-detail]').forEach(b=>b.onclick=()=>showQuestionDetail(b.dataset.detail));document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteQuestion(b.dataset.delete))}
+function showQuestionDetail(id){const q=bank.find(x=>x.id===id);if(!q)return;alert(`${q.subject} · ${q.topic} · ${q.difficulty}\n\n${q.prompt}\n\nA. ${q.options[0]}\nB. ${q.options[1]}\nC. ${q.options[2]}\nD. ${q.options[3]}\n\nĐáp án: ${'ABCD'[q.answer]}\n${q.explanation||''}\n\nNguồn: ${q.source||'Không ghi'}`)}
+function deleteQuestion(id){const q=bank.find(x=>x.id===id);if(!q)return;if(q.sample){toast('Không xóa câu hỏi mẫu trong phiên bản này');return}if(!confirm('Bạn có chắc muốn xóa câu hỏi này?'))return;bank=bank.filter(x=>x.id!==id);saved=saved.filter(x=>x!==id);stats.wrongIds=stats.wrongIds.filter(x=>x!==id);persist();renderBank();renderDashboard();toast('Đã xóa câu hỏi')}
+function openModal(id){document.getElementById(id).classList.add('show')}function closeModal(id){document.getElementById(id).classList.remove('show')}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.go)));
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));document.querySelectorAll('.modal-backdrop').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));
+document.getElementById('startPractice').onclick=startPractice;document.getElementById('resetPractice').onclick=()=>{practiceQueue=[];practicePoolKey='';lastPracticeId=null;document.getElementById('practiceSubject').value='all';document.getElementById('practiceDifficulty').value='all';document.getElementById('practiceMode').value='all';document.getElementById('practiceCard').innerHTML='<div class="empty">Bộ lọc đã được làm mới. Nhấn lấy câu hỏi để bắt đầu.</div>'};
+['bankSearch','bankSubject','bankDifficulty'].forEach(id=>document.getElementById(id).addEventListener(id==='bankSearch'?'input':'change',renderBank));
+document.getElementById('openAdd').onclick=()=>openModal('addModal');document.getElementById('addForm').onsubmit=e=>{e.preventDefault();const q={id:'user-'+Date.now(),subject:document.getElementById('newSubject').value,topic:document.getElementById('newTopic').value.trim(),difficulty:document.getElementById('newDifficulty').value,source:document.getElementById('newSource').value.trim()||'Người dùng tự thêm',prompt:document.getElementById('newPrompt').value.trim(),options:['optA','optB','optC','optD'].map(id=>document.getElementById(id).value.trim()),answer:Number(document.getElementById('newAnswer').value),explanation:document.getElementById('newExplanation').value.trim(),sample:false};if(q.options.some(x=>!x)){toast('Vui lòng nhập đủ 4 phương án');return}bank.unshift(q);persist();e.target.reset();closeModal('addModal');renderBank();renderDashboard();toast('Đã thêm câu hỏi mới')};
+function exportJSON(){const data={app:'Olympia Training',version:1,exportedAt:new Date().toISOString(),questions:bank,stats,saved};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});downloadBlob(blob,'olympia-training-backup.json')}
+function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+document.getElementById('exportTop').onclick=exportJSON;document.getElementById('exportBank').onclick=exportJSON;document.getElementById('importBank').onclick=()=>document.getElementById('importFile').click();document.getElementById('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const raw=JSON.parse(await f.text());const list=Array.isArray(raw)?raw:raw.questions;if(!Array.isArray(list))throw new Error('Không tìm thấy danh sách questions');const valid=list.filter(q=>q&&q.prompt&&Array.isArray(q.options)&&q.options.length===4&&Number.isInteger(Number(q.answer))&&Number(q.answer)>=0&&Number(q.answer)<=3);if(!valid.length)throw new Error('Tệp không có câu hỏi hợp lệ');const ids=new Set(bank.map(q=>q.id));let added=0;valid.forEach(q=>{if(!ids.has(q.id)){bank.push({...q,id:q.id||'import-'+Date.now()+'-'+added});added++}});persist();renderBank();renderDashboard();toast(`Đã nhập ${added} câu hỏi`)}catch(err){alert('Không thể nhập tệp: '+err.message)}e.target.value=''};
+document.getElementById('resetBank').onclick=()=>{if(!confirm('Khôi phục bộ câu hỏi mẫu? Các câu hỏi bạn tự thêm sẽ bị xóa.'))return;bank=[...SAMPLE];saved=[];persist();renderBank();renderDashboard();toast('Đã khôi phục câu hỏi mẫu')};
 
-function getLoggedStudent(){
- return loggedStudentId?students.find(s=>s.id===loggedStudentId):null;
-}
-
-function updateAccessUI(){
- const body=document.body;
- body.classList.toggle("admin-mode",isAdmin);
- body.classList.toggle("viewer-mode",!isAdmin);
- body.classList.toggle("student-mode",!isAdmin && !!loggedStudentId);
- const s=document.getElementById("admin-status"),b=document.getElementById("admin-toggle");
- const sb=document.getElementById("student-login-btn");
- const note=document.getElementById("student-account-note");
- if(isAdmin){
-  s.className="admin-status admin-on";
-  s.textContent="👨‍🏫 Chế độ quản trị: được xem và quản lý toàn bộ lớp";
-  b.textContent="🔓 Đăng xuất quản trị";
-  sb.style.display="none";
-  note.style.display="none";
- }else if(loggedStudentId){
-  const st=getLoggedStudent();
-  s.className="admin-status admin-on";
-  s.textContent=`👨‍🎓 Đang đăng nhập: ${st?st.name:"Học sinh"}`;
-  b.textContent="🔐 Đăng nhập quản trị";
-  sb.style.display="inline-block";
-  sb.textContent="🚪 Đăng xuất học sinh";
-  note.textContent=`🔒 Bạn chỉ được xem điểm của ${st?st.name:"tài khoản này"}. Không thể xem điểm của học sinh khác.`;
-  note.style.display="block";
- }else{
-  s.className="admin-status";
-  s.textContent="👀 Chế độ khách: hãy đăng nhập tài khoản học sinh để xem điểm cá nhân";
-  b.textContent="🔐 Đăng nhập quản trị";
-  sb.style.display="inline-block";
-  sb.textContent="👨‍🎓 Đăng nhập học sinh";
-  note.style.display="none";
- }
-}
-
-function toggleAdmin(){
- if(isAdmin){
-  isAdmin=false;
-  sessionStorage.removeItem("DIEM10A4_ADMIN");
-  updateAccessUI(); renderTable(); return;
- }
- const p=prompt("🔐 Nhập mật khẩu quản trị:");
- if(p===ADMIN_PASSWORD){
-  isAdmin=true; loggedStudentId=null;
-  sessionStorage.setItem("DIEM10A4_ADMIN","1");
-  sessionStorage.removeItem(STUDENT_LOGIN_KEY);
-  updateAccessUI(); renderTable();
-  alert("✅ Đăng nhập quản trị thành công! Bạn có thể xem toàn bộ lớp, nhập/sửa/xóa điểm và quản lý thành tích tập thể.");
- }else if(p!==null) alert("❌ Mật khẩu không đúng.");
-}
-
-function studentLogin(){
- if(isAdmin){
-  alert("🔐 Bạn đang ở chế độ quản trị. Hãy đăng xuất quản trị trước nếu muốn đăng nhập tài khoản học sinh.");
-  return;
- }
- if(loggedStudentId){
-  loggedStudentId=null;
-  sessionStorage.removeItem(STUDENT_LOGIN_KEY);
-  updateAccessUI(); renderTable();
-  return;
- }
- const username=prompt("👨‍🎓 Tên tài khoản (ví dụ HS01):");
- if(username===null)return;
- const password=prompt("🔑 Mật khẩu:");
- if(password===null)return;
- const account=studentAccounts.find(a=>a.username.toLowerCase()===username.trim().toLowerCase() && a.password===password);
- if(!account){alert("❌ Tài khoản hoặc mật khẩu không đúng.");return;}
- loggedStudentId=account.studentId;
- sessionStorage.setItem(STUDENT_LOGIN_KEY,String(loggedStudentId));
- updateAccessUI(); renderTable();
- alert(`✅ Đăng nhập thành công! Xin chào ${account.name}.`);
-}
-
-const ACHIEVEMENT_KEY="DIEM10A4_CLASS_ACHIEVEMENTS_V1";
-
-function loadClassAchievements(){
- try{
-  const data=JSON.parse(localStorage.getItem(ACHIEVEMENT_KEY));
-  return Array.isArray(data)?data:[];
- }catch(e){return [];}
-}
-
-function saveClassAchievements(list){
- localStorage.setItem(ACHIEVEMENT_KEY,JSON.stringify(list));
-}
-
-function escapeHtml(s){
- return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
-}
-
-function renderAchievements(){
- const list=loadClassAchievements();
- const content=document.getElementById("achievement-content");
- const subtitle=document.getElementById("achievement-subtitle");
- subtitle.textContent="Nơi lưu giữ những thành tích xuất sắc và kỷ niệm đáng nhớ của cả tập thể lớp";
-
- if(list.length===0){
-  content.innerHTML=`<div class="empty-achievement">📚 Chưa có thành tích tập thể nào.<br>Đăng nhập quản trị để thêm những thành tích đáng nhớ của lớp 10A4!</div>`;
- }else{
-  content.innerHTML=`<div class="class-achievement-list">${list.map((item,index)=>`
-   <article class="class-achievement-card">
-    <div class="class-achievement-icon">${escapeHtml(item.icon||"🏆")}</div>
-    <div class="class-achievement-info">
-     <div class="class-achievement-year">📅 ${escapeHtml(item.year||"")}</div>
-     <h3>${escapeHtml(item.title)}</h3>
-     <p>${escapeHtml(item.desc)}</p>
-    </div>
-    <div class="class-achievement-number">#${index+1}</div>
-   </article>`).join("")}</div>`;
- }
- renderAchievementManager();
-}
-
-function toggleAchievementEditor(){
- if(!isAdmin){alert("🔒 Chỉ quản trị viên mới được quản lý thành tích tập thể.");return;}
- const ed=document.getElementById("achievement-editor");
- const open=getComputedStyle(ed).display!=="none";
- ed.style.display=open?"none":"block";
- if(!open){
-  document.getElementById("edit-ach-icon").value="🏆";
-  document.getElementById("edit-ach-year").value="";
-  document.getElementById("edit-ach-title").value="";
-  document.getElementById("edit-ach-desc").value="";
-  renderAchievementManager();
-  ed.scrollIntoView({behavior:"smooth",block:"center"});
- }
-}
-
-function addAchievement(){
- if(!isAdmin)return;
- const icon=document.getElementById("edit-ach-icon").value.trim()||"🏆";
- const year=document.getElementById("edit-ach-year").value.trim()||"Năm học 2026–2027";
- const title=document.getElementById("edit-ach-title").value.trim();
- const desc=document.getElementById("edit-ach-desc").value.trim();
- if(!title){alert("⚠️ Vui lòng nhập tên thành tích tập thể.");return;}
- const list=loadClassAchievements();
- list.push({id:Date.now(),icon,year,title,desc});
- saveClassAchievements(list);
- document.getElementById("edit-ach-year").value="";
- document.getElementById("edit-ach-title").value="";
- document.getElementById("edit-ach-desc").value="";
- renderAchievements();
- alert("✅ Đã thêm thành tích của tập thể lớp!");
-}
-
-function editAchievement(id){
- if(!isAdmin)return;
- const list=loadClassAchievements();
- const item=list.find(x=>x.id===id);
- if(!item)return;
- const title=prompt("🏆 Tên thành tích:",item.title);
- if(title===null)return;
- const year=prompt("📅 Thời gian / Năm học:",item.year);
- if(year===null)return;
- const desc=prompt("📝 Nội dung / Kỷ niệm:",item.desc||"");
- if(desc===null)return;
- const icon=prompt("🏅 Biểu tượng (ví dụ 🏆 🥇 ⚽ 🎤):",item.icon||"🏆");
- if(icon===null)return;
- item.title=title.trim()||item.title; item.year=year.trim(); item.desc=desc.trim(); item.icon=icon.trim()||"🏆";
- saveClassAchievements(list); renderAchievements();
-}
-
-function deleteAchievement(id){
- if(!isAdmin)return;
- const list=loadClassAchievements();
- const item=list.find(x=>x.id===id);
- if(!item)return;
- if(!confirm(`Xóa thành tích “${item.title}” khỏi kỷ niệm lớp?`))return;
- saveClassAchievements(list.filter(x=>x.id!==id));
- renderAchievements();
-}
-
-function renderAchievementManager(){
- const box=document.getElementById("achievement-manage-list");
- if(!box)return;
- const list=loadClassAchievements();
- box.innerHTML=list.length?`<h3>🗂️ Danh sách thành tích đã lưu</h3>${list.map((item,index)=>`
-  <div class="manage-achievement-item">
-   <div><strong>${index+1}. ${escapeHtml(item.icon)} ${escapeHtml(item.title)}</strong><small>${escapeHtml(item.year)}</small></div>
-   <div class="manage-achievement-actions"><button onclick="editAchievement(${item.id})">✏️ Sửa</button><button onclick="deleteAchievement(${item.id})">🗑️ Xóa</button></div>
-  </div>`).join("")}`:`<div class="manage-empty">Chưa có thành tích nào được lưu.</div>`;
-}
-
-function renderTable(){
- const search=document.getElementById("search-input").value.toLowerCase().trim();
- const rankFilter=document.getElementById("rank-filter").value;
- const tbody=document.getElementById("student-table-body");
- tbody.innerHTML="";
- let totalGpaSum=0,matchCount=0,scoredStudentCount=0,topGpa=-1,topName="--";
- const visibleStudents=isAdmin?students:(loggedStudentId?students.filter(s=>s.id===loggedStudentId):[]);
- students.forEach(student=>{
-  const g=calcOverallGPA(student);
-  if(getEnteredSubjectCount(student)>0 && g>topGpa){topGpa=g;topName=student.name;}
- });
- visibleStudents.forEach((student)=>{
-  const overallGpa=calcOverallGPA(student);
-  const rank=getRank(overallGpa,student);
-  const matchSearch=student.name.toLowerCase().includes(search);
-  const matchRank=rankFilter==="ALL"||rank===rankFilter;
-  if(!matchSearch||!matchRank)return;
-  matchCount++;
-  if(getEnteredSubjectCount(student)>0){totalGpaSum+=overallGpa;scoredStudentCount++;}
-  const tr=document.createElement("tr");
-  tr.className=(!isAdmin && loggedStudentId===student.id)?"my-student-row":"";
-  let html=`<td>${student.id}</td><td class="student-name">👤 ${student.name}${(!isAdmin&&loggedStudentId===student.id)?" <span class=\"badge badge-gioi\">Tài khoản của bạn</span>":""}</td>`;
-  subjectKeys.forEach(key=>{const avg=calcSubjectAvg(student.scores[key]);html+=`<td>${hasSubjectScore(student.scores[key])?avg.toFixed(1):"--"}</td>`;});
-  html+=`<td class="score-highlight">${getEnteredSubjectCount(student)>0?overallGpa.toFixed(2):"--"}</td><td><span class="badge ${getBadgeClass(rank)}">${rank}</span></td><td><button class="btn-detail" onclick="openModal(${student.id})">📖 Xem Điểm</button></td>`;
-  tr.innerHTML=html; tbody.appendChild(tr);
- });
- document.getElementById("total-students").textContent=students.length;
- document.getElementById("class-avg").textContent=scoredStudentCount>0&&isAdmin?(totalGpaSum/scoredStudentCount).toFixed(2):(isAdmin?"0.00":(loggedStudentId?calcOverallGPA(getLoggedStudent()).toFixed(2):"--"));
- document.getElementById("top-student").textContent=topName;
- renderAchievements();
-}
-
-function makeScoreInput(id,k,t,i,v){const l=t==="m"?`M${i+1}`:`15-${i+1}`;return `<label class="score-label">${l}<input class="score-input" type="number" min="0" max="10" step="0.1" value="${v??""}" ${isAdmin?"":"disabled"} oninput="updateScore(${id},'${k}','${t}',${i},this.value)"></label>`}
-function makeSingleScoreInput(id,k,t,v){return `<input class="score-input" type="number" min="0" max="10" step="0.1" value="${v??""}" ${isAdmin?"":"disabled"} oninput="updateScore(${id},'${k}','${t}',null,this.value)">`}
-function updateScore(id,k,t,i,v){
- if(!isAdmin)return;const s=students.find(x=>x.id===id);if(!s)return;
- let cv=v;if(v!==""){const n=Number(v);if(!Number.isFinite(n)||n<0||n>10)cv="";else cv=Math.round(n*10)/10}
- if(t==="m"||t==="p15")s.scores[k][t][i]=cv;else s.scores[k][t]=cv;
- saveScores();updateModalStats();renderTable();
- const a=document.getElementById(`avg-${id}-${k}`);if(a)a.textContent=calcSubjectAvg(s.scores[k]).toFixed(1);
-}
-function updateModalStats(){
- const modal=document.getElementById("detail-modal");if(modal.style.display!=="flex")return;
- const s=students.find(x=>x.name===document.getElementById("modal-student-name").textContent);if(!s)return;
- document.getElementById("modal-overall-avg").textContent=calcOverallGPA(s).toFixed(2);document.getElementById("modal-subject-count").textContent=`${getEnteredSubjectCount(s)}/9`;
-}
-function resetStudentScores(id){
- if(!isAdmin){alert("🔒 Chỉ quản trị viên mới được xóa điểm.");return}
- const s=students.find(x=>x.id===id);if(!s)return;
- if(!confirm(`Xóa toàn bộ điểm của ${s.name}?`))return;
- subjectKeys.forEach(k=>s.scores[k]=createZeroScores());saveScores();openModal(id);renderTable();
-}
-function openModal(id){
- const s=students.find(x=>x.id===id);if(!s)return;
- document.getElementById("modal-student-name").textContent=s.name;
- const tb=document.getElementById("modal-table-body");tb.innerHTML="";
- subjectKeys.forEach(k=>{const sc=s.scores[k],tr=document.createElement("tr");tr.innerHTML=`<td>📘 ${subjectNames[k]}</td><td><div class="score-group">${sc.m.map((v,i)=>makeScoreInput(s.id,k,"m",i,v)).join("")}</div></td><td><div class="score-group">${sc.p15.map((v,i)=>makeScoreInput(s.id,k,"p15",i,v)).join("")}</div></td><td>${makeSingleScoreInput(s.id,k,"gk",sc.gk)}</td><td>${makeSingleScoreInput(s.id,k,"ck",sc.ck)}</td><td class="current-avg" id="avg-${s.id}-${k}">${calcSubjectAvg(sc).toFixed(1)}</td>`;tb.appendChild(tr)});
- let ha=document.querySelector(".modal-header .btn-reset");if(!ha){ha=document.createElement("button");ha.className="btn-reset";ha.textContent="🗑️ Xóa điểm học sinh";document.querySelector(".modal-header").appendChild(ha)}
- ha.style.display=isAdmin?"inline-block":"none";ha.onclick=()=>resetStudentScores(id);
- document.getElementById("detail-modal").style.display="flex";updateModalStats();
-}
-function closeModal(){document.getElementById("detail-modal").style.display="none"}
-window.onclick=e=>{if(e.target===document.getElementById("detail-modal"))closeModal()}
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
-updateAccessUI();renderTable();
+// GAME ENGINE
+// Ngân hàng từ khóa Vượt chướng ngại vật: câu hỏi được xáo trộn, không lặp cho đến khi dùng hết.
+const OBSTACLE_BANK=[
+{answer:'QUANG HOP',display:'QUANG HỢP',clues:['Là quá trình quan trọng ở thực vật xanh.','Cần ánh sáng và diệp lục.','Sử dụng nước và khí carbon dioxide.','Tạo chất hữu cơ và giải phóng oxygen.']},
+{answer:'HE MAT TROI',display:'HỆ MẶT TRỜI',clues:['Là một hệ thiên thể trong vũ trụ.','Có một ngôi sao nằm ở trung tâm.','Trái Đất là một thành viên của hệ này.','Gồm Mặt Trời và các thiên thể chuyển động quanh nó.']},
+{answer:'DIEN TRO',display:'ĐIỆN TRỞ',clues:['Là linh kiện điện tử thụ động.','Có tác dụng cản trở dòng điện.','Đơn vị đo là ohm.','Thường được ký hiệu bằng chữ R trong mạch điện.']},
+{answer:'DNA',display:'DNA',clues:['Có vai trò lưu trữ thông tin di truyền.','Có cấu trúc xoắn kép.','Được cấu tạo từ các nucleotide.','Mang thông tin di truyền của sinh vật.']},
+{answer:'MAY TINH',display:'MÁY TÍNH',clues:['Là thiết bị điện tử có khả năng xử lý dữ liệu.','Có thể thực hiện phép tính và chạy chương trình.','Gồm phần cứng và phần mềm.','Là công cụ quen thuộc trong học tập và làm việc.']},
+{answer:'CAU LONG',display:'CẦU LÔNG',clues:['Là môn thể thao dùng vợt.','Người chơi đánh một vật nhẹ qua lưới.','Có nội dung đơn và đôi.','Dụng cụ được đánh qua lại gọi là quả cầu.']},
+{answer:'BACH DANG',display:'BẠCH ĐẰNG',clues:['Gắn với những chiến thắng lớn trong lịch sử Việt Nam.','Là tên một con sông ở miền Bắc.','Ngô Quyền từng đánh tan quân Nam Hán tại đây.','Chiến thắng năm 938 gắn với nghệ thuật đóng cọc trên sông.']},
+{answer:'KIM TU THAP',display:'KIM TỰ THÁP',clues:['Là công trình kiến trúc nổi tiếng thời cổ đại.','Gắn liền với nền văn minh Ai Cập.','Nhiều công trình được xây làm lăng mộ cho các pharaoh.','Có hình khối với đáy vuông và các mặt tam giác.']},
+{answer:'BIEN DOI KHI HAU',display:'BIẾN ĐỔI KHÍ HẬU',clues:['Là vấn đề môi trường mang tính toàn cầu.','Có liên quan đến sự gia tăng khí nhà kính.','Làm thay đổi nhiệt độ và các hình thái thời tiết dài hạn.','Gây ra nhiều hệ quả như nước biển dâng và thời tiết cực đoan.']},
+{answer:'TOC DO ANH SANG',display:'TỐC ĐỘ ÁNH SÁNG',clues:['Là một hằng số vật lý rất quan trọng.','Trong chân không có giá trị xấp xỉ 300.000 km/s.','Thường được ký hiệu bằng chữ c.','Là tốc độ lan truyền của ánh sáng trong chân không.']},
+{answer:'NGUYEN DU',display:'NGUYỄN DU',clues:['Là danh nhân văn hóa thế giới của Việt Nam.','Sống vào cuối thế kỷ XVIII và đầu thế kỷ XIX.','Là tác giả của Truyện Kiều.','Tên chữ của ông là Tố Như.']},
+{answer:'DONG VAT CO XUONG SONG',display:'ĐỘNG VẬT CÓ XƯƠNG SỐNG',clues:['Là một nhóm lớn trong giới động vật.','Có bộ xương trong nâng đỡ cơ thể.','Bao gồm cá, lưỡng cư, bò sát, chim và thú.','Tên gọi chỉ nhóm động vật có cột sống.']},
+{answer:'LUONG HA',display:'LƯỠNG HÀ',clues:['Là một trong những cái nôi của văn minh nhân loại.','Nằm giữa hai con sông lớn ở Tây Á.','Hai con sông là Tigris và Euphrates.','Tên nền văn minh có nghĩa là vùng đất giữa hai dòng sông.']},
+{answer:'TRI TU NHAN TAO',display:'TRÍ TUỆ NHÂN TẠO',clues:['Là lĩnh vực quan trọng của khoa học máy tính.','Nghiên cứu tạo ra hệ thống có khả năng thực hiện nhiệm vụ thông minh.','Có các ứng dụng như nhận diện hình ảnh và xử lý ngôn ngữ.','Thường được viết tắt là AI.']},
+{answer:'OXY',display:'OXY',clues:['Là một nguyên tố hóa học phổ biến.','Có ký hiệu hóa học là O.','Chiếm khoảng 21% thể tích không khí khô.','Cần thiết cho hô hấp hiếu khí của con người.']},
+{answer:'VAN LANG',display:'VĂN LANG',clues:['Là nhà nước đầu tiên trong lịch sử Việt Nam theo truyền thuyết và sử liệu.','Gắn với thời đại các vua Hùng.','Kinh đô đặt ở Phong Châu.','Tên nhà nước là Văn Lang.']},
+{answer:'THUYEN BUOM',display:'THUYỀN BUỒM',clues:['Là phương tiện di chuyển trên mặt nước.','Có thể tận dụng sức gió để di chuyển.','Bộ phận lớn đón gió được gọi là buồm.','Tên phương tiện ghép từ “thuyền” và “buồm”.']},
+{answer:'PHAN MEM NGUON MO',display:'PHẦN MỀM NGUỒN MỞ',clues:['Là loại phần mềm có mã nguồn được công khai theo giấy phép.','Người dùng có thể nghiên cứu cách hoạt động.','Có thể được sửa đổi và phân phối theo điều kiện giấy phép.','Linux là một ví dụ nổi tiếng.']},
+{answer:'NUOC',display:'NƯỚC',clues:['Là hợp chất thiết yếu đối với sự sống.','Phân tử gồm hydrogen và oxygen.','Công thức hóa học là H₂O.','Phủ phần lớn bề mặt Trái Đất.']},
+{answer:'DONG DAT',display:'ĐỘNG ĐẤT',clues:['Là một hiện tượng địa chất tự nhiên.','Có thể gây rung chuyển mặt đất.','Thường liên quan đến sự dịch chuyển đột ngột trong vỏ Trái Đất.','Còn được gọi là địa chấn.']}
+];
+let obstacleQueue=[];
+function drawObstacle(){if(!obstacleQueue.length)obstacleQueue=shuffle(OBSTACLE_BANK.slice());return obstacleQueue.pop();}
+function stopTimer(){if(timerHandle){clearInterval(timerHandle);timerHandle=null}}
+function setStageChip(stage){const order=['warm','obstacle','speed','finish'];order.forEach((s,i)=>{const el=document.getElementById('chip-'+s);el.className='stage-chip'+(i<order.indexOf(stage)?' done':i===order.indexOf(stage)?' active':'')})}
+function beginGame(){stopTimer();if(bank.length<15){toast('Cần ít nhất 15 câu hỏi trong ngân hàng để tạo trận không trùng.');return}const draw=shuffle(bank).slice(0,15).map(shuffleQuestion);game={stage:'warm',score:0,index:0,warm:draw.slice(0,8),speed:draw.slice(8,12),finish:draw.slice(12,15),obstacle:drawObstacle(),obstacleSolved:false,clue:0,packages:[10,20,30],finishScores:[]};document.getElementById('gameStart').classList.add('hidden');document.getElementById('gameResult').classList.add('hidden');document.getElementById('gameArena').classList.remove('hidden');document.getElementById('gameScore').textContent='0';setStageChip('warm');renderGame()}
+function score(n){game.score+=n;document.getElementById('gameScore').textContent=game.score}
+function renderGame(){stopTimer();setStageChip(game.stage);if(game.stage==='warm')renderWarm();else if(game.stage==='obstacle')renderObstacle();else if(game.stage==='speed')renderSpeed();else if(game.stage==='finish')renderFinish();else finishGame()}
+function gameQuestionCard(q,kicker,points,answerCallback,seconds){document.getElementById('gameContent').innerHTML=`<div class="question-top"><span class="eyebrow">${kicker}</span><span class="timer" id="gameTimer">${seconds||'—'}</span></div><div class="q-meta"><span class="tag gold">${escapeHTML(q.subject)}</span><span class="tag">${escapeHTML(q.topic)}</span><span class="tag">${escapeHTML(q.difficulty)}</span><span class="tag green">${points} điểm</span></div><div class="question-text">${escapeHTML(q.prompt)}</div><div class="options">${q.options.map((o,i)=>`<button class="option" data-game-answer="${i}"><b>${'ABCD'[i]}.</b> ${escapeHTML(o)}</button>`).join('')}</div><div id="gameFeedback"></div><div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="btn primary" id="gameNext" disabled>Tiếp tục →</button></div>`;document.querySelectorAll('[data-game-answer]').forEach(b=>b.onclick=()=>answerCallback(Number(b.dataset.gameAnswer)));document.getElementById('gameNext').onclick=()=>{game.index++;renderGame()};if(seconds)startCountdown(seconds,()=>{if(!game._answered)answerCallback(-1)})}
+function startCountdown(seconds,onEnd){let left=seconds;const el=document.getElementById('gameTimer');if(el)el.textContent=left+'s';timerHandle=setInterval(()=>{left--;const target=document.getElementById('gameTimer');if(target)target.textContent=left+'s';if(left<=0){stopTimer();onEnd()}},1000)}
+function handleGameAnswer(q,choice,points){if(game._answered)return;game._answered=true;stopTimer();const good=choice===q.answer;if(good)score(points);document.querySelectorAll('[data-game-answer]').forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');else if(i===choice)b.classList.add('wrong')});document.getElementById('gameFeedback').innerHTML=`<div class="feedback ${good?'good':'bad'}"><b>${good?'Chính xác! +'+points+' điểm':'Đáp án: '+ 'ABCD'[q.answer]}</b><br>${escapeHTML(q.explanation||'')}</div>`;document.getElementById('gameNext').disabled=false}
+function renderWarm(){if(game.index>=game.warm.length){game.stage='obstacle';game.index=0;game._answered=false;renderGame();return}game._answered=false;gameQuestionCard(game.warm[game.index],`KHỞI ĐỘNG · CÂU ${game.index+1}/8`,10,choice=>handleGameAnswer(game.warm[game.index],choice,10),12)}
+function renderObstacle(){document.getElementById('gameContent').innerHTML=`<div class="eyebrow">VÒNG 2 · VƯỢT CHƯỚNG NGẠI VẬT</div><h2>Từ khóa bí ẩn</h2><p class="muted">Mở từng gợi ý và nhập đáp án. Đoán đúng càng sớm, điểm càng cao.</p><div class="clue-list">${game.obstacle.clues.map((c,i)=>`<div class="clue ${i<game.clue?'revealed':''}">${i<game.clue?`Gợi ý ${i+1}: ${c}`:`Gợi ý ${i+1}: Chưa mở`}</div>`).join('')}</div><div class="answer-input"><input id="obstacleAnswer" placeholder="Nhập từ khóa..." autocomplete="off"><button class="btn primary" id="submitObstacle">Trả lời</button><button class="btn" id="revealClue">Mở gợi ý</button></div><div id="obstacleFeedback"></div><div style="display:flex;justify-content:flex-end;margin-top:15px"><button class="btn primary" id="skipObstacle">Bỏ qua vòng này →</button></div>`;document.getElementById('submitObstacle').onclick=submitObstacle;document.getElementById('obstacleAnswer').onkeydown=e=>{if(e.key==='Enter')submitObstacle()};document.getElementById('revealClue').onclick=()=>{if(game.clue<4){game.clue++;renderObstacle()}else toast('Đã mở hết gợi ý')};document.getElementById('skipObstacle').onclick=()=>{game.stage='speed';game.index=0;renderGame()}}
+function normalizeAnswer(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').toUpperCase().replace(/[^A-Z0-9]/g,'')}
+function submitObstacle(){const input=document.getElementById('obstacleAnswer'),v=normalizeAnswer(input.value);if(!v){toast('Hãy nhập đáp án');return}if(v===normalizeAnswer(game.obstacle.answer)){const points=Math.max(10,50-(game.clue+1)*10);score(points);document.getElementById('obstacleFeedback').innerHTML=`<div class="feedback good"><b>Chính xác! Từ khóa là ${game.obstacle.display}. +${points} điểm</b></div>`;document.getElementById('submitObstacle').disabled=true;document.getElementById('revealClue').disabled=true;input.disabled=true;setTimeout(()=>{game.stage='speed';game.index=0;renderGame()},1700)}else{document.getElementById('obstacleFeedback').innerHTML='<div class="feedback bad">Chưa đúng. Bạn có thể mở thêm gợi ý và thử lại.</div>';}}
+function renderSpeed(){if(game.index>=game.speed.length){game.stage='finish';game.index=0;renderGame();return}game._answered=false;const points=[40,30,20,10][game.index];gameQuestionCard(game.speed[game.index],`TĂNG TỐC · CÂU ${game.index+1}/4`,points,choice=>handleGameAnswer(game.speed[game.index],choice,points),20)}
+function renderFinish(){if(game.index>=3){finishGame();return}game._answered=false;const q=game.finish[game.index];document.getElementById('gameContent').innerHTML=`<div class="eyebrow">VÒNG 4 · VỀ ĐÍCH · CÂU ${game.index+1}/3</div><h2>Chọn gói điểm</h2><div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">${[10,20,30].map(n=>`<button class="btn ${game.finishScores[game.index]===n?'primary':''}" data-pack="${n}">${n} điểm</button>`).join('')}</div><div class="q-meta"><span class="tag gold">${escapeHTML(q.subject)}</span><span class="tag">${escapeHTML(q.topic)}</span><span class="tag">${escapeHTML(q.difficulty)}</span></div><div class="question-text">${escapeHTML(q.prompt)}</div><div class="options">${q.options.map((o,i)=>`<button class="option" data-finish-answer="${i}"><b>${'ABCD'[i]}.</b> ${escapeHTML(o)}</button>`).join('')}</div><div id="finishFeedback"></div><div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="btn primary" id="finishNext" disabled>Câu tiếp theo →</button></div>`;game.finishScores[game.index]=game.finishScores[game.index]||20;document.querySelectorAll('[data-pack]').forEach(b=>b.onclick=()=>{game.finishScores[game.index]=Number(b.dataset.pack);document.querySelectorAll('[data-pack]').forEach(x=>x.classList.toggle('primary',x===b))});document.querySelectorAll('[data-finish-answer]').forEach(b=>b.onclick=()=>{if(game._answered)return;game._answered=true;const choice=Number(b.dataset.finishAnswer),points=game.finishScores[game.index],good=choice===q.answer;if(good)score(points);document.querySelectorAll('[data-finish-answer]').forEach((x,i)=>{x.disabled=true;if(i===q.answer)x.classList.add('correct');else if(i===choice)x.classList.add('wrong')});document.getElementById('finishFeedback').innerHTML=`<div class="feedback ${good?'good':'bad'}"><b>${good?'Chính xác! +'+points+' điểm':'Đáp án: '+ 'ABCD'[q.answer]}</b><br>${escapeHTML(q.explanation||'')}</div>`;document.getElementById('finishNext').disabled=false});document.getElementById('finishNext').onclick=()=>{game.index++;renderGame()}}
+function finishGame(){stopTimer();document.getElementById('gameArena').classList.add('hidden');document.getElementById('gameResult').classList.remove('hidden');document.getElementById('finalScore').textContent=game.score+' ĐIỂM';document.getElementById('finalMessage').textContent=game.score>=250?'Phong độ xuất sắc! Bạn đang tiến rất gần đỉnh Olympia.':game.score>=150?'Rất tốt! Hãy tiếp tục luyện tập để nâng điểm.':'Một trận đấu để học hỏi. Hãy xem lại kiến thức và thử sức lần nữa.';}
+document.getElementById('beginGame').onclick=beginGame;document.getElementById('playAgain').onclick=()=>{document.getElementById('gameResult').classList.add('hidden');document.getElementById('gameStart').classList.remove('hidden')};document.getElementById('gameRules').onclick=()=>openModal('rulesModal');
+fillSubjectSelects();renderDashboard();updatePracticeStats();renderBank();
 </script>
 </body>
 </html>
